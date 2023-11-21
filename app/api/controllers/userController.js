@@ -3,18 +3,19 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const sendEmail = require('../utils/sendEmail');
 const { generateOTP, sendOTP, sendNewOTP } = require('../utils/sendEmail');
-const registerSchema = require('./validation/user').register;
-const loginSchema = require('./validation/user').login;
+const validateBody = require('./reqBodyValidator').validateWithSchema;
+const registerSchema = require('./joiValidationSchema/user').register;
+const loginSchema = require('./joiValidationSchema/user').login;
+const otpSchema = require('./joiValidationSchema/user').otp;
 
 // user registration logic
 exports.register = async (req, res) => {
   try {
     // Validate request body against the Joi schema
-    const { error } = registerSchema.validate(req.body, { abortEarly: false });
+    const error = validateBody(registerSchema, req.body);
 
     if (error) {
-      const errorMessage = error.details.map((detail) => detail.message);
-      return res.status(400).json({ errors: errorMessage });
+      return res.status(400).json({ message: error });
     }
 
     const { firstname, lastname, email, phone, username, password } = req.body;
@@ -24,6 +25,12 @@ exports.register = async (req, res) => {
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res.status(409).json({ message: 'Username already exists' });
+    }
+
+    // Check if the email already exists
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res.status(409).json({ message: 'Email already exists' });
     }
 
     // Hash the password
@@ -68,6 +75,13 @@ exports.register = async (req, res) => {
 // verify OTP logic
 exports.verifyOTP = async (req, res) => {
   try {
+    // Validate request body against the Joi schema
+    const error = validateBody(otpSchema, req.body);
+
+    if (error) {
+      return res.status(400).json({ message: errorMessage });
+    }
+
     const { email, otp } = req.body;
 
     // Find the user by email
@@ -82,6 +96,7 @@ exports.verifyOTP = async (req, res) => {
     }
 
     // Mark the user as verified
+    user.otp = null;
     user.isVerified = true;
     await user.save();
 
@@ -127,10 +142,9 @@ exports.resendOTP = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     // Validate request body against the Joi schema
-    const { error } = loginSchema.validate(req.body, { abortEarly: false });
+    const error = validateBody(loginSchema, req.body);
     if (error) {
-      const errorMessage = error.details.map((detail) => detail.message);
-      return res.status(400).json({ errors: errorMessage });
+      return res.status(400).json({ message: errorMessage });
     }
     const { username, password } = req.body;
 
@@ -218,9 +232,9 @@ exports.resetPasswordVerify = async (req, res) => {
     await user.save();
 
     res.status(200).json({ message: 'Password updated successfully' });
-    const newOTP = generateOTP();
+    // const newOTP = generateOTP();
 
-    //user.otp = null to clear it from the document
+    // user.otp = null 
     user.otp = null;
 
     // Save the user document with the OTP  null value

@@ -49,8 +49,16 @@ const login = Joi.object({
 })
 
 const otp = Joi.object({
-    email: Joi.string().email().max(100).required(),
-    otp: Joi.string().max(6).required(),
+    email: Joi.string().email().max(100).required().messages({
+        'string.email': 'Email must be a valid email address.',
+        'string.max': 'Email should not exceed 100 characters.',
+        'any.required': 'Email is required.',
+    }),
+    otp: Joi.string().min(6).max(6).required().messages({
+        'string.min': 'Otp must not be less than 6 characters.',
+        'string.max': 'Otp should not exceed 6 characters.',
+        'any.required': 'Otp is required.',
+    }),
 });
 
 module.exports = {
