@@ -65,7 +65,7 @@ export default function Login() {
       <Stack w={["95%", "80%", "70%", "50%"]}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"} textAlign={"center"}>
-            Sign up
+            Login
           </Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
             to enjoy all of our cool features ✌️
