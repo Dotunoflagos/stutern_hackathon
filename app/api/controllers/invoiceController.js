@@ -3,7 +3,7 @@ const InvoiceCount = require('../models/invoiceCountModel');
 const Client = require('../models/clientModel');
 const User = require('../models/userModel');
 const { sendinvoice } = require('../utils/sendEmail');
-const { initializeTransaction } = require('../utils/paystack');
+const { initializeTransaction, verifyTransaction } = require('../utils/paystack');
 const validateBody = require('../utils/reqBodyValidator').validateWithSchema;
 const registerSchema = require('../utils/joiValidationSchema/user').register;
 const crypto = require('crypto');
@@ -166,6 +166,12 @@ exports.searchInvoices = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
+};
+
+exports.verifyInvoice = (req, res) => {
+    // verifyTransaction(req.reference)
+    const event = req.body;
+    console.log(event)
 };
 
 exports.invoicesHook = (req, res) => {
