@@ -168,10 +168,12 @@ exports.searchInvoices = async (req, res) => {
     }
 };
 
-exports.verifyInvoice = (req, res) => {
-    // verifyTransaction(req.reference)
-    const event = req.body;
+exports.verifyInvoice = async (req, res) => {
+    const { reference } = req.params
+    const event = await verifyTransaction(reference)
+    
     console.log(event)
+    res.send(200);
 };
 
 exports.invoicesHook = (req, res) => {
