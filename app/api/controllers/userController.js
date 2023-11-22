@@ -18,14 +18,10 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: error });
     }
 
-    const { firstname, lastname, email, phone, username, password } = req.body;
+    const { email, password } = req.body;
 
     // Check if the username already exists
     await User.deleteOne({ email });
-    const existingUser = await User.findOne({ username });
-    if (existingUser) {
-      return res.status(409).json({ message: 'Username already exists' });
-    }
 
     // Check if the email already exists
     const existingEmail = await User.findOne({ email });
@@ -41,11 +37,7 @@ exports.register = async (req, res) => {
 
 
     const newUser = new User({
-      firstname,
-      lastname,
       email,
-      phone,
-      username,
       password: hashedPassword,
       otp,
     });
@@ -55,17 +47,68 @@ exports.register = async (req, res) => {
     // Send the OTP to the user's email
     sendOTP(email, otp);
 
+    // Generate a token
+    const token = jwt.sign({ page: 1, userId: savedUser._id }, process.env.JWT_SECRET, {
+      expiresIn: '50m',
+    });
+
+    // Set the 'signup' cookie with the token
+    res.cookie('signup', token, { maxAge: 3000000, httpOnly: true });
+
     res.status(201).json({
       message: 'Registration successful. Please check your email for the OTP.',
       user: {
-        _id: savedUser._id,
-        firstname: savedUser.firstname,
-        lastname: savedUser.lastname,
+        id: savedUser._id,
         email: savedUser.email,
-        phone: savedUser.phone,
-        username: savedUser.username,
       },
     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// user registration logic
+exports.updateUser = async (req, res) => {
+  try {
+    // Validate request body against the Joi schema
+    // const error = validateBody(registerSchema, req.body);
+
+    // if (error) {
+    //   return res.status(400).json({ message: error });
+    // }
+
+    const { page, firstname, lastname, businessname, businessaddress, email } = req.body;
+
+    const userId = req.userId
+    // Check if the username already exists
+    const updateUser = await User.findById(userId);
+
+    if (!updateUser) {
+      return res.status(409).json({ message: 'No user found' });
+    }
+
+    if (!updateUser.isVerified) {
+      return res.status(401).json({ message: 'User not verified' });
+    }
+
+    updateUser.firstname = firstname || updateUser.firstname
+    updateUser.lastname = lastname || updateUser.lastname
+    updateUser.businessname = businessname || updateUser.businessname
+    updateUser.businessaddress = businessaddress || updateUser.businessaddress
+    updateUser.email = email || updateUser.email
+
+    await updateUser.save();
+
+    if (page == 2) {
+      // delete auth token
+      this.logout(req, res, { firstname, lastname, businessname, businessaddress, email })
+    } else {
+      res.status(201).json({
+        message: 'update successful.',
+        user: { firstname, lastname, businessname, businessaddress, email }
+      });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
@@ -144,12 +187,12 @@ exports.login = async (req, res) => {
     // Validate request body against the Joi schema
     const error = validateBody(loginSchema, req.body);
     if (error) {
-      return res.status(400).json({ message: errorMessage });
+      return res.status(400).json({ message: error });
     }
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     // Find the user by username
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(401).json({ message: 'User does not exist' });
@@ -247,7 +290,8 @@ exports.resetPasswordVerify = async (req, res) => {
 
 // Logout endpoint
 // document.cookie = 'Aut=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-exports.logout = (req, res) => {
+exports.logout = (req, res, user) => {
   res.clearCookie('Auth'); // Clear the 'Auth' cookie
-  res.status(200).json({ message: 'Logout successful' });
+  res.clearCookie('signup'); // Clear the 'signup' cookie
+  res.status(200).json({ message: 'Logout successful', user});
 };

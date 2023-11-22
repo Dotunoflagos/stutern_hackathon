@@ -66,7 +66,7 @@ function sendinvoice({ email, clientId, firstname, lastname, phone, invoiceNumbe
     phone,
     invoiceNumber,
     product,
-    amount: String((Number(amount)/100)).toLocaleString('en-US'),
+    amount: (Number(amount)/100).toLocaleString('en-US'),
     paymentLink
   };
 

@@ -16,6 +16,9 @@ router.post('/login', userController.login);
 // Route for user login
 router.get('/logout', authenticateToken, userController.logout);
 
+// Route for user login
+router.put('/updateUser', authenticateToken, userController.updateUser);
+
 // Request Password Reset (Generate OTP)
 router.post('/reset-password/request', authenticateToken, userController.resetPasswordRequest);
 

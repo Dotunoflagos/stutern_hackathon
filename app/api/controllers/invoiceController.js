@@ -29,7 +29,7 @@ exports.createInvoice = async (req, res) => {
         await invoiceCount.save();
 
         // Generate payment link
-        let paymentLink =  await initializeTransaction(invoiceOwner.email, invoiceNumber, amount);
+        let paymentLink = await initializeTransaction(invoiceOwner.email, invoiceNumber, amount);
 
         paymentLink = paymentLink.data.authorization_url;
         const newInvoice = new Invoice({
@@ -46,7 +46,7 @@ exports.createInvoice = async (req, res) => {
         });
 
         const savedInvoice = await newInvoice.save();
-        
+
         // Send invoice and payment link to Client
         sendinvoice(savedInvoice);
         res.status(201).json({
@@ -170,12 +170,12 @@ exports.searchInvoices = async (req, res) => {
 
 exports.verifyInvoice = async (req, res) => {
     const { reference } = req.query
-    console.log( reference )
+    console.log(reference)
     const data = await verifyTransaction(reference)
     const invoice = await Invoice.findOne({ invoiceNumber: reference });
 
-    invoice.isPaid = data.data.status == "success"? true : false // || invoice.isPaid
-    invoice.amountPaid =  data.data.amount || invoice.amountPaid
+    invoice.isPaid = data.data.status == "success" ? true : false // || invoice.isPaid
+    invoice.amountPaid = data.data.amount || invoice.amountPaid
     invoice.paymentMethod = data.data.channel || invoice.paymentMethod
     invoice.paymentDate = data.data.paid_at || invoice.paymentDate
     invoice.save()
@@ -187,10 +187,10 @@ exports.invoicesHook = (req, res) => {
     //validate event
     const hash = crypto.createHmac('sha512', secret).update(JSON.stringify(req.body)).digest('hex');
     if (hash == req.headers['x-paystack-signature']) {
-    // Retrieve the request's body
-    const event = req.body;
-    console.log(event)
-    // Do something with event  
+        // Retrieve the request's body
+        const event = req.body;
+        console.log("vody:", event)
+        // Do something with event 
     }
     res.status(200);
 }
