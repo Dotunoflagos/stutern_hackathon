@@ -4,6 +4,8 @@ const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/userRoutes');
 const clientRoutes = require('./routes/clientRoutes');
 const invoiceRoutes = require('./routes/invoiceRoutes');
+const cors = require('cors');
+app.use(cors())
 require('dotenv').config();
 require('./config/connection');
 
