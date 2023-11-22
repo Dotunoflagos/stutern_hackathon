@@ -169,11 +169,18 @@ exports.searchInvoices = async (req, res) => {
 };
 
 exports.verifyInvoice = async (req, res) => {
-    const { reference } = req.params
-    const event = await verifyTransaction(reference)
-    
-    console.log(event)
-    res.send(200);
+    const { reference } = req.query
+    console.log( reference )
+    const data = await verifyTransaction(reference)
+    const invoice = await Invoice.findOne({ invoiceNumber: reference });
+
+    invoice.isPaid = data.data.status == "success"? true : false // || invoice.isPaid
+    invoice.amountPaid =  data.data.amount || invoice.amountPaid
+    invoice.paymentMethod = data.data.channel || invoice.paymentMethod
+    invoice.paymentDate = data.data.paid_at || invoice.paymentDate
+    invoice.save()
+
+    res.status(200).json(invoice);
 };
 
 exports.invoicesHook = (req, res) => {
@@ -185,5 +192,5 @@ exports.invoicesHook = (req, res) => {
     console.log(event)
     // Do something with event  
     }
-    res.send(200);
+    res.status(200);
 }
