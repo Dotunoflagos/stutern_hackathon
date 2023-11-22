@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/userRoutes');
+const clientRoutes = require('./routes/clientRoutes');
+const invoiceRoutes = require('./routes/invoiceRoutes');
 require('dotenv').config();
 require('./config/connection');
 
@@ -11,6 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes prefix
 app.use('/api/v1', userRoutes);
+app.use('/api/v1', clientRoutes);
+app.use('/api/v1', invoiceRoutes);
 
 
 const port = process.env.PORT || 3030;
