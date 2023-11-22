@@ -3,10 +3,10 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const sendEmail = require('../utils/sendEmail');
 const { generateOTP, sendOTP, sendNewOTP } = require('../utils/sendEmail');
-const validateBody = require('./reqBodyValidator').validateWithSchema;
-const registerSchema = require('./joiValidationSchema/user').register;
-const loginSchema = require('./joiValidationSchema/user').login;
-const otpSchema = require('./joiValidationSchema/user').otp;
+const validateBody = require('../utils/reqBodyValidator').validateWithSchema;
+const registerSchema = require('../utils/joiValidationSchema/user').register;
+const loginSchema = require('../utils/joiValidationSchema/user').login;
+const otpSchema = require('../utils/joiValidationSchema/user').otp;
 
 // user registration logic
 exports.register = async (req, res) => {
@@ -173,7 +173,7 @@ exports.login = async (req, res) => {
     });
 
     // Set the 'Auth' cookie with the token
-    res.cookie('Auth', token, { httpOnly: true });
+    res.cookie('Auth', token, { maxAge: 1800000, httpOnly: true });
     res.status(200).json({ message: 'Login successful' });
   } catch (error) {
     console.error(error);
@@ -245,4 +245,9 @@ exports.resetPasswordVerify = async (req, res) => {
   }
 };
 
-
+// Logout endpoint
+// document.cookie = 'Aut=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+exports.logout = (req, res) => {
+  res.clearCookie('Auth'); // Clear the 'Auth' cookie
+  res.status(200).json({ message: 'Logout successful' });
+};

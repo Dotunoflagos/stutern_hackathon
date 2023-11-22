@@ -3,11 +3,15 @@ const Schema = mongoose.Schema;
 
 const clientSchema = new Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to the small business owner (assuming 'User' model)
+    type: String,
+    // ref: 'User', // Reference to the small business owner (assuming 'User' model)
     required: true
   },
-  name: {
+  firstname: {
+    type: String,
+    required: true
+  },
+  lastname: {
     type: String,
     required: true
   },
