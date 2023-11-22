@@ -179,8 +179,8 @@ exports.verifyInvoice = async (req, res) => {
     invoice.paymentMethod = data.data.channel || invoice.paymentMethod
     invoice.paymentDate = data.data.paid_at || invoice.paymentDate
     invoice.save()
-
-    res.status(200).json(invoice);
+    
+    res.status(200)// .json(invoice);
 };
 
 exports.invoicesHook = (req, res) => {
@@ -189,7 +189,7 @@ exports.invoicesHook = (req, res) => {
     if (hash == req.headers['x-paystack-signature']) {
     // Retrieve the request's body
     const event = req.body;
-    console.log(event)
+    console.log("vody:", event)
     // Do something with event  
     }
     res.status(200);
