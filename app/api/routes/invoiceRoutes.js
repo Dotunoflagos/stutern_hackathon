@@ -17,6 +17,12 @@ router.get("/nvoicesHook", invoiceController.invoicesHook);
 
 router.get("/verifyInvoice", invoiceController.verifyInvoice);
 
+router.get('/total', invoiceController.getTotalInvoiceCreated);
+
+router.get('/completed', invoiceController.totalCompletedPayments);
+
+router.get('/pending', invoiceController.getTotalPendingPayments)
+
 // // Request Password Reset (Generate OTP)
 // router.post('/reset-password/request', authenticateToken, invoiceController.resetPasswordRequest);
 
