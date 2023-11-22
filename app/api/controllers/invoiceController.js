@@ -2,10 +2,13 @@ const Invoice = require('../models/invoiceModel');
 const InvoiceCount = require('../models/invoiceCountModel');
 const Client = require('../models/clientModel');
 const User = require('../models/userModel');
-const { generateOTP, sendOTP, sendNewOTP } = require('../utils/sendEmail');
-const { initializeTransaction } = require('../utils/paystack');
+const { sendinvoice } = require('../utils/sendEmail');
+const { initializeTransaction, verifyTransaction } = require('../utils/paystack');
 const validateBody = require('../utils/reqBodyValidator').validateWithSchema;
 const registerSchema = require('../utils/joiValidationSchema/user').register;
+const crypto = require('crypto');
+const secret = process.env.PAYSTACK_KEY;
+
 
 
 exports.createInvoice = async (req, res) => {
@@ -18,13 +21,22 @@ exports.createInvoice = async (req, res) => {
             invoiceCount = new InvoiceCount();
             await invoiceCount.save();
         }
+        const invoiceOwner = await Client.findById(clientId)
 
         // Increment the count and use it as the invoice number
         const invoiceNumber = `INV-${invoiceCount.count + 1}`;
+        invoiceCount.count = invoiceCount.count + 1;
+        await invoiceCount.save();
 
         // Generate payment link
-        const paymentLink =  initializeTransaction(email, invoiceNumber, amount).data.authorization_url;
+        let paymentLink =  await initializeTransaction(invoiceOwner.email, invoiceNumber, amount);
+
+        paymentLink = paymentLink.data.authorization_url;
         const newInvoice = new Invoice({
+            firstname: invoiceOwner.firstname,
+            lastname: invoiceOwner.lastname,
+            phone: invoiceOwner.phone,
+            email: invoiceOwner.email,
             userId,
             clientId,
             invoiceNumber,
@@ -34,9 +46,9 @@ exports.createInvoice = async (req, res) => {
         });
 
         const savedInvoice = await newInvoice.save();
-        invoiceCount.count = invoiceNumber;
-        await invoiceCount.save();
+        
         // Send invoice and payment link to Client
+        sendinvoice(savedInvoice);
         res.status(201).json({
             message: 'Invoice created successfully.',
             invoice: savedInvoice
@@ -78,7 +90,7 @@ exports.updateInvoice = async (req, res) => {
 exports.deleteInvoice = async (req, res) => {
     try {
         const userId = req.userId;
-        const { invoiceId } = req.body;
+        const { invoiceId } = req.params;
 
         const existingInvoice = await Invoice.findOne({
             _id: invoiceId,
@@ -89,7 +101,7 @@ exports.deleteInvoice = async (req, res) => {
             return res.status(404).json({ message: 'Invoice not found' });
         }
 
-        await existingInvoice.remove();
+        await existingInvoice.deleteOne();
 
         res.status(200).json({ message: 'Invoice deleted successfully' });
     } catch (error) {
@@ -155,3 +167,30 @@ exports.searchInvoices = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+exports.verifyInvoice = async (req, res) => {
+    const { reference } = req.query
+    console.log( reference )
+    const data = await verifyTransaction(reference)
+    const invoice = await Invoice.findOne({ invoiceNumber: reference });
+
+    invoice.isPaid = data.data.status == "success"? true : false // || invoice.isPaid
+    invoice.amountPaid =  data.data.amount || invoice.amountPaid
+    invoice.paymentMethod = data.data.channel || invoice.paymentMethod
+    invoice.paymentDate = data.data.paid_at || invoice.paymentDate
+    invoice.save()
+
+    res.status(200).json(invoice);
+};
+
+exports.invoicesHook = (req, res) => {
+    //validate event
+    const hash = crypto.createHmac('sha512', secret).update(JSON.stringify(req.body)).digest('hex');
+    if (hash == req.headers['x-paystack-signature']) {
+    // Retrieve the request's body
+    const event = req.body;
+    console.log(event)
+    // Do something with event  
+    }
+    res.status(200);
+}
