@@ -180,7 +180,7 @@ exports.verifyInvoice = async (req, res) => {
     invoice.paymentDate = data.data.paid_at || invoice.paymentDate
     invoice.save()
     
-    res.status(200)// .json(invoice);
+    res.status(200).json(invoice);
 };
 
 exports.invoicesHook = (req, res) => {
