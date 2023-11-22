@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 exports.authenticateToken = (req, res, next) => {
-  const token = req.cookies.Auth || false;
+  const token = req.cookies.Auth || req.cookies.signup || false;
 
   if (!token) {
     console.log('Token not found in the request header');
