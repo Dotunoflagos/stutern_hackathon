@@ -194,3 +194,40 @@ exports.invoicesHook = (req, res) => {
     }
     res.status(200);
 }
+
+exports.getTotalInvoiceCreated = async (req, res) => {
+    try {
+        const invoices = await Invoice.find();
+        const totalAmount = invoices.reduce((acc, invoice) => acc + invoice.amount, 0);
+
+        res.json({totalAmount});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+}
+
+exports.totalCompletedPayments = async (req, res) => {
+    try {
+        const completedInvoices = await Invoice.find({ isPaid: true });
+        const totalCompletedPayments = completedInvoices.reduce((acc, invoice) => acc + invoice.amountPaid, 0);
+
+        res.json({ totalCompletedPayments });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+exports.getTotalPendingPayments = async (req, res) => {
+    try{
+        const pendingPayments = await Invoice.find({isPaid: false})
+        const totalPendingPayments = pendingPayments.reduce((acc, invoice) => acc + invoice, 0);
+
+        res.json({ totalPendingPayments });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({error: 'Internal server error'});
+    }
+}
