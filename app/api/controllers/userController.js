@@ -21,11 +21,11 @@ exports.register = async (req, res) => {
     const { email, password } = req.body;
 
     // Check if the username already exists
-    await User.deleteOne({ email });
 
     // Check if the email already exists
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
+      await User.deleteOne({ email });
       return res.status(409).json({ message: 'Email already exists' });
     }
 
