@@ -209,7 +209,7 @@ exports.verifyInvoice = async (req, res) => {
     invoice.paymentDate = data.data.paid_at || invoice.paymentDate
     invoice.save()
 
-    if (isPaid) {
+    if (invoice.isPaid) {
         const businessname = User.findById(data.userId).businessname || "Quickinvoice"
         invoice.businessname = businessname
         sendReceipt(invoice)
