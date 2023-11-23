@@ -55,12 +55,12 @@ export const customTheme = extendTheme({
           _hover: {
             bgColor: "lightMode.btnBgColor",
           },
-          _focus: {
-            bgColor: "lightMode.btnBgColor",
-          },
-          _active: {
-            bgColor: "lightMode.btnBgColor",
-          },
+          // _focus: {
+          //   bgColor: "lightMode.btnBgColor",
+          // },
+          // _active: {
+          //   bgColor: "lightMode.btnBgColor",
+          // },
         },
         blue: {
           bgColor: "lightMode.gray",

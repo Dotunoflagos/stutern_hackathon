@@ -1,6 +1,6 @@
 import axios, {
   AxiosInstance,
-  AxiosRequestConfig,
+  // AxiosRequestConfig,
   AxiosResponse,
   AxiosError,
 } from "axios";
@@ -15,16 +15,16 @@ const axiosInstance: AxiosInstance = axios.create({
     Accept: "application/json, text/plain, */*",
   },
 });
-const onRequest = (request: AxiosRequestConfig): AxiosRequestConfig => {
-  const access = JSON.parse(localStorage.getItem("accessToken") as string);
-  request.headers!.Authorization = `${access}` || "";
-  // console.log(access);
-  return request;
-};
+// const onRequest = (request: AxiosRequestConfig): AxiosRequestConfig => {
+//   const access = JSON.parse(localStorage.getItem("accessToken") as string);
+//   request.headers!.Authorization = `${access}` || "";
+//   // console.log(access);
+//   return request;
+// };
 
-const onRequestError = (error: AxiosError): Promise<AxiosError> => {
-  return Promise.reject(error);
-};
+// const onRequestError = (error: AxiosError): Promise<AxiosError> => {
+//   return Promise.reject(error);
+// };
 
 const onResponse = (response: AxiosResponse): AxiosResponse => {
   return response;

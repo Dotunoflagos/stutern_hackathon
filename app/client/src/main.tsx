@@ -6,6 +6,8 @@ import { App } from "./App";
 // import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { Provider } from "react-redux";
+import store from "./store";
 
 const container = document.getElementById("root");
 if (!container) throw new Error("Failed to find the root element");
@@ -27,7 +29,9 @@ root.render(
       <BrowserRouter>
         <ChakraProvider theme={customTheme}>
           <ColorModeScript />
-          <App />
+          <Provider store={store}>
+            <App />
+          </Provider>
         </ChakraProvider>
       </BrowserRouter>
     </QueryClientProvider>

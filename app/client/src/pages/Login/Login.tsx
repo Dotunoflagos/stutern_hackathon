@@ -19,12 +19,16 @@ import { NavLink } from "react-router-dom";
 import { BackgroundImage, QLogo } from "../../assets";
 import { FaRegComments } from "react-icons/fa";
 import useCustomToast from "../../utils/notification";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { usePostLogin } from "../../services/query/account-manager";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../components/Userslice";
+import Cookies from "js-cookie";
 
 export default function Signup() {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { errorToast, successToast } = useCustomToast();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -33,27 +37,45 @@ export default function Signup() {
     onSuccess: (res: any) => {
       console.log(res);
 
-      if (res?.message === "Record Found") {
-        successToast("Login Successful");
-        localStorage.setItem("user", JSON.stringify(res));
-        localStorage.setItem("firstname", res?.document.firstname);
-        localStorage.setItem("lastname", res?.document.lastname);
-        localStorage.setItem(
-          "accessToken",
-          JSON.stringify(
-            res?.document?.accessTokens?.authorizationToken?.accessToken
-          )
-        );
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 200);
+      if (res?.status === 200 && res?.data?.message === "Login successful") {
+        successToast(res?.data?.message);
+        const user = {
+          username,
+        };
+        dispatch(loginUser(user));
+        const token = "";
+        // Save user info to cookies
+        Cookies.set("user", JSON.stringify(user));
+        Cookies.set("token", token);
+
+        // Log the contents of all cookies
+        const allCookies: { [key: string]: string } = Cookies.get();
+        console.log("All Cookies:", allCookies);
       } else {
-        errorToast("Invalid Details");
+        errorToast(res?.data?.message);
       }
+
+      // if (res?.message === "Record Found") {
+      //   successToast("Login Successful");
+      //   localStorage.setItem("user", JSON.stringify(res));
+      //   localStorage.setItem("firstname", res?.document.firstname);
+      //   localStorage.setItem("lastname", res?.document.lastname);
+      //   localStorage.setItem(
+      //     "accessToken",
+      //     JSON.stringify(
+      //       res?.document?.accessTokens?.authorizationToken?.accessToken
+      //     )
+      //   );
+      //   setTimeout(() => {
+      //     navigate("/dashboard");
+      //   }, 200);
+      // } else {
+      //   errorToast("Invalid Details");
+      // }
     },
     onError: (err: any) => {
       console.log(err);
-      errorToast("Failed");
+      errorToast(err?.response?.data?.message);
     },
   });
 
@@ -61,7 +83,7 @@ export default function Signup() {
     // console.log(username);
     // console.log(password);
     mutate({
-      username: username,
+      email: username,
       password: password,
     });
   };
@@ -88,7 +110,7 @@ export default function Signup() {
           </NavLink>
         </Flex>
       </Box>
-      <Flex align={"center"} justify={"center"} minH={"90vh"}>
+      <Flex align={"center"} justify={"center"}>
         <Stack px={[2, 6, 6, 6]} w={"100%"} align={"center"}>
           <Stack
             rounded={"lg"}
@@ -156,7 +178,7 @@ export default function Signup() {
           </Stack>
         </Stack>
       </Flex>
-      <Stack px="3" pb="20px">
+      <Stack px="3" pb="20px" mt="10px">
         <Flex justifyContent={"flex-end"}>
           <Button
             border={"2px solid #DEE2E6"}

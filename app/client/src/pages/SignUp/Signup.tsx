@@ -24,7 +24,7 @@ export default function Signup() {
 
   return (
     <Box
-      minH={"100dvh"}
+      minH={"100vh"}
       backgroundImage={BackgroundImage}
       backgroundSize={"cover"}
       backgroundPosition={"center"}
@@ -44,7 +44,7 @@ export default function Signup() {
           </NavLink>
         </Flex>
       </Box>
-      <Flex align={"center"} justify={"center"} minH={"90dvh"}>
+      <Flex align={"center"} justify={"center"}>
         <Stack py={6} px={[2, 6, 6, 6]} w={"100%"} align={"center"}>
           <Stack
             rounded={"lg"}
@@ -103,19 +103,21 @@ export default function Signup() {
                   </InputRightElement>
                 </InputGroup>
               </FormControl>
-              <Stack spacing={10} pt={2}>
-                <Button
-                  loadingText="Submitting"
-                  size="lg"
-                  bg={"blue.400"}
-                  color={"white"}
-                  _hover={{
-                    bg: "blue.500",
-                  }}
-                >
-                  Create your Account
-                </Button>
-              </Stack>
+              <NavLink to="/personal-info">
+                <Stack spacing={10} pt={2}>
+                  <Button
+                    loadingText="Submitting"
+                    size="lg"
+                    bg={"blue.400"}
+                    color={"white"}
+                    _hover={{
+                      bg: "blue.500",
+                    }}
+                  >
+                    Create your Account
+                  </Button>
+                </Stack>
+              </NavLink>
             </Stack>
           </Stack>
         </Stack>
