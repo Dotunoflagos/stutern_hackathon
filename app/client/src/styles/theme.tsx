@@ -6,8 +6,8 @@ const config: ThemeConfig = {
 };
 export const customTheme = extendTheme({
   fonts: {
-    heading: "IBM Plex Sans, sans-serif",
-    body: "IBM Plex Sans, sans-serif",
+    heading: `'Inter', sans-serif`,
+    body: "Inter, sans-serif",
   },
   config,
   components: {
@@ -55,12 +55,12 @@ export const customTheme = extendTheme({
           _hover: {
             bgColor: "lightMode.btnBgColor",
           },
-          // _focus: {
-          //   bgColor: "lightMode.btnBgColor",
-          // },
-          // _active: {
-          //   bgColor: "lightMode.btnBgColor",
-          // },
+          _focus: {
+            bgColor: "lightMode.btnBgColor",
+          },
+          _active: {
+            bgColor: "lightMode.btnBgColor",
+          },
         },
         blue: {
           bgColor: "lightMode.gray",
@@ -88,6 +88,23 @@ export const customTheme = extendTheme({
     },
   },
   colors: {
+    // ADDED THEME COLORS
+    primary: {
+      400: "#748FFC",
+      500: "#5C7CFA",
+      700: "#4263E8",
+    },
+    secondary: {
+      400: "#748FFC",
+      700: "#74B816",
+    },
+    grey: {
+      300: "#DEE2E6",
+      500: "#ADB5BD",
+      700: "#495057",
+      900: "#212529",
+    },
+    white100: "#FFFFFF",
     brand: {
       900: "#1a365d",
       800: "#153e75",

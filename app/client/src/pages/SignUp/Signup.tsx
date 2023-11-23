@@ -29,9 +29,12 @@ export default function Signup() {
       backgroundSize={"cover"}
       backgroundPosition={"center"}
     >
-      <Box 
+      <Flex 
         maxW={"90rem"}
+        minH={"100dvh"}
         margin={"auto"}
+        flexDirection={"column"}
+        justifyContent={"space-between"}
       > 
         <Box color={"white"}>
           <Flex justify="space-between" align="center" p="2rem" flexWrap={"wrap"}>
@@ -59,20 +62,24 @@ export default function Signup() {
             >
               <Stack>
                 <Image src={QLogo} width="40px" />
-                <Heading fontSize={"24px"}>Welcome - Sign Up</Heading>
-                <Text fontSize={"16px"} color={"#495057"}>
+                <Heading fontSize={"24px"} color={"grey.900"}>Welcome - Sign Up</Heading>
+                <Text fontSize={"16px"} color={"grey.700"}>
                   Enter your details to continue
                 </Text>
               </Stack>
-              <Stack spacing={4} mt="20px">
+              <Stack spacing={"1.5rem"} mt="2.5rem">
                 <FormControl id="email" isRequired>
-                  <FormLabel>Email address</FormLabel>
-                  <Input type="email" placeholder="name@example.com" />
+                  <FormLabel color={"grey.700"}>Email address</FormLabel>
+                  <Input 
+                    height={"3rem"} 
+                    type="email" 
+                    placeholder="name@example.com" />
                 </FormControl>
                 <FormControl id="password" isRequired>
-                  <FormLabel>Create a new password (Min. 8 characters)</FormLabel>
+                  <FormLabel color={"grey.700"}>Create a new password (Min. 8 characters)</FormLabel>
                   <InputGroup>
                     <Input
+                      height={"3rem"}
                       type={showPassword ? "text" : "password"}
                       placeholder="securepassword"
                     />
@@ -89,9 +96,10 @@ export default function Signup() {
                   </InputGroup>
                 </FormControl>
                 <FormControl id="password" isRequired>
-                  <FormLabel>Confirm Password</FormLabel>
+                  <FormLabel color={"grey.700"}>Confirm Password</FormLabel>
                   <InputGroup>
                     <Input
+                      height={"3rem"}
                       type={showPassword ? "text" : "password"}
                       placeholder="securepassword"
                     />
@@ -108,14 +116,16 @@ export default function Signup() {
                   </InputGroup>
                 </FormControl>
                 <NavLink to="/personal-info">
-                  <Stack spacing={10} pt={2}>
+                  <Stack spacing={10} pt={"1.5rem"}>
                     <Button
+                      height="3.5rem"
+                      width="100%"
                       loadingText="Submitting"
                       size="lg"
-                      bg={"blue.400"}
+                      bg={"primary.500"}
                       color={"white"}
                       _hover={{
-                        bg: "blue.500",
+                        bg: "primary.400",
                       }}
                     >
                       Create your Account
@@ -142,7 +152,7 @@ export default function Signup() {
             </Button>
           </Flex>
         </Stack>
-      </Box>
+      </Flex>
     </Box>
   );
 }

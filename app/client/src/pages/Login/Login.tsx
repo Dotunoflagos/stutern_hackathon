@@ -97,10 +97,10 @@ export default function Signup() {
     >
       <Flex 
         maxW={"90rem"}
-        height={"100%"}
+        minH={"100dvh"}
+        margin={"auto"}
         flexDirection={"column"}
         justifyContent={"space-between"}
-        margin={"auto"}
       >
         <Box color={"white"}>
           <Flex justify="space-between" align="center" p="2rem" flexWrap={"wrap"}>
@@ -118,37 +118,45 @@ export default function Signup() {
           </Flex>
         </Box>
         <Flex align={"center"} justify={"center"}>
-          <Stack px={[2, 6, 6, 6]} w={"100%"} align={"center"}>
+          <Stack px={[2, 6, 6, 6]} w={"100%"} align={"center"} >
             <Stack
               rounded={"lg"}
               bg={useColorModeValue("white", "gray.700")}
               boxShadow={"lg"}
               p={[4, 8, 8, 8]}
+              
               w={["100%", "90%", "600px", "600px"]}
             >
               <Stack>
                 <Image src={QLogo} width="40px" />
-                <Heading fontSize={"24px"}>Welcome Back - Login</Heading>
-                <Text fontSize={"16px"} color={"#495057"}>
+                <Heading fontSize={"24px"} color={"grey.900"}>Welcome Back - Login</Heading>
+                <Text fontSize={"16px"} color={"grey.700"}>
                   Enter your details to continue
                 </Text>
               </Stack>
-              <Stack spacing={4} mt="20px">
-                <FormControl id="email" isRequired>
-                  <FormLabel>Email address</FormLabel>
+              <Stack mt="20px">
+                <FormControl id="email" isRequired mb="0.8rem">
+                  <FormLabel color={"grey.700"}>Email address</FormLabel>
                   <Input
                     type="email"
+                    borderColor={'grey.300'}
+                    size={'lg'}
+                    height={"3rem"}
                     value={username}
-                    placeholder="name@example.com"
+                    placeholder="Name@example.com"
                     onChange={(e) => setUsername(e.target.value)}
                   />
                 </FormControl>
-                <FormControl id="password" isRequired>
-                  <FormLabel>Password</FormLabel>
+                <FormControl id="password" isRequired mb="3rem">
+                  <FormLabel color={"grey.700"}>Password</FormLabel>
                   <InputGroup>
                     <Input
+                      name="password" 
+                      borderColor={'grey.300'}
+                      height={"3rem"}
+                      size={'lg'}
                       type={showPassword ? "text" : "password"}
-                      placeholder="securepassword"
+                      placeholder="Enter Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -165,14 +173,17 @@ export default function Signup() {
                   </InputGroup>
                 </FormControl>
 
-                <Stack spacing={10} pt={2}>
+                <Stack spacing={10} >
                   <Button
+                    height="3.5rem"
+                    width="100%"
                     loadingText="Submitting"
                     size="lg"
-                    bg={"blue.400"}
+                    padding={"1rem"}
+                    bg={"primary.400"}
                     color={"white"}
                     _hover={{
-                      bg: "blue.500",
+                      bg: "primary.500",
                     }}
                     type="submit"
                     isLoading={isCreateLoading}
