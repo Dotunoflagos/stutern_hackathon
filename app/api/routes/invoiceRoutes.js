@@ -13,7 +13,15 @@ router.get('/getAllInvoices', authenticateToken, invoiceController.getAllInvoice
 router.post('/searchInvoices', authenticateToken, invoiceController.searchInvoices);
 
 // Using Express
-router.post("/verifyInvoices", invoiceController.invoicesHook);
+router.post("/nvoicesHook", authenticateToken, invoiceController.invoicesHook);
+
+router.get("/verifyInvoice", authenticateToken, invoiceController.verifyInvoice);
+
+router.get('/total', authenticateToken, invoiceController.getTotalInvoiceCreated);
+
+router.get('/completed', authenticateToken, invoiceController.totalCompletedPayments);
+
+router.get('/pending', authenticateToken, invoiceController.getTotalPendingPayments)
 
 // // Request Password Reset (Generate OTP)
 // router.post('/reset-password/request', authenticateToken, invoiceController.resetPasswordRequest);

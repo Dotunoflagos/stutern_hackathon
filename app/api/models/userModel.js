@@ -4,16 +4,9 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     firstname: {
         type: String,
-        required: true,
     },
     lastname: {
         type: String,
-        required: true
-    },
-    username: {
-        type: String,
-        required: true,
-        unique: true
     },
     email: {
         type: String,
@@ -25,12 +18,18 @@ const userSchema = new Schema({
         required: [true, "Password length must be 8 characters and above"],
     },
     phone: {
-        type: String,
-        required: true
+        type: String
     },
     role: {
         type: Boolean, 
         default: false 
+    },
+    businessname: {
+        type: String,
+        unique: true
+    },
+    businessaddress: {
+        type: String
     },
     otp: {
         type: String,

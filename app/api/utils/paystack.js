@@ -23,7 +23,26 @@ async function initializeTransaction(email, reference, amount) {
   }
 }
 
+async function verifyTransaction(reference) {
+  const url = `https://api.paystack.co/transaction/verify/${reference}`;
+  const secretKey = process.env.PAYSTACK_KEY; // Replace with your actual secret key
+
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        'Authorization': `Bearer ${secretKey}`
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // Usage
 module.exports = {
+  verifyTransaction,
   initializeTransaction
 };
+

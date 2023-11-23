@@ -17,7 +17,7 @@ exports.create = async (req, res) => {
     const { firstname, lastname, email, phone, address } = req.body;
 
     // Check if the username already exists
-    await Client.deleteOne({ email });
+    // await Client.deleteOne({ email });
     const existingClient = await Client.findOne({
       firstname,
       lastname,
@@ -180,13 +180,35 @@ exports.search = async (req, res) => {
     // empty object to hold search criteria
     const searchCriteria = { userId };
 
-    // Add search criteria
+    // search criteria
     if (name) {
-      const nameRegex = new RegExp(name, 'i'); // Case-insensitive regex search for name
-      searchCriteria.$or = [
-        { firstname: nameRegex }, // Match documents with firstName matching name
-        { lastname: nameRegex }   // Match documents with lastName matching name
-      ];
+      const split = name.split(" ") || 0
+      if (split.length <= 1) {
+        const nameRegex = new RegExp(name, 'i'); // Case-insensitive regex search for name
+        searchCriteria.$or = [
+          { firstname: nameRegex },
+          { lastname: nameRegex }
+        ];
+      } else {
+        searchCriteria.$or = [
+          {
+            $and: [
+              // { firstname: new RegExp(`^${split[0]}$`, 'i') },
+              // { lastname: new RegExp(`^${split[1]}$`, 'i') },
+              { firstname: new RegExp(split[0], 'i') },
+              { lastname: new RegExp(split[1], 'i') },
+            ]
+          },
+          {
+            $and: [
+              // { firstname: new RegExp(`^${split[1]}$`, 'i') },
+              // { lastname: new RegExp(`^${split[0]}$`, 'i') }
+              { firstname: new RegExp(split[1], 'i') },
+              { lastname: new RegExp(split[0], 'i') }
+            ]
+          }
+        ];
+      }
     }
     if (email) {
       searchCriteria.email = new RegExp(email, 'i'); // Case-insensitive regex search for email
@@ -195,7 +217,7 @@ exports.search = async (req, res) => {
       searchCriteria.phone = new RegExp(phone, 'i'); // Case-insensitive regex search for phone
     }
 
-    console.log(searchCriteria)
+    // console.log({'$and': [searchCriteria]})
     // Find clients based on search criteria
     const foundClients = await Client.find(searchCriteria);
 
