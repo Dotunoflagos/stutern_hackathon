@@ -19,16 +19,12 @@ import { NavLink } from "react-router-dom";
 import { BackgroundImage, QLogo } from "../../assets";
 import { FaRegComments } from "react-icons/fa";
 import useCustomToast from "../../utils/notification";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { usePostLogin } from "../../services/query/account-manager";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../../components/Userslice";
-import Cookies from "js-cookie";
 
 export default function Signup() {
-  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { errorToast, successToast } = useCustomToast();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -37,41 +33,13 @@ export default function Signup() {
     onSuccess: (res: any) => {
       console.log(res);
 
-      if (res?.status === 200 && res?.data?.message === "Login successful") {
+      if (res?.data?.message === "Login successful") {
         successToast(res?.data?.message);
-        const user = {
-          username,
-        };
-        dispatch(loginUser(user));
-        const token = "";
-        // Save user info to cookies
-        Cookies.set("user", JSON.stringify(user));
-        Cookies.set("token", token);
-
-        // Log the contents of all cookies
-        const allCookies: { [key: string]: string } = Cookies.get();
-        console.log("All Cookies:", allCookies);
+        localStorage.setItem("user", JSON.stringify(res?.data?.userData));
+        navigate("/dashboard");
       } else {
         errorToast(res?.data?.message);
       }
-
-      // if (res?.message === "Record Found") {
-      //   successToast("Login Successful");
-      //   localStorage.setItem("user", JSON.stringify(res));
-      //   localStorage.setItem("firstname", res?.document.firstname);
-      //   localStorage.setItem("lastname", res?.document.lastname);
-      //   localStorage.setItem(
-      //     "accessToken",
-      //     JSON.stringify(
-      //       res?.document?.accessTokens?.authorizationToken?.accessToken
-      //     )
-      //   );
-      //   setTimeout(() => {
-      //     navigate("/dashboard");
-      //   }, 200);
-      // } else {
-      //   errorToast("Invalid Details");
-      // }
     },
     onError: (err: any) => {
       console.log(err);
@@ -80,8 +48,6 @@ export default function Signup() {
   });
 
   const handleSubmit = () => {
-    // console.log(username);
-    // console.log(password);
     mutate({
       email: username,
       password: password,
@@ -160,7 +126,7 @@ export default function Signup() {
 
               <Stack spacing={10} pt={2}>
                 <Button
-                  loadingText="Submitting"
+                  loadingText="Loading..."
                   size="lg"
                   bg={"blue.400"}
                   color={"white"}

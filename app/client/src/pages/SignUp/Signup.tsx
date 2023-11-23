@@ -18,9 +18,51 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
 import { BackgroundImage, QLogo } from "../../assets";
 import { FaRegComments } from "react-icons/fa";
+import useCustomToast from "../../utils/notification";
+import { useNavigate } from "react-router-dom";
+import { usePostRegister } from "../../services/query/account-manager";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const { errorToast, successToast } = useCustomToast();
+  const [email, setemail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const { mutate, isLoading: isCreateLoading } = usePostRegister({
+    onSuccess: (res: any) => {
+      console.log(res);
+
+      if (res?.data?.message === "Login successful") {
+        successToast(res?.data?.message);
+        localStorage.setItem("user", JSON.stringify(res?.data?.userData));
+        navigate("/dashboard");
+      } else {
+        errorToast(res?.data?.message);
+      }
+    },
+    onError: (err: any) => {
+      console.log(err);
+      errorToast(err?.response?.data?.message);
+    },
+  });
+
+  const handleSubmit = () => {
+    if (password !== confirmPassword) {
+      errorToast("Password does not match");
+    } else if (password.length < 5) {
+      errorToast("Password must have a minimum of 6 character");
+    } else {
+      mutate({
+        email: email,
+        password: password,
+      });
+    }
+    // console.log(email);
+    // console.log(password);
+    // console.log(confirmPassword);
+  };
 
   return (
     <Box
@@ -63,14 +105,21 @@ export default function Signup() {
             <Stack spacing={4} mt="20px">
               <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" placeholder="name@example.com" />
+                <Input
+                  type="email"
+                  placeholder="name@example.com"
+                  value={email}
+                  onChange={(e) => setemail(e.target.value)}
+                />
               </FormControl>
               <FormControl id="password" isRequired>
-                <FormLabel>Create a new password (Min. 8 characters)</FormLabel>
+                <FormLabel>Create a new password (Min. 6 characters)</FormLabel>
                 <InputGroup>
                   <Input
                     type={showPassword ? "text" : "password"}
                     placeholder="securepassword"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <InputRightElement h={"full"}>
                     <Button
@@ -90,6 +139,8 @@ export default function Signup() {
                   <Input
                     type={showPassword ? "text" : "password"}
                     placeholder="securepassword"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                   <InputRightElement h={"full"}>
                     <Button
@@ -103,21 +154,24 @@ export default function Signup() {
                   </InputRightElement>
                 </InputGroup>
               </FormControl>
-              <NavLink to="/personal-info">
-                <Stack spacing={10} pt={2}>
-                  <Button
-                    loadingText="Submitting"
-                    size="lg"
-                    bg={"blue.400"}
-                    color={"white"}
-                    _hover={{
-                      bg: "blue.500",
-                    }}
-                  >
-                    Create your Account
-                  </Button>
-                </Stack>
-              </NavLink>
+              {/* <NavLink to="/personal-info"> */}
+              <Stack spacing={10} pt={2}>
+                <Button
+                  loadingText="Loading..."
+                  size="lg"
+                  bg={"blue.400"}
+                  color={"white"}
+                  _hover={{
+                    bg: "blue.500",
+                  }}
+                  type="submit"
+                  isLoading={isCreateLoading}
+                  onClick={handleSubmit}
+                >
+                  Create your Account
+                </Button>
+              </Stack>
+              {/* </NavLink> */}
             </Stack>
           </Stack>
         </Stack>

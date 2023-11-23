@@ -6,9 +6,10 @@ const config: ThemeConfig = {
 };
 export const customTheme = extendTheme({
   fonts: {
-    heading: "IBM Plex Sans, sans-serif",
-    body: "IBM Plex Sans, sans-serif",
+    heading: "Inter",
+    body: "Inter",
   },
+
   config,
   components: {
     Form: {

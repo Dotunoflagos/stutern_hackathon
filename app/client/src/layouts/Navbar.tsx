@@ -1,23 +1,18 @@
 import {
   IconButton,
-  Avatar,
-  Box,
   Flex,
-  HStack,
-  VStack,
-  useColorModeValue,
-  Text,
   FlexProps,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
+  Box,
+  Text,
+  Image,
+  Button,
+  Icon,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { FiMenu, FiChevronDown } from "react-icons/fi";
-
+import { FiMenu } from "react-icons/fi";
+import { QLogo } from "../assets";
 import { User } from "../assets/index";
-import useCustomToast from "../utils/notification";
+import { AddIcon } from "@chakra-ui/icons";
+import { CiBellOn } from "react-icons/ci";
 
 type MenuListItemType = {
   icon: string;
@@ -39,121 +34,84 @@ interface MobileProps extends FlexProps {
 }
 
 const Navbar = ({ onOpen, ...rest }: MobileProps) => {
-  const { successToast } = useCustomToast();
-  const fullname =
-    localStorage.getItem("firstname") + " " + localStorage.getItem("lastname");
-
-  const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("agentID");
-    localStorage.removeItem("role");
-    successToast("Logout Successful");
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
-  };
-  const events = [
-    "load",
-    "mousemove",
-    "mousedown",
-    "click",
-    "scroll",
-    "keypress",
-  ];
-
-  let timer: any;
-
-  const handleLogoutTimer = () => {
-    timer = setTimeout(() => {
-      resetTimer();
-
-      Object.values(events).forEach((item) => {
-        window.removeEventListener(item, resetTimer);
-      });
-
-      // logout();
-    }, 300000);
-  };
-  const resetTimer = () => {
-    if (timer) clearTimeout(timer);
-  };
-  useEffect(() => {
-    Object.values(events).forEach((item) => {
-      window.addEventListener(item, () => {
-        resetTimer();
-        handleLogoutTimer();
-      });
-    });
-  }, []);
-
   return (
-    <Flex
-      ml={{ base: 0, md: 60 }}
-      px={{ base: 4, md: 4 }}
-      height="20"
-      alignItems="center"
-      bg={useColorModeValue("white", "gray.900")}
-      borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue("gray.200", "gray.700")}
-      justifyContent={{ base: "space-between", md: "flex-end" }}
-      {...rest}
-    >
-      <IconButton
-        display={{ base: "flex", md: "none" }}
-        onClick={onOpen}
-        variant="outline"
-        aria-label="open menu"
-        icon={<FiMenu />}
-      />
-
-      {/* <Image
-        src={Kluster}
-        display={{ base: "flex", md: "none" }}
-        w={["120px", "200px", "200px", "100%"]}
-      /> */}
-
-      <HStack spacing={{ base: "0", md: "6" }}>
-        <Flex alignItems={"center"}>
-          <Menu>
-            <MenuButton
-              py={2}
-              transition="all 0.3s"
-              _focus={{ boxShadow: "none" }}
-            >
-              <HStack>
-                <Avatar
-                  size={"sm"}
-                  src={
-                    "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                  }
-                />
-                <VStack
-                  display={{ base: "none", md: "flex" }}
-                  alignItems="flex-start"
-                  spacing="1px"
-                  ml="2"
-                >
-                  <Text fontSize="sm">{fullname}</Text>
-                  <Text fontSize="xs" color="gray.600">
-                    {localStorage.getItem("role")}
-                  </Text>
-                </VStack>
-                <Box display={{ base: "none", md: "flex" }}>
-                  <FiChevronDown />
-                </Box>
-              </HStack>
-            </MenuButton>
-            <MenuList
-              bg={useColorModeValue("white", "gray.900")}
-              borderColor={useColorModeValue("gray.200", "gray.700")}
-            >
-              <MenuItem onClick={logout}>Sign out</MenuItem>
-            </MenuList>
-          </Menu>
+    <Box ml={{ base: 0, md: 60 }}>
+      <Flex
+        px="4"
+        py="2"
+        alignItems="center"
+        justifyContent={"space-between"}
+        {...rest}
+      >
+        <IconButton
+          display={{ base: "flex", md: "none" }}
+          onClick={onOpen}
+          variant="outline"
+          aria-label="open menu"
+          icon={<FiMenu />}
+        />
+        <Flex gap="10px" display={{ base: "flex", md: "none" }}>
+          <Image src={QLogo} w={"24px"} />
+          <Text fontSize="16px" fontWeight={"600"}>
+            Quick Invoice
+          </Text>
         </Flex>
-      </HStack>
-    </Flex>
+        <Flex
+          w="36px"
+          h="36px"
+          borderRadius="50%"
+          bg="#F1F3F5"
+          justifyContent="center"
+          alignItems="center"
+          display={{ base: "flex", md: "none" }}
+        >
+          <Icon as={CiBellOn} />
+        </Flex>
+      </Flex>
+      <Flex
+        justifyContent={"space-between"}
+        alignItems={"flex-start"}
+        w="100%"
+        px="3"
+        mt={{ base: "0", md: "20px" }}
+      >
+        <Box mt={["20px", "0", "0", "0"]}>
+          <Text fontSize={["16px", "20px", "24px", "24px"]} fontWeight="600">
+            Welcome Back, John
+          </Text>
+          <Text
+            fontSize={["12px", "14px", "16px", "16px"]}
+            fontWeight="400"
+            color="#868E96"
+          >
+            Review the information you have provided and proceed
+          </Text>
+        </Box>
+        <Flex alignContent={"center"} gap="10px">
+          <Flex
+            w="25px"
+            h="25px"
+            borderRadius="50%"
+            bg="#F1F3F5"
+            justifyContent="center"
+            alignItems="center"
+            display={{ base: "none", md: "flex" }}
+          >
+            <Icon as={CiBellOn} />
+          </Flex>
+          <Button
+            leftIcon={<AddIcon />}
+            size="xs"
+            colorScheme="blue"
+            variant="solid"
+            fontSize="12px"
+            // height={["10px", "20px", "36px", "36px"]}
+          >
+            New invoice
+          </Button>
+        </Flex>
+      </Flex>
+    </Box>
   );
 };
 
