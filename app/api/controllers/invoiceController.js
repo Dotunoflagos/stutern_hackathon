@@ -23,6 +23,10 @@ exports.createInvoice = async (req, res) => {
         }
         const invoiceOwner = await Client.findById(clientId)
 
+        if (!invoiceOwner) {
+            return res.status(404).json({ message: 'No clients found, invoice not created' });
+        }
+
         // Increment the count and use it as the invoice number
         const invoiceNumber = `INV-${invoiceCount.count + 1}`;
         invoiceCount.count = invoiceCount.count + 1;
@@ -129,18 +133,40 @@ exports.getAllInvoices = async (req, res) => {
 
 exports.searchInvoices = async (req, res) => {
     try {
-        const { invoiceNumber, amount, name, email, phone } = req.query;
+        const { invoiceNumber, amount, name, email, phone, product } = req.query;
         const userId = req.userId;
 
         const searchCriteria = { userId };
 
-        // Add search criteria
+        // search criteria
         if (name) {
-            const nameRegex = new RegExp(name, 'i'); // Case-insensitive regex search for name
-            searchCriteria.$or = [
-                { firstname: nameRegex }, // Match documents with firstName matching name
-                { lastname: nameRegex }   // Match documents with lastName matching name
-            ];
+            const split = name.split(" ") || 0
+            if (split.length <= 1) {
+                const nameRegex = new RegExp(name, 'i'); // Case-insensitive regex search for name
+                searchCriteria.$or = [
+                    { firstname: nameRegex },
+                    { lastname: nameRegex }
+                ];
+            } else {
+                searchCriteria.$or = [
+                    {
+                        $and: [
+                            // { firstname: new RegExp(`^${split[0]}$`, 'i') },
+                            // { lastname: new RegExp(`^${split[1]}$`, 'i') },
+                            { firstname: new RegExp(split[0], 'i') },
+                            { lastname: new RegExp(split[1], 'i') },
+                        ]
+                    },
+                    {
+                        $and: [
+                            // { firstname: new RegExp(`^${split[1]}$`, 'i') },
+                            // { lastname: new RegExp(`^${split[0]}$`, 'i') }
+                            { firstname: new RegExp(split[1], 'i') },
+                            { lastname: new RegExp(split[0], 'i') }
+                        ]
+                    }
+                ];
+            }
         }
         if (email) {
             searchCriteria.email = new RegExp(email, 'i'); // Case-insensitive regex search for email
@@ -150,6 +176,9 @@ exports.searchInvoices = async (req, res) => {
         }
         if (invoiceNumber) {
             searchCriteria.invoiceNumber = new RegExp(invoiceNumber, 'i');
+        }
+        if (product) {
+            searchCriteria.product = new RegExp(product, 'i');
         }
         if (amount) {
             searchCriteria.amount = parseFloat(amount);
@@ -197,22 +226,26 @@ exports.invoicesHook = (req, res) => {
 
 exports.getTotalInvoiceCreated = async (req, res) => {
     try {
-        const invoices = await Invoice.find();
+        const userId = req.userId;
+        const invoices = await Invoice.find({ userId });
         const totalAmount = invoices.reduce((acc, invoice) => acc + invoice.amount, 0);
+        const numberOfInvoices = invoices.length
 
-        res.json({totalAmount});
+        res.json({ numberOfInvoices, totalAmount });
     } catch (error) {
         console.error(error);
-        res.status(500).json({error: 'Internal Server Error'});
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }
 
 exports.totalCompletedPayments = async (req, res) => {
     try {
-        const completedInvoices = await Invoice.find({ isPaid: true });
-        const totalCompletedPayments = completedInvoices.reduce((acc, invoice) => acc + invoice.amountPaid, 0);
+        const userId = req.userId;
+        const completedInvoices = await Invoice.find({ userId, isPaid: true });
+        const totalAmount = completedInvoices.reduce((acc, invoice) => acc + invoice.amountPaid, 0);
+        const numberOfInvoices = completedInvoices.length
 
-        res.json({ totalCompletedPayments });
+        res.json({ numberOfInvoices, totalAmount });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -220,14 +253,16 @@ exports.totalCompletedPayments = async (req, res) => {
 }
 
 exports.getTotalPendingPayments = async (req, res) => {
-    try{
-        const pendingPayments = await Invoice.find({isPaid: false})
-        const totalPendingPayments = pendingPayments.reduce((acc, invoice) => acc + invoice, 0);
+    try {
+        const userId = req.userId;
+        const pendingPayments = await Invoice.find({ userId, isPaid: false })
+        const totalAmount = pendingPayments.reduce((acc, invoice) => acc + invoice.amount, 0);
+        const numberOfInvoices = pendingPayments.length
 
-        res.json({ totalPendingPayments });
+        res.json({ numberOfInvoices, totalAmount });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({error: 'Internal server error'});
+        res.status(500).json({ error: 'Internal server error' });
     }
 }
