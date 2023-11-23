@@ -17,7 +17,7 @@ exports.create = async (req, res) => {
     const { firstname, lastname, email, phone, address } = req.body;
 
     // Check if the username already exists
-    await Client.deleteOne({ email });
+    // await Client.deleteOne({ email });
     const existingClient = await Client.findOne({
       firstname,
       lastname,
@@ -182,11 +182,21 @@ exports.search = async (req, res) => {
 
     // Add search criteria
     if (name) {
-      const nameRegex = new RegExp(name, 'i'); // Case-insensitive regex search for name
-      searchCriteria.$or = [
-        { firstname: nameRegex }, // Match documents with firstName matching name
-        { lastname: nameRegex }   // Match documents with lastName matching name
-      ];
+      const split = name.split(" ") || 0
+      if (split.length <= 1) {
+        const nameRegex = new RegExp(name, 'i'); // Case-insensitive regex search for name
+        searchCriteria.$or = [
+          { firstname: nameRegex }, // Match documents with firstName matching name
+          { lastname: nameRegex }   // Match documents with lastName matching name
+        ];
+      } else {
+        searchCriteria.$or = [
+          { firstname: new RegExp(`^${split[0]}$`, 'i') }, // Match documents with firstName matching name
+          { lastname: new RegExp(`^${split[1]}$`, 'i') },   // Match documents with lastName matching name
+          { firstname: new RegExp(`^${split[1]}$`, 'i') }, // Match documents with firstName matching name
+          { lastname: new RegExp(`^${split[0]}$`, 'i') }
+        ];
+      }
     }
     if (email) {
       searchCriteria.email = new RegExp(email, 'i'); // Case-insensitive regex search for email
