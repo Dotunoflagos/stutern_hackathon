@@ -1,68 +1,76 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Invoice</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 20px;
-      }
-      h1 {
-        text-align: center;
-      }
-      h2 {
-        margin-bottom: 10px;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      th,
-      td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-      }
-      th {
-        background-color: #f2f2f2;
-      }
-
-      .payment-button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #4caf50;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        font-size: 16px;
-        margin-top: 30px
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Invoice</h1>
-    <p><strong>First Name:</strong> {{ firstname }}</p>
-    <p><strong>Last Name:</strong> {{ lastname }}</p>
-    <p><strong>Phone:</strong> {{ phone }}</p>
-    <p><strong>Invoice Number:</strong> {{ invoiceNumber }}</p>
-    <hr />
-    <h2>Product Details</h2>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Receipt</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    .receipt-details {
+      margin-bottom: 20px;
+    }
+    .receipt-details p {
+      margin: 5px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Receipt</h1>
+    <div class="receipt-details">
+      <p>Email: {{email}}</p>
+      <p>Name: {{firstname}} {{lastname}}</p>
+      <p>Phone: {{phone}}</p>
+      <p>Invoice Number: {{invoiceNumber}}</p>
+      <p>Product: {{product}}</p>
+      <p>Total: NGN {{amount}}</p>
+      <p>Payment Date: {{paymentDate}}</p>
+      <p>Payment Method: {{paymentMethod}}</p>
+    </div>
     <table>
       <thead>
         <tr>
-          <th>Product</th>
-          <th>Amount</th>
+          <th>Item</th>
+          <th>Price</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>{{ product }}</td>
-          <td>{{ amount }} NGN</td>
+          <td>{{product}}</td>
+          <td>${{amount}}</td>
         </tr>
-        <!-- Add more rows if needed for multiple products -->
+        <!-- Add more rows if needed for multiple items -->
       </tbody>
     </table>
-    <a class="payment-button" href="{{ paymentLink }}">Pay Now</a>
-  </body>
+  </div>
+</body>
 </html>

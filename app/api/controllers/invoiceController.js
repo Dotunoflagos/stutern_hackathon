@@ -2,7 +2,7 @@ const Invoice = require('../models/invoiceModel');
 const InvoiceCount = require('../models/invoiceCountModel');
 const Client = require('../models/clientModel');
 const User = require('../models/userModel');
-const { sendinvoice } = require('../utils/sendEmail');
+const { sendinvoice, sendReceipt } = require('../utils/sendEmail');
 const { initializeTransaction, verifyTransaction } = require('../utils/paystack');
 const validateBody = require('../utils/reqBodyValidator').validateWithSchema;
 const registerSchema = require('../utils/joiValidationSchema/user').register;
@@ -209,6 +209,11 @@ exports.verifyInvoice = async (req, res) => {
     invoice.paymentDate = data.data.paid_at || invoice.paymentDate
     invoice.save()
 
+    if (isPaid) {
+        const businessname = User.findById(data.userId).businessname || "Quickinvoice"
+        invoice.businessname = businessname
+        sendReceipt(invoice)
+    }
     res.status(200).json(invoice);
 };
 

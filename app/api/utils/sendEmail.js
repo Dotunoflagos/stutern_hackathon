@@ -66,7 +66,7 @@ function sendinvoice({ email, clientId, firstname, lastname, phone, invoiceNumbe
     phone,
     invoiceNumber,
     product,
-    amount: (Number(amount)/100).toLocaleString('en-US'),
+    amount: (Number(amount) / 100).toLocaleString('en-US'),
     paymentLink
   };
 
@@ -99,15 +99,20 @@ function sendinvoice({ email, clientId, firstname, lastname, phone, invoiceNumbe
   });
 }
 
-function sendReceipt({ email, clientId, firstname, lastname, phone, invoiceNumber, product, amount, isPaid, paymentLink }) {
+
+function sendReceipt({ email, amountPaid, firstname, lastname, phone, invoiceNumber, product, amount, paymentDate, paymentMethod, businessname }) {
   const invoiceData = {
+    email,
+    amountPaid,
     firstname,
     lastname,
     phone,
     invoiceNumber,
     product,
-    amount: (Number(amount)/100).toLocaleString('en-US'),
-    paymentLink
+    paymentDate,
+    paymentMethod,
+    businessname,
+    amount: (Number(amount) / 100).toLocaleString('en-US'),
   };
 
   const htmlTemplate = fs.readFileSync(path.join(__dirname, 'receipt.html'), 'utf-8');
@@ -126,7 +131,7 @@ function sendReceipt({ email, clientId, firstname, lastname, phone, invoiceNumbe
   const mailOptions = {
     from: process.env.USER,
     to: email,
-    subject: `Quickinvoice Receipt`,
+    subject: `Receipt From ${businessname}`,
     html: htmlContent
   };
 
