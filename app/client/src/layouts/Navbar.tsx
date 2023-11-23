@@ -16,7 +16,7 @@ import {
 import { useEffect } from "react";
 import { FiMenu, FiChevronDown } from "react-icons/fi";
 
-import { Kluster, User } from "../assets/index";
+import { User } from "../assets/index";
 import useCustomToast from "../utils/notification";
 
 type MenuListItemType = {
