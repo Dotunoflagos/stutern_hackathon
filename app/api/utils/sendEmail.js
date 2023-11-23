@@ -45,7 +45,7 @@ function sendNewOTP(email, otp) {
   const mailOptions = {
     from: process.env.USER,
     to: email,
-    subject: 'New OTP for Registration',
+    subject: 'Quickinvoice (New OTP for Registration)',
     text: `Your new OTP for registration is: ${otp}`,
   };
 
@@ -86,20 +86,61 @@ function sendinvoice({ email, clientId, firstname, lastname, phone, invoiceNumbe
   const mailOptions = {
     from: process.env.USER,
     to: email,
-    subject: `Invoicev for purchase of ${product}`,
+    subject: `Quickinvoice Invoice`,
     html: htmlContent
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log('Error sending new OTP: ' + error);
+      console.log('Error sending new invoice: ' + error);
     } else {
-      console.log('New OTP sent: ' + info.response);
+      console.log('New invoice sent: ' + info.response);
+    }
+  });
+}
+
+function sendReceipt({ email, clientId, firstname, lastname, phone, invoiceNumber, product, amount, isPaid, paymentLink }) {
+  const invoiceData = {
+    firstname,
+    lastname,
+    phone,
+    invoiceNumber,
+    product,
+    amount: (Number(amount)/100).toLocaleString('en-US'),
+    paymentLink
+  };
+
+  const htmlTemplate = fs.readFileSync(path.join(__dirname, 'receipt.html'), 'utf-8');
+  const htmlContent = htmlTemplate.replace(/{{\s*(\w+)\s*}}/g, (match, p1) => {
+    return invoiceData[p1] || match;
+  });
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.USER,
+      pass: process.env.PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.USER,
+    to: email,
+    subject: `Quickinvoice Receipt`,
+    html: htmlContent
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log('Error sending new receipt: ' + error);
+    } else {
+      console.log('New receipt sent: ' + info.response);
     }
   });
 }
 
 module.exports = {
+  sendReceipt,
   sendinvoice,
   generateOTP,
   sendOTP,

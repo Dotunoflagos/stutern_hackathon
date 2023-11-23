@@ -199,7 +199,7 @@ exports.searchInvoices = async (req, res) => {
 
 exports.verifyInvoice = async (req, res) => {
     const { reference } = req.query
-    console.log(reference)
+    // console.log(reference)
     const data = await verifyTransaction(reference)
     const invoice = await Invoice.findOne({ invoiceNumber: reference });
 
