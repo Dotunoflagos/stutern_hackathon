@@ -218,14 +218,10 @@ exports.verifyInvoice = async (req, res) => {
 };
 
 exports.invoicesHook = (req, res) => {
-    //validate event
-    const hash = crypto.createHmac('sha512', secret).update(JSON.stringify(req.body)).digest('hex');
-    if (hash == req.headers['x-paystack-signature']) {
-        // Retrieve the request's body
-        const event = req.body;
-        console.log("vody:", event)
-        // Do something with event 
-    }
+    // Retrieve the request's body
+    const event = req.body;
+    console.log("vody:", event)
+    // Do something with event 
     res.status(200);
 }
 
