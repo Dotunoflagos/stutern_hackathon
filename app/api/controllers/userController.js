@@ -51,7 +51,7 @@ exports.register = async (req, res) => {
     const newUser = new User({
       email,
       password: hashedPassword,
-      businessesname: this.generateUniqueValue(),
+      businessname: this.generateUniqueValue(),
       otp,
     });
 
