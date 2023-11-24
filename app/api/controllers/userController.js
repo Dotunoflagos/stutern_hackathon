@@ -7,7 +7,19 @@ const validateBody = require('../utils/reqBodyValidator').validateWithSchema;
 const registerSchema = require('../utils/joiValidationSchema/user').register;
 const loginSchema = require('../utils/joiValidationSchema/user').login;
 const otpSchema = require('../utils/joiValidationSchema/user').otp;
+const crypto = require('crypto');
 
+
+exports.generateUniqueValue = () => {
+  const timestamp = new Date().getTime();
+  const random = Math.floor(Math.random() * 10000);
+  const machineIdentifier = Math.floor(Math.random() * 1000); // Simulated machine identifier
+
+  const combinedString = `${timestamp}_${random}_${machineIdentifier}`;
+  const hash = crypto.createHash('md5').update(combinedString).digest('hex');
+  
+  return hash;
+}
 // user registration logic
 exports.register = async (req, res) => {
   try {
@@ -21,11 +33,11 @@ exports.register = async (req, res) => {
     const { email, password } = req.body;
 
     // Check if the username already exists
-    await User.deleteOne({ email });
 
     // Check if the email already exists
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
+      await User.deleteOne({ email });
       return res.status(409).json({ message: 'Email already exists' });
     }
 
@@ -39,6 +51,7 @@ exports.register = async (req, res) => {
     const newUser = new User({
       email,
       password: hashedPassword,
+      businessname: this.generateUniqueValue(),
       otp,
     });
 
