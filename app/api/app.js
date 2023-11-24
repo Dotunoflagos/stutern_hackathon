@@ -5,7 +5,11 @@ const userRoutes = require('./routes/userRoutes');
 const clientRoutes = require('./routes/clientRoutes');
 const invoiceRoutes = require('./routes/invoiceRoutes');
 const cors = require('cors');
-app.use(cors())
+app.use(cors({
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: '*'
+}));
 require('dotenv').config();
 require('./config/connection');
 
@@ -20,6 +24,6 @@ app.use('/api/v1', invoiceRoutes);
 
 
 const port = process.env.PORT || 3030;
-app.listen(port, ()=>{
+app.listen(port, () => {
     console.log(`listening to: http://localhost:${port}`)
 })
