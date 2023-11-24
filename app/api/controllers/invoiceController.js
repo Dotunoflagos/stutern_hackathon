@@ -9,7 +9,15 @@ const registerSchema = require('../utils/joiValidationSchema/user').register;
 const crypto = require('crypto');
 const secret = process.env.PAYSTACK_KEY;
 
+exports.calculateTotal = (items) => {
+    let total = 0;
 
+    items.forEach(item => {
+        total += item.price;
+    });
+
+    return total;
+}
 
 exports.createInvoice = async (req, res) => {
     try {
@@ -34,7 +42,7 @@ exports.createInvoice = async (req, res) => {
 
         // Generate payment link
         let paymentLink = await initializeTransaction(invoiceOwner.email, invoiceNumber, amount);
-
+        const invoiceTotal = this.calculateTotal(product) * 100
         paymentLink = paymentLink.data.authorization_url;
         const newInvoice = new Invoice({
             firstname: invoiceOwner.firstname,
@@ -45,7 +53,7 @@ exports.createInvoice = async (req, res) => {
             clientId,
             invoiceNumber,
             product,
-            amount,
+            amount: invoiceTotal,
             paymentLink
         });
 
@@ -210,8 +218,13 @@ exports.verifyInvoice = async (req, res) => {
     invoice.save()
 
     if (invoice.isPaid) {
-        const businessname = User.findById(data.userId).businessname || "Quickinvoice"
+        const smallbusiness = User.findById(data.userId)
+        const businessname = smallbusiness.businessname || "Quickinvoice"
         invoice.businessname = businessname
+        sendReceipt(invoice)
+
+        // send business receipt
+        invoice.email = User.businessname.email
         sendReceipt(invoice)
     }
     res.status(200).json(invoice);
