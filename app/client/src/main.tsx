@@ -6,8 +6,7 @@ import { App } from "./App";
 // import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Provider } from "react-redux";
-import store from "./store";
+// import { Provider } from "react-redux";
 import "@fontsource/inter/400.css";
 
 const container = document.getElementById("root");
@@ -30,9 +29,9 @@ root.render(
       <BrowserRouter>
         <ChakraProvider theme={customTheme}>
           <ColorModeScript />
-          <Provider store={store}>
-            <App />
-          </Provider>
+          {/* <Provider> */}
+          <App />
+          {/* </Provider> */}
         </ChakraProvider>
       </BrowserRouter>
     </QueryClientProvider>

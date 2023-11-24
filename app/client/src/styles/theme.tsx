@@ -148,7 +148,7 @@ export const customTheme = extendTheme({
       btnTextColor: "black",
       labelTextColor: "#00000040",
       cardBgColor: "#FFFFFF",
-      btnBgColor: "#a0a4a8",
+      btnBgColor: "#7BB4E3",
       labelBgColor: "#7BB4E3",
     },
   },

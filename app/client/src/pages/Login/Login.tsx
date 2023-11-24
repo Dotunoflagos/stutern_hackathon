@@ -114,8 +114,8 @@ export default function Signup() {
                     borderColor={"grey.300"}
                     size={"lg"}
                     height={"3rem"}
-                    value={username}
                     placeholder="Name@example.com"
+                    value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
                 </FormControl>

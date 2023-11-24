@@ -33,8 +33,15 @@ const PersonalInfo = () => {
   const [showPhone, setShowPhone] = useState(false);
   const [showBussinessName, setShowBussinessName] = useState(false);
   const [showBusinessAddress, setShowBusinessAddress] = useState(false);
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [businessName, setBusinessName] = useState("");
+  const [businessAddress, setBusinessAddress] = useState("");
+
   const navigate = useNavigate();
-  const { errorToast, successToast } = useCustomToast();
+  const { errorToast, successToast, infoToast } = useCustomToast();
   const steps = [
     {
       title: "Personal Information",
@@ -75,14 +82,13 @@ const PersonalInfo = () => {
     }
   }, [stage]);
 
-  const { mutate, isLoading: isCreateLoading } = usePutUpdateUser({
+  const { mutate, isLoading: isLoading } = usePutUpdateUser({
     onSuccess: (res: any) => {
       console.log(res);
 
       if (res?.data?.message === "Login successful") {
         successToast(res?.data?.message);
-        localStorage.setItem("user", JSON.stringify(res?.data?.userData));
-        navigate("/dashboard");
+        navigate("/login");
       } else {
         errorToast(res?.data?.message);
       }
@@ -93,14 +99,21 @@ const PersonalInfo = () => {
     },
   });
 
-  //   const handleSubmit = () => {
-  //     mutate({
-  //     page: 1,
-  //       email: username,
-  //       firstname: firstName,
-  //       lastname: firstName,
-  //     });
-  //   };
+  const handleSubmit = () => {
+    mutate({
+      page: 1,
+      email: localStorage.getItem("email"),
+      firstname: firstName,
+      lastname: lastName,
+      phone: phoneNumber,
+      businessname: businessName,
+      businessaddress: businessAddress,
+    });
+  };
+
+  const pictureHandler = () => {
+    infoToast("Feature is currently unavailable", 2000);
+  };
 
   return (
     <Box minH={"100vh"}>
@@ -221,6 +234,7 @@ const PersonalInfo = () => {
                     w="fit-content"
                     fontWeight={"400"}
                     fontSize={"12px"}
+                    onClick={pictureHandler}
                   >
                     Click to upload
                   </Button>
@@ -229,22 +243,26 @@ const PersonalInfo = () => {
                 <Stack spacing={4} mt="20px">
                   <FormControl id="name">
                     <FormLabel color="#868E96" fontSize="14px">
-                      Full Name
+                      First Name
                     </FormLabel>
                     <Input
                       type="text"
                       size="sm"
-                      placeholder="First Last Name"
+                      placeholder="First First Name"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
                     />
                   </FormControl>
                   <FormControl id="email">
                     <FormLabel color="#868E96" fontSize="14px">
-                      Email Address
+                      Last Name
                     </FormLabel>
                     <Input
-                      type="email"
+                      type="text"
                       size="sm"
-                      placeholder="Enter Email Address"
+                      placeholder="Enter Last Name"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
                     />
                   </FormControl>
                   <FormControl id="address">
@@ -255,6 +273,8 @@ const PersonalInfo = () => {
                       type="text"
                       size="sm"
                       placeholder="Enter phone number"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
                     />
                   </FormControl>
                 </Stack>
@@ -319,6 +339,8 @@ const PersonalInfo = () => {
                       type="text"
                       size="sm"
                       placeholder="Enter business name"
+                      value={businessName}
+                      onChange={(e) => setBusinessName(e.target.value)}
                     />
                   </FormControl>
                   <FormControl id="name">
@@ -329,6 +351,8 @@ const PersonalInfo = () => {
                       type="text"
                       size="sm"
                       placeholder="Enter business address"
+                      value={businessAddress}
+                      onChange={(e) => setBusinessAddress(e.target.value)}
                     />
                   </FormControl>
                 </Stack>
@@ -354,13 +378,15 @@ const PersonalInfo = () => {
                   </Heading>
                   <FormControl id="name">
                     <FormLabel color="#868E96" fontSize="14px">
-                      Full Name
+                      First Name
                     </FormLabel>
                     <InputGroup size="sm">
                       <Input
                         size="sm"
                         type="text"
                         border={showFullName ? "1px solid #868E96" : "none"}
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                       />
                       <InputRightElement mr="10px">
                         <Text
@@ -376,13 +402,15 @@ const PersonalInfo = () => {
                   </FormControl>
                   <FormControl id="name">
                     <FormLabel color="#868E96" fontSize="14px">
-                      Email Address
+                      Last Name
                     </FormLabel>
                     <InputGroup size="sm">
                       <Input
                         size="sm"
                         type="text"
                         border={showEmail ? "1px solid #868E96" : "none"}
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
                       />
                       <InputRightElement mr="10px">
                         <Text
@@ -405,6 +433,8 @@ const PersonalInfo = () => {
                         size="sm"
                         type="text"
                         border={showPhone ? "1px solid #868E96" : "none"}
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
                       />
                       <InputRightElement mr="10px">
                         <Text
@@ -434,6 +464,8 @@ const PersonalInfo = () => {
                         border={
                           showBussinessName ? "1px solid #868E96" : "none"
                         }
+                        value={businessName}
+                        onChange={(e) => setBusinessName(e.target.value)}
                       />
                       <InputRightElement mr="10px">
                         <Text
@@ -460,6 +492,8 @@ const PersonalInfo = () => {
                         border={
                           showBusinessAddress ? "1px solid #868E96" : "none"
                         }
+                        value={businessAddress}
+                        onChange={(e) => setBusinessAddress(e.target.value)}
                       />
                       <InputRightElement mr="10px">
                         <Text
@@ -487,7 +521,13 @@ const PersonalInfo = () => {
                   border="1px solid blue"
                   color={"blue.400"}
                   _hover={{
-                    bg: "blue.500",
+                    bg: "white",
+                  }}
+                  _focus={{
+                    bg: "white",
+                  }}
+                  _active={{
+                    bg: "white",
                   }}
                   w="fit-content"
                   fontWeight={"500"}
@@ -498,21 +538,39 @@ const PersonalInfo = () => {
               ) : (
                 <span></span>
               )}
-              <Button
-                loadingText="Submitting"
-                size="sm"
-                bg={"blue.400"}
-                color={"white"}
-                _hover={{
-                  bg: "blue.500",
-                }}
-                type="submit"
-                w="fit-content"
-                fontWeight={"400"}
-                onClick={stageChange}
-              >
-                Save and continue
-              </Button>
+              {stage !== 3 ? (
+                <Button
+                  size="sm"
+                  bg={"blue.400"}
+                  color={"white"}
+                  _hover={{
+                    bg: "blue.500",
+                  }}
+                  type="submit"
+                  w="fit-content"
+                  fontWeight={"400"}
+                  onClick={stageChange}
+                >
+                  Save and continue
+                </Button>
+              ) : (
+                <Button
+                  size="sm"
+                  loadingText="Processing..."
+                  isLoading={isLoading}
+                  bg={"blue.400"}
+                  color={"white"}
+                  _hover={{
+                    bg: "blue.500",
+                  }}
+                  type="submit"
+                  w="fit-content"
+                  fontWeight={"400"}
+                  onClick={handleSubmit}
+                >
+                  Save and finish
+                </Button>
+              )}
             </Flex>
           </Box>
         </Box>
