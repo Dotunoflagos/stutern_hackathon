@@ -39,10 +39,10 @@ const LinkItems: Array<LinkItemProps> = [
 ];
 
 const activeStyle: React.CSSProperties = {
-  color: "black",
+  color: "#495057",
   background: "#DEE2E6",
   fontSize: "16px",
-  // fontWeight: "600",
+  fontWeight: "600",
   display: "flex",
   alignItems: "center",
   padding: "10px",
@@ -145,10 +145,10 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
     <Box
       transition="3s ease"
-      w={{ base: "full", md: 60 }}
+      w={{ base: "full", md: "15rem" }}
       pos="fixed"
       h="full"
-      bgColor="#F8F9FA"
+      bgColor="grey.100"
       {...rest}
     >
       <Flex
@@ -160,8 +160,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       >
         <Flex gap="10px">
           <Image src={QLogo} w={"24px"} />
-          <Text fontSize="16px" fontWeight={"600"}>
-            Quick Invoice
+          <Text color={"grey.900"} fontSize="16px" fontWeight={"600"} lineHeight={"1.5rem"}>
+            Quik Invoice
           </Text>
         </Flex>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
@@ -179,6 +179,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                       ...activeStyle,
                       background: "none",
                       color: "#868E96",
+                      fontWeight: "500",
                     }
               }
             >

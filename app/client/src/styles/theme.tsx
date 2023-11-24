@@ -102,8 +102,10 @@ export const customTheme = extendTheme({
     grey: {
       300: "#DEE2E6",
       500: "#ADB5BD",
+      600: "#868E96",
       700: "#495057",
       900: "#212529",
+      100: "#F8F9FA",
     },
     white100: "#FFFFFF",
     brand: {
