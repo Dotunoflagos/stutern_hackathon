@@ -69,7 +69,7 @@ const Header = ({ onOpen, ...rest }: Props) => {
             fontSize="12px"
             onClick={onOpen}
           >
-            New invoice
+            New client
           </Button>
         </Flex>
       </Flex>

@@ -101,7 +101,6 @@ const PersonalInfo = () => {
 
   const handleSubmit = () => {
     mutate({
-      userId2: localStorage.getItem("stageId"),
       page: 1,
       email: localStorage.getItem("email"),
       firstname: firstName,

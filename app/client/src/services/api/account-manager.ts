@@ -20,7 +20,10 @@ export const postRegister = async (body: any) => {
 };
 
 export const putUpdateUser = async (body: any) => {
-  const res = await axios.put(`${apiURL}${UPDATEUSER}`, body);
+  const res = await axios.put(
+    `${apiURL}${UPDATEUSER}/?userid=${localStorage.getItem("stageId")}`,
+    body
+  );
   return res;
 };
 
