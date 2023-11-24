@@ -264,7 +264,7 @@ exports.verifyInvoice = async (req, res) => {
             // send business receipt
             invoice.businessname = invoice.email
             invoice.email = smallbusiness.email
-            sendReceipt(invoice)
+            sendReceipt(invoice, "business")
         }
         res.status(200).json(invoice);
     } catch (error) {

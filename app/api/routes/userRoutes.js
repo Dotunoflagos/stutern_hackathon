@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const {authenticateToken} = require('../middleware/authMiddleware.js');
+const multer = require('multer');
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 // Route for user registration
 router.post('/register', userController.register);
 
@@ -17,7 +20,7 @@ router.post('/login', userController.login);
 router.get('/logout', authenticateToken, userController.logout);
 
 // Route for user login
-router.put('/updateUser', authenticateToken, userController.updateUser);
+router.put('/updateUser', upload.single('image'), authenticateToken, userController.updateUser);
 
 // Request Password Reset (Generate OTP)
 router.post('/reset-password/request', authenticateToken, userController.resetPasswordRequest);

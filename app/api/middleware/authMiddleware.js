@@ -14,7 +14,9 @@ exports.authenticateToken = (req, res, next) => {
       return res.status(403).json({ message: 'Invalid token' });
     }
 
-    req.userId = decoded.userId; // Extracted user ID from the decoded token
+    req.userId = decoded.userId;
     next();
   });
+  // req.userId = req.body.userId2;
+  // next();
 };

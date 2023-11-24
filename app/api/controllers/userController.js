@@ -8,6 +8,7 @@ const registerSchema = require('../utils/joiValidationSchema/user').register;
 const loginSchema = require('../utils/joiValidationSchema/user').login;
 const otpSchema = require('../utils/joiValidationSchema/user').otp;
 const crypto = require('crypto');
+const ImgurUploader = require('imgur-uploader');
 
 
 exports.generateUniqueValue = () => {
@@ -17,7 +18,7 @@ exports.generateUniqueValue = () => {
 
   const combinedString = `${timestamp}_${random}_${machineIdentifier}`;
   const hash = crypto.createHash('md5').update(combinedString).digest('hex');
-  
+
   return hash;
 }
 // user registration logic
@@ -90,6 +91,11 @@ exports.updateUser = async (req, res) => {
     // if (error) {
     //   return res.status(400).json({ message: error });
     // }
+    let uploadedImage
+    if (req.file) {
+      uploadedImage = await ImgurUploader(req.file.buffer, { clientID: process.env.IMGUR_CLIENT_ID });
+      //uploadedImage = await imgurUploader.upload(req.file.buffer);
+    }
 
     const { page, firstname, lastname, businessname, businessaddress, email, phone } = req.body;
 
@@ -111,6 +117,7 @@ exports.updateUser = async (req, res) => {
     updateUser.businessaddress = businessaddress || updateUser.businessaddress
     updateUser.email = email || updateUser.email
     updateUser.phone = phone || updateUser.phone
+    updateUser.imageURL = uploadedImage.link || updateUser.imageURL
 
     await updateUser.save();
 
@@ -120,7 +127,7 @@ exports.updateUser = async (req, res) => {
     } else {
       res.status(201).json({
         message: 'update successful.',
-        user: { firstname, lastname, businessname, businessaddress, email, phoneS }
+        user: updateUser
       });
     }
   } catch (error) {
@@ -228,10 +235,10 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: '30m',
     });
-    const exclude = [ "password", "_id", "role", "otp", "__v" ]
+    const exclude = ["password", "_id", "role", "otp", "__v"]
     const userData = {};
     Object.keys(user._doc).map((key) => {
-      if(!exclude.includes(key)) {
+      if (!exclude.includes(key)) {
         userData[key] = user[key]
       }
     })
@@ -313,5 +320,5 @@ exports.resetPasswordVerify = async (req, res) => {
 exports.logout = (req, res, user) => {
   res.clearCookie('Auth'); // Clear the 'Auth' cookie
   res.clearCookie('signup'); // Clear the 'signup' cookie
-  res.status(200).json({ message: 'Logout successful', user});
+  res.status(200).json({ message: 'Logout successful', user });
 };

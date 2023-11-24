@@ -100,7 +100,7 @@ function sendinvoice({ email, clientId, firstname, lastname, phone, invoiceNumbe
 }
 
 
-function sendReceipt({ email, amountPaid, firstname, lastname, phone, invoiceNumber, product, amount, paymentDate, paymentMethod, businessname }) {
+function sendReceipt({ email, amountPaid, firstname, lastname, phone, invoiceNumber, product, amount, paymentDate, paymentMethod, businessname }, business) {
   const invoiceData = {
     email,
     amountPaid,
@@ -128,10 +128,16 @@ function sendReceipt({ email, amountPaid, firstname, lastname, phone, invoiceNum
     },
   });
 
+  let subject
+  if (business) {
+    subject =  `Payment of ${invoiceData.amount} From ${invoiceData.lastname} ${invoiceData.firstname} [${invoiceData.invoiceNumber}]`
+  } else {
+    subject = `Receipt From ${businessname}`
+  }
   const mailOptions = {
     from: process.env.USER,
     to: email,
-    subject: `Receipt From ${businessname}`,
+    subject: subject,
     html: htmlContent
   };
 

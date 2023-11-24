@@ -31,6 +31,9 @@ const userSchema = new Schema({
     businessaddress: {
         type: String
     },
+    imageURL: {
+        type: String
+    },
     otp: {
         type: String,
       },
