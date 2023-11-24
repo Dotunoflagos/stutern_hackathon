@@ -71,7 +71,7 @@ exports.createInvoice = async (req, res) => {
         }
         res.status(201).json({
             message: 'Invoice created successfully.',
-            invoice: savedInvoice
+            invoice: newInvoice
         });
     } catch (error) {
         console.error(error);
@@ -243,28 +243,33 @@ exports.searchInvoices = async (req, res) => {
 };
 
 exports.verifyInvoice = async (req, res) => {
-    const { reference } = req.query
-    // console.log(reference)
-    const data = await verifyTransaction(reference)
-    const invoice = await Invoice.findOne({ invoiceNumber: reference });
+    try {
+        const { reference } = req.query
+        // console.log(reference)
+        const data = await verifyTransaction(reference)
+        const invoice = await Invoice.findOne({ invoiceNumber: reference });
 
-    invoice.isPaid = data.data.status == "success" ? true : false // || invoice.isPaid
-    invoice.amountPaid = data.data.amount || invoice.amountPaid
-    invoice.paymentMethod = data.data.channel || invoice.paymentMethod
-    invoice.paymentDate = data.data.paid_at || invoice.paymentDate
-    invoice.save()
+        invoice.isPaid = data.data.status == "success" ? true : false // || invoice.isPaid
+        invoice.amountPaid = data.data.amount || invoice.amountPaid
+        invoice.paymentMethod = data.data.channel || invoice.paymentMethod
+        invoice.paymentDate = data.data.paid_at || invoice.paymentDate
+        invoice.save()
 
-    if (invoice.isPaid) {
-        const smallbusiness = User.findById(data.userId)
-        const businessname = smallbusiness.businessname || "Quickinvoice"
-        invoice.businessname = businessname
-        sendReceipt(invoice)
+        if (invoice.isPaid) {
+            const smallbusiness = await User.findById(invoice.userId)
+            const businessname = smallbusiness.businessname || "Quickinvoice"
+            invoice.businessname = businessname
+            sendReceipt(invoice)
 
-        // send business receipt
-        invoice.email = smallbusiness.email
-        sendReceipt(invoice)
+            // send business receipt
+            invoice.businessname = invoice.email
+            invoice.email = smallbusiness.email
+            sendReceipt(invoice)
+        }
+        res.status(200).json(invoice);
+    } catch (error) {
+        console.log(error)
     }
-    res.status(200).json(invoice);
 };
 
 exports.invoicesHook = (req, res) => {
