@@ -91,7 +91,7 @@ exports.updateUser = async (req, res) => {
     //   return res.status(400).json({ message: error });
     // }
 
-    const { page, firstname, lastname, businessname, businessaddress, email } = req.body;
+    const { page, firstname, lastname, businessname, businessaddress, email, phone } = req.body;
 
     const userId = req.userId
     // Check if the username already exists
@@ -110,16 +110,17 @@ exports.updateUser = async (req, res) => {
     updateUser.businessname = businessname || updateUser.businessname
     updateUser.businessaddress = businessaddress || updateUser.businessaddress
     updateUser.email = email || updateUser.email
+    updateUser.phone = phone || updateUser.phone
 
     await updateUser.save();
 
     if (page == 2) {
       // delete auth token
-      this.logout(req, res, { firstname, lastname, businessname, businessaddress, email })
+      this.logout(req, res, { firstname, lastname, businessname, businessaddress, email, phone })
     } else {
       res.status(201).json({
         message: 'update successful.',
-        user: { firstname, lastname, businessname, businessaddress, email }
+        user: { firstname, lastname, businessname, businessaddress, email, phoneS }
       });
     }
   } catch (error) {
