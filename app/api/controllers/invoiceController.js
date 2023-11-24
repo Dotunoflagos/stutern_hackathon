@@ -308,7 +308,7 @@ exports.invoicesHook = async (req, res) => {
     }
 
     // Do something with event
-    console.log("webhook message received") 
+    console.log("webhook message received", event.data) 
     res.status(200);
 }
 
