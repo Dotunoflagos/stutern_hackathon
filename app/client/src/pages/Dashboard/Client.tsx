@@ -24,7 +24,7 @@ const Client = () => {
   return (
     <div>
       {/* <Header name={name} /> */}
-      <Box mt="20px">
+      <Box mt="20px" px={"1rem"}>
         <InputGroup maxW="380px">
           <InputLeftElement pointerEvents="none">
             <Icon color="gray.300" as={SearchIcon} />

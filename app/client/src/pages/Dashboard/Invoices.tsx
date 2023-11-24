@@ -23,7 +23,7 @@ const Invoices = () => {
   return (
     <div>
       {/* <Header name={name} /> */}
-      <Box mt="20px">
+      <Box mt="20px" px={"1rem"}>
         <InputGroup maxW="380px">
           <InputLeftElement pointerEvents="none">
             <Icon color="gray.300" as={SearchIcon} />
@@ -63,9 +63,15 @@ const Invoices = () => {
                     >
                       JK
                     </Flex>
-                    <Box>
-                      <Text fontWeight="600">Jaydon Korsgaard</Text>
-                      <Text>jaydonkorsgaard@email.com</Text>
+                    <Box fontSize={"0.875rem"}>
+                      <Text 
+                        color={"grey.900"} 
+                        fontWeight="600"
+                      >Jaydon Korsgaard</Text>
+                      <Text 
+                        color={"grey.500"}
+                        fontWeight={"400"}
+                      > jaydonkorsgaard@email.com</Text>
                     </Box>
                   </Flex>
                 </Td>

@@ -47,12 +47,13 @@ const Dashboard = () => {
   return (
     <>
       {/* <Header name={name} /> */}
-      <Box mt="10px">
+      <Box mt="0.5rem">
         <Box>
           <Flex
             justifyContent={"space-between"}
             align={"center"}
-            gap="10px"
+            p={"1rem"}
+            gap="1.25rem"
             flexWrap={"wrap"}
           >
             {cards.map((card, index) => (
@@ -60,7 +61,7 @@ const Dashboard = () => {
                 key={index}
                 borderRadius={"12px"}
                 border="1px solid #DEE2E6"
-                p="12px"
+                p="1rem"
                 height="140px"
                 width={["100%", "100%", "100%", "32%"]}
               >
@@ -83,12 +84,12 @@ const Dashboard = () => {
                     <Text color="#475367" fontSize="12px" whiteSpace={"nowrap"}>
                       {card.name}
                     </Text>
-                    <Text fontSize={"18px"} fontWeight={"600"}>
+                    <Text color={"grey.700"} fontSize={"18px"} fontWeight={"600"}>
                       {card.amount}
                     </Text>
                   </Flex>
                   <Flex
-                    borderRadius="10px"
+                    borderRadius="0.3rem"
                     bg="#E7F6EC"
                     fontSize="12px"
                     color="#036B26"
@@ -105,25 +106,26 @@ const Dashboard = () => {
           </Flex>
         </Box>
 
-        <Box mt="30px">
+        <Box mt="2rem">
           <Flex
-            justifyContent={"space-between"}
+            justifyContent={"center"}
             // align={"center"}
-            gap="10px"
+            gap="1.5rem"
             flexWrap={"wrap"}
           >
             <Box
               borderRadius={"12px"}
               border="1px solid #DEE2E6"
-              p="16px"
+              p="1.5rem"
               minH="140px"
+              minW={"35.625rem"}
               width={["100%", "100%", "100%", "48%"]}
             >
               <Flex justifyContent={"space-between"} alignItems={"center"}>
-                <Text fontSize="18px" fontWeight="600">
+                <Text color={"grey.900"} fontSize="18px" fontWeight="600">
                   Invoice Payment History
                 </Text>
-                <Text color="#5C7CFA " fontSize="14px" fontWeight="600">
+                <Text color="primary.500 " fontSize="14px" fontWeight="600">
                   See all
                 </Text>
               </Flex>
@@ -145,7 +147,9 @@ const Dashboard = () => {
                         justifyContent={"center"}
                         alignItems={"center"}
                       >
-                        JD
+                        <Text fontWeight={"400"}>
+                          JD
+                        </Text>
                       </Flex>
                       <Box>
                         <Text fontSize={"14px"} fontWeight={"500"}>
@@ -170,15 +174,16 @@ const Dashboard = () => {
             <Box
               borderRadius={"12px"}
               border="1px solid #DEE2E6"
-              p="12px"
+              p="1.5rem"
               minH="140px"
+              minW={"35.625rem"}
               width={["100%", "100%", "100%", "48%"]}
             >
               <Flex justifyContent={"space-between"} alignItems={"center"}>
-                <Text fontSize="18px" fontWeight="600">
+                <Text color={"grey.900"} fontSize="18px" fontWeight="600">
                   Payment Analytics
                 </Text>
-                <Text color="#5C7CFA " fontSize="14px" fontWeight="600">
+                <Text color="primary.500 " fontSize="14px" fontWeight="600">
                   See all
                 </Text>
               </Flex>

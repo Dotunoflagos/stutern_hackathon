@@ -8,6 +8,10 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 // import { Provider } from "react-redux";
 import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
+import "@fontsource/inter/800.css";
 
 const container = document.getElementById("root");
 if (!container) throw new Error("Failed to find the root element");
