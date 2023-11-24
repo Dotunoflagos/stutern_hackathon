@@ -178,7 +178,7 @@ exports.getAllInvoices = async (req, res) => {
 
 exports.searchInvoices = async (req, res) => {
     try {
-        const { invoiceNumber, amount, name, email, phone, product } = req.query;
+        const { invoiceNumber, total, name, email, phone, product } = req.query;
         const userId = req.userId;
 
         const searchCriteria = { userId };
@@ -223,10 +223,15 @@ exports.searchInvoices = async (req, res) => {
             searchCriteria.invoiceNumber = new RegExp(invoiceNumber, 'i');
         }
         if (product) {
-            searchCriteria.product = new RegExp(product, 'i');
+            searchCriteria.product = {
+                $elemMatch: {
+                    name: new RegExp(product, 'i')
+                }
+            }
+            // searchCriteria.product = new RegExp(product, 'i');
         }
-        if (amount) {
-            searchCriteria.amount = parseFloat(amount);
+        if (total) {
+            searchCriteria.amount = parseFloat(total);
         }
 
         const foundInvoices = await Invoice.find(searchCriteria);
@@ -272,11 +277,38 @@ exports.verifyInvoice = async (req, res) => {
     }
 };
 
-exports.invoicesHook = (req, res) => {
+exports.invoicesHook = async (req, res) => {
     // Retrieve the request's body
     const event = req.body;
-    console.log("vody:", event)
-    // Do something with event 
+    // console.log("vody:", event)
+    if (event == 'charge.success') {
+        const data = event.data;
+
+        const invoice = await Invoice.findOne({ invoiceNumber: data.reference });
+
+        if (!invoice.isPaid) {
+            invoice.isPaid = data.data.status == "success" ? true : false // || invoice.isPaid
+            invoice.amountPaid = data.data.amount || invoice.amountPaid
+            invoice.paymentMethod = data.data.channel || invoice.paymentMethod
+            invoice.paymentDate = data.data.paid_at || invoice.paymentDate
+            invoice.save()
+
+            if (invoice.isPaid) {
+                const smallbusiness = await User.findById(invoice.userId)
+                const businessname = smallbusiness.businessname || "Quickinvoice"
+                invoice.businessname = businessname
+                sendReceipt(invoice)
+
+                // send business receipt
+                invoice.businessname = invoice.email
+                invoice.email = smallbusiness.email
+                sendReceipt(invoice, "business")
+            }
+        }
+    }
+
+    // Do something with event
+    console.log("webhook message received") 
     res.status(200);
 }
 
