@@ -91,7 +91,8 @@ exports.updateUser = async (req, res) => {
     // if (error) {
     //   return res.status(400).json({ message: error });
     // }
-    let uploadedImage
+    let uploadedImage = {}
+    uploadedImage.link = ""
     if (req.file) {
       uploadedImage = await ImgurUploader(req.file.buffer, { clientID: process.env.IMGUR_CLIENT_ID });
       //uploadedImage = await imgurUploader.upload(req.file.buffer);
@@ -127,7 +128,7 @@ exports.updateUser = async (req, res) => {
     } else {
       res.status(201).json({
         message: 'update successful.',
-        user: updateUser
+        user: { id: updateUser._id, imageURLurl: updateUser.imageURL, firstname, lastname, businessname, businessaddress, email, phone }
       });
     }
   } catch (error) {
