@@ -14,7 +14,7 @@ import {
   MenuList,
   MenuItem,
 } from "@chakra-ui/react";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { IconType } from "react-icons";
 import Navbar from "./Navbar";
@@ -33,8 +33,8 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
   { name: "Dashboard", icon: MdSpaceDashboard, path: "/dashboard" },
-  { name: "Invoice", icon: TbFileInvoice, path: "/ll" },
-  { name: "Clients", icon: HiOutlineUserGroup, path: "/jj" },
+  { name: "Invoice", icon: TbFileInvoice, path: "/invoice" },
+  { name: "Clients", icon: HiOutlineUserGroup, path: "/client" },
   { name: "Setting", icon: LuSettings2, path: "/bb" },
 ];
 
@@ -87,8 +87,8 @@ interface SidebarProps extends BoxProps {
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const { successToast } = useCustomToast();
-  // const [firstname, setFirstname] = useState("");
-  // const [lastname, setLastname] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
 
   useEffect(() => {
     Object.values(events).forEach((item) => {
@@ -97,20 +97,14 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         handleLogoutTimer();
       });
     });
-    // Fetch the data from localStorage
-    // const userDataString = localStorage.getItem("user");
+    const userDataString = localStorage.getItem("user");
 
-    // if (userDataString) {
-    // Parse the JSON string to get the user data
-    // const userData = JSON.parse(userDataString);
-
-    // Extract firstname and lastname from user data
-    // const { firstname, lastname } = userData;
-
-    // Update state with the values
-    // setFirstname(firstname);
-    // setLastname(lastname);
-    // }
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      const { firstname, lastname } = userData;
+      setFirstname(firstname);
+      setLastname(lastname);
+    }
   }, []);
 
   const logout = () => {
@@ -223,7 +217,9 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                     borderRadius="50%"
                     bgColor="#495057"
                   ></Box>
-                  <Text fontSize={"14px"}>John Doe</Text>
+                  <Text fontSize={"14px"}>
+                    {firstname} {lastname}
+                  </Text>
                 </Flex>
                 <Icon fontSize={"30px"} as={ChevronRightIcon} />
               </Flex>

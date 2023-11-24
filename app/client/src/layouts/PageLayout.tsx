@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import Sidebar from "./Sidebar";
+import AddClient from "../components/AddClient";
 
 interface IChildren {
   children: React.ReactNode;
@@ -7,7 +8,12 @@ interface IChildren {
 export const AuthPageLayout = ({ children }: IChildren) => {
   return (
     <Box>
-      <Sidebar>{children}</Sidebar>
+      <Sidebar>
+        <Box>
+          <AddClient />
+          {children}
+        </Box>
+      </Sidebar>
     </Box>
   );
 };
