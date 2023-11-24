@@ -236,7 +236,7 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: '30m',
     });
-    const exclude = ["password", "_id", "role", "otp", "__v"]
+    const exclude = ["password", "role", "otp", "__v"]
     const userData = {};
     Object.keys(user._doc).map((key) => {
       if (!exclude.includes(key)) {
