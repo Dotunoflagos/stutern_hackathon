@@ -86,7 +86,7 @@ const PersonalInfo = () => {
     onSuccess: (res: any) => {
       console.log(res);
 
-      if (res?.data?.message === "Login successful") {
+      if (res?.data?.message === "update successful.") {
         successToast(res?.data?.message);
         navigate("/login");
       } else {
@@ -101,6 +101,7 @@ const PersonalInfo = () => {
 
   const handleSubmit = () => {
     mutate({
+      userId2: localStorage.getItem("stageId"),
       page: 1,
       email: localStorage.getItem("email"),
       firstname: firstName,
