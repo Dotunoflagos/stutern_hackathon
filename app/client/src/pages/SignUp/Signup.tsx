@@ -12,6 +12,14 @@ import {
   Text,
   useColorModeValue,
   Image,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  Link,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -20,7 +28,11 @@ import { BackgroundImage, QLogo } from "../../assets";
 import { FaRegComments } from "react-icons/fa";
 import useCustomToast from "../../utils/notification";
 import { useNavigate } from "react-router-dom";
-import { usePostRegister } from "../../services/query/account-manager";
+import {
+  usePostRegister,
+  usePostResendOtp,
+  usePostVerifyOtp,
+} from "../../services/query/account-manager";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,15 +41,24 @@ export default function Signup() {
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [resendLink, setResendLink] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { mutate, isLoading: isCreateLoading } = usePostRegister({
     onSuccess: (res: any) => {
       console.log(res);
 
-      if (res?.data?.message === "Login successful") {
+      if (
+        res?.data?.message ===
+        "Registration successful. Please check your email for the OTP."
+      ) {
         successToast(res?.data?.message);
-        localStorage.setItem("user", JSON.stringify(res?.data?.userData));
-        navigate("/dashboard");
+        localStorage.setItem("stageId", res?.data?.user?.id);
+        onOpen();
+        setResendLink(true);
+        // localStorage.setItem('stageId', res?.data?.user?.email)
+        // localStorage.setItem("user", JSON.stringify(res?.data?.userData));
       } else {
         errorToast(res?.data?.message);
       }
@@ -47,6 +68,41 @@ export default function Signup() {
       errorToast(err?.response?.data?.message);
     },
   });
+
+  const { mutate: verifyOtpMutate, isLoading: isVerifyLoading } =
+    usePostVerifyOtp({
+      onSuccess: (res: any) => {
+        console.log(res);
+        if (res?.data?.message === "OTP verified successfully") {
+          successToast(res?.data?.message);
+          navigate("/personal-info");
+        } else {
+          errorToast(res?.data?.message);
+        }
+      },
+      onError: (err: any) => {
+        console.log(err);
+        errorToast(err?.response?.data?.message);
+      },
+    });
+
+  const { mutate: resendOtpMutate, isLoading: isResendLoading } =
+    usePostResendOtp({
+      onSuccess: (res: any) => {
+        console.log(res);
+        if (res?.data?.message === "New OTP sent to your email") {
+          successToast(res?.data?.message);
+          navigate("/personal-info");
+          setOtp("");
+        } else {
+          errorToast(res?.data?.message);
+        }
+      },
+      onError: (err: any) => {
+        console.log(err);
+        errorToast(err?.response?.data?.message);
+      },
+    });
 
   const handleSubmit = () => {
     if (password !== confirmPassword) {
@@ -59,9 +115,25 @@ export default function Signup() {
         password: password,
       });
     }
-    // console.log(email);
-    // console.log(password);
-    // console.log(confirmPassword);
+  };
+
+  const verifyOtpHandler = () => {
+    if (otp === "") {
+      errorToast("Input your OTP");
+    } else if (otp.length !== 6) {
+      errorToast("Invalid OTP, input a valid otp");
+    } else {
+      verifyOtpMutate({
+        email: email,
+        otp: otp,
+      });
+    }
+  };
+  const resendOtpHander = () => {
+    onOpen();
+    resendOtpMutate({
+      email: email,
+    });
   };
 
   return (
@@ -123,6 +195,8 @@ export default function Signup() {
                     height={"3rem"}
                     type="email"
                     placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => setemail(e.target.value)}
                   />
                 </FormControl>
                 <FormControl id="password" isRequired>
@@ -134,6 +208,8 @@ export default function Signup() {
                       height={"3rem"}
                       type={showPassword ? "text" : "password"}
                       placeholder="securepassword"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                     <InputRightElement h={"full"}>
                       <Button
@@ -154,6 +230,8 @@ export default function Signup() {
                       height={"3rem"}
                       type={showPassword ? "text" : "password"}
                       placeholder="securepassword"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                     <InputRightElement h={"full"}>
                       <Button
@@ -167,23 +245,32 @@ export default function Signup() {
                     </InputRightElement>
                   </InputGroup>
                 </FormControl>
-                <NavLink to="/personal-info">
-                  <Stack spacing={10} pt={"1.5rem"}>
-                    <Button
-                      height="3.5rem"
-                      width="100%"
-                      loadingText="Submitting"
-                      size="lg"
-                      bg={"primary.500"}
-                      color={"white"}
-                      _hover={{
-                        bg: "primary.400",
-                      }}
-                    >
-                      Create your Account
-                    </Button>
-                  </Stack>
-                </NavLink>
+                {/* <NavLink to="/personal-info"> */}
+                <Stack spacing={10} pt={"1.5rem"}>
+                  <Button
+                    height="3.5rem"
+                    width="100%"
+                    loadingText="Loading..."
+                    size="lg"
+                    bg={"primary.500"}
+                    color={"white"}
+                    _hover={{
+                      bg: "primary.400",
+                    }}
+                    type="submit"
+                    isLoading={isCreateLoading}
+                    onClick={handleSubmit}
+                    // onClick={onOpen}
+                  >
+                    Create your Account
+                  </Button>
+                </Stack>
+                {resendLink && (
+                  <Link color="#74B816" onClick={resendOtpHander}>
+                    Resend Otp
+                  </Link>
+                )}
+                {/* </NavLink> */}
               </Stack>
             </Stack>
           </Stack>
@@ -205,6 +292,54 @@ export default function Signup() {
           </Flex>
         </Stack>
       </Flex>
+
+      {/* OTP INPUT MODAL */}
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Email Verification</ModalHeader>
+
+          {/* <ModalCloseButton /> */}
+          <ModalBody>
+            <Text fontSize="13px" mt="-20px">
+              Enter the otp that was sent to your email to continue
+            </Text>
+            <br />
+            {isResendLoading ? (
+              <Text>Loading... Please wait</Text>
+            ) : (
+              <FormControl id="email" isRequired>
+                <FormLabel color={"grey.700"}>OTP</FormLabel>
+                <Input
+                  height={"3rem"}
+                  type="number"
+                  // maxLength="6"
+                  placeholder="Enter your otp"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+              </FormControl>
+            )}
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              loadingText="Verifying..."
+              bg={"primary.500"}
+              color={"white"}
+              _hover={{
+                bg: "primary.400",
+              }}
+              type="submit"
+              isLoading={isVerifyLoading}
+              onClick={verifyOtpHandler}
+            >
+              Verify
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }
