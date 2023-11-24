@@ -55,9 +55,9 @@ export default function Signup() {
       ) {
         successToast(res?.data?.message);
         localStorage.setItem("stageId", res?.data?.user?.id);
+        localStorage.setItem("email", res?.data?.user?.email);
         onOpen();
         setResendLink(true);
-        // localStorage.setItem('stageId', res?.data?.user?.email)
         // localStorage.setItem("user", JSON.stringify(res?.data?.userData));
       } else {
         errorToast(res?.data?.message);

@@ -24,6 +24,7 @@ import { TbFileInvoice } from "react-icons/tb";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { LuSettings2 } from "react-icons/lu";
 import useCustomToast from "../utils/notification";
+import { ChevronRightIcon } from "@chakra-ui/icons";
 
 interface LinkItemProps {
   name: string;
@@ -209,7 +210,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
               transition="all 0.3s"
               _focus={{ boxShadow: "none" }}
             >
-              <Flex mr="4">
+              <Flex
+                mr="4"
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                w="100%"
+              >
                 <Flex alignItems={"center"} gap={"10px"}>
                   <Box
                     w="32px"
@@ -219,6 +225,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                   ></Box>
                   <Text fontSize={"14px"}>John Doe</Text>
                 </Flex>
+                <Icon fontSize={"30px"} as={ChevronRightIcon} />
               </Flex>
             </MenuButton>
             <MenuList bg="white">

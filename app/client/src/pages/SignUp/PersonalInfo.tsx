@@ -20,6 +20,9 @@ import {
 } from "@chakra-ui/react";
 import { QLogo } from "../../assets/index";
 import { useState, useEffect } from "react";
+import { usePutUpdateUser } from "../../services/query/account-manager";
+import useCustomToast from "../../utils/notification";
+import { useNavigate } from "react-router-dom";
 
 const PersonalInfo = () => {
   const [stage, setStage] = useState(1);
@@ -30,6 +33,8 @@ const PersonalInfo = () => {
   const [showPhone, setShowPhone] = useState(false);
   const [showBussinessName, setShowBussinessName] = useState(false);
   const [showBusinessAddress, setShowBusinessAddress] = useState(false);
+  const navigate = useNavigate();
+  const { errorToast, successToast } = useCustomToast();
   const steps = [
     {
       title: "Personal Information",
@@ -69,6 +74,33 @@ const PersonalInfo = () => {
       setStageTitle("Personal Information");
     }
   }, [stage]);
+
+  const { mutate, isLoading: isCreateLoading } = usePutUpdateUser({
+    onSuccess: (res: any) => {
+      console.log(res);
+
+      if (res?.data?.message === "Login successful") {
+        successToast(res?.data?.message);
+        localStorage.setItem("user", JSON.stringify(res?.data?.userData));
+        navigate("/dashboard");
+      } else {
+        errorToast(res?.data?.message);
+      }
+    },
+    onError: (err: any) => {
+      console.log(err);
+      errorToast(err?.response?.data?.message);
+    },
+  });
+
+  //   const handleSubmit = () => {
+  //     mutate({
+  //     page: 1,
+  //       email: username,
+  //       firstname: firstName,
+  //       lastname: firstName,
+  //     });
+  //   };
 
   return (
     <Box minH={"100vh"}>
@@ -222,7 +254,7 @@ const PersonalInfo = () => {
                     <Input
                       type="text"
                       size="sm"
-                      placeholder="First Last Name"
+                      placeholder="Enter phone number"
                     />
                   </FormControl>
                 </Stack>
@@ -242,7 +274,7 @@ const PersonalInfo = () => {
                   </Text>
                 </Stack>
 
-                <Flex
+                {/* <Flex
                   mt="20px"
                   alignItems={"center"}
                   justifyContent={"space-between"}
@@ -276,7 +308,7 @@ const PersonalInfo = () => {
                   >
                     Click to upload
                   </Button>
-                </Flex>
+                </Flex> */}
 
                 <Stack spacing={4} mt="20px">
                   <FormControl id="name">
