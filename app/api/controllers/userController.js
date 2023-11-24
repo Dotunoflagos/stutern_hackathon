@@ -128,7 +128,7 @@ exports.updateUser = async (req, res) => {
     } else {
       res.status(201).json({
         message: 'update successful.',
-        user: { id: updateUser._id, imageURLurl: updateUser.imageURL, firstname, lastname, businessname, businessaddress, email, phone }
+        user: { id: updateUser._id, imageURL: updateUser.imageURL, firstname, lastname, businessname, businessaddress, email, phone }
       });
     }
   } catch (error) {
