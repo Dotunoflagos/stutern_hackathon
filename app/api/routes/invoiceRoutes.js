@@ -12,6 +12,8 @@ router.get('/getAllInvoices', authenticateToken, invoiceController.getAllInvoice
 
 router.post('/searchInvoices', authenticateToken, invoiceController.searchInvoices);
 
+router.post('/updateInvoice', authenticateToken, invoiceController.updateInvoice)
+
 // Using Express
 router.post("/nvoicesHook", invoiceController.invoicesHook);
 

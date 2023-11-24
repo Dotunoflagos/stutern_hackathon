@@ -57,6 +57,13 @@ const invoiceSchema = new Schema({
     },
     paymentDate: {
         type: Date
+    },
+    dueDate: {
+        type: Date
+    },
+    send: {
+        type: Boolean,
+        default: true
     }
 });
 

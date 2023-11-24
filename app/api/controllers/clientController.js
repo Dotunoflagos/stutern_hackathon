@@ -17,7 +17,7 @@ exports.create = async (req, res) => {
     const { firstname, lastname, email, phone, address } = req.body;
 
     // Check if the username already exists
-    // await Client.deleteOne({ email });
+    await Client.deleteOne({ email });
     const existingClient = await Client.findOne({
       firstname,
       lastname,

@@ -22,7 +22,7 @@ exports.calculateTotal = (items) => {
 exports.createInvoice = async (req, res) => {
     try {
         const userId = req.userId;
-        const { clientId, amount, product } = req.body;
+        const { clientId, amount, product, dueDate, send } = req.body;
 
         let invoiceCount = await InvoiceCount.findOne();
         if (!invoiceCount) {
@@ -41,9 +41,13 @@ exports.createInvoice = async (req, res) => {
         await invoiceCount.save();
 
         // Generate payment link
-        let paymentLink = await initializeTransaction(invoiceOwner.email, invoiceNumber, amount);
+        let paymentLink
         const invoiceTotal = this.calculateTotal(product) * 100
-        paymentLink = paymentLink.data.authorization_url;
+        if (send) {
+            paymentLink = await initializeTransaction(invoiceOwner.email, invoiceNumber, invoiceTotal);
+            paymentLink = paymentLink.data.authorization_url;
+        }
+
         const newInvoice = new Invoice({
             firstname: invoiceOwner.firstname,
             lastname: invoiceOwner.lastname,
@@ -54,13 +58,17 @@ exports.createInvoice = async (req, res) => {
             invoiceNumber,
             product,
             amount: invoiceTotal,
+            dueDate,
+            send,
             paymentLink
         });
 
         const savedInvoice = await newInvoice.save();
 
         // Send invoice and payment link to Client
-        sendinvoice(savedInvoice);
+        if (send) {
+            sendinvoice(savedInvoice);
+        }
         res.status(201).json({
             message: 'Invoice created successfully.',
             invoice: savedInvoice
@@ -74,24 +82,53 @@ exports.createInvoice = async (req, res) => {
 exports.updateInvoice = async (req, res) => {
     try {
         const userId = req.userId;
-        const { invoiceId, amount } = req.body;
+        const { invoiceId, amount, product, dueDate, send } = req.body;
 
         const existingInvoice = await Invoice.findOne({
             _id: invoiceId,
-            userId: userId
+            userId: userId,
         });
 
         if (!existingInvoice) {
             return res.status(404).json({ message: 'Invoice not found' });
         }
 
-        existingInvoice.amount = amount || existingInvoice.amount;
+        if (!existingInvoice.send) {
+            const invoiceTotal = this.calculateTotal(product) * 100
+            const invoiceOwner = await Client.findById(existingInvoice.clientId)
+            let paymentLink
 
-        const updatedInvoice = await existingInvoice.save();
+            if (send) {
+                paymentLink = await initializeTransaction(invoiceOwner.email, existingInvoice.invoiceNumber, invoiceTotal);
+                paymentLink = paymentLink.data.authorization_url;
+            }
+
+            existingInvoice.amount = invoiceTotal || existingInvoice.amount;
+            existingInvoice.product = product || existingInvoice.product;
+            existingInvoice.dueDate = dueDate || existingInvoice.dueDate;
+            existingInvoice.send = send || existingInvoice.send;
+            existingInvoice.paymentLink = paymentLink || existingInvoice.paymentLink;
+
+            const updatedInvoice = await existingInvoice.save();
+
+            if (send) {
+                sendinvoice(updatedInvoice);
+                res.status(200).json({
+                    message: 'Invoice details updated and sent.',
+                    invoice: updatedInvoice
+                });
+                return
+            }
+
+            res.status(200).json({
+                message: 'Invoice details updated.',
+                invoice: updatedInvoice
+            });
+            return
+        }
 
         res.status(200).json({
-            message: 'Invoice details updated.',
-            invoice: updatedInvoice
+            message: 'sent invoice can no longer be edited.',
         });
     } catch (error) {
         console.error(error);
@@ -224,7 +261,7 @@ exports.verifyInvoice = async (req, res) => {
         sendReceipt(invoice)
 
         // send business receipt
-        invoice.email = User.businessname.email
+        invoice.email = smallbusiness.email
         sendReceipt(invoice)
     }
     res.status(200).json(invoice);
