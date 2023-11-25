@@ -21,8 +21,8 @@ const userSchema = new Schema({
         type: String
     },
     role: {
-        type: Boolean, 
-        default: false 
+        type: Boolean,
+        default: false
     },
     businessname: {
         type: String,
@@ -36,14 +36,14 @@ const userSchema = new Schema({
     },
     otp: {
         type: String,
-      },
-      isVerified: {
-        type: Boolean,  
-        default: false, 
-      },
-      resetPasswordOTP: {
+    },
+    isVerified: {
+        type: Boolean,
+        default: false,
+    },
+    resetPasswordOTP: {
         type: String
-      },
+    },
 }, {
     timestamps: true
 });

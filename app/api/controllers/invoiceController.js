@@ -32,7 +32,7 @@ exports.createInvoice = async (req, res) => {
         const invoiceOwner = await Client.findById(clientId)
 
         if (!invoiceOwner) {
-            return res.status(204).json({ message: 'No clients found, invoice not created' });
+            return res.status(200).json({ message: 'No clients found, invoice not created' });
         }
 
         // Increment the count and use it as the invoice number
@@ -90,7 +90,7 @@ exports.updateInvoice = async (req, res) => {
         });
 
         if (!existingInvoice) {
-            return res.status(204).json({ message: 'Invoice not found' });
+            return res.status(200).json({ message: 'Invoice not found' });
         }
 
         if (!existingInvoice.send) {
@@ -147,7 +147,7 @@ exports.deleteInvoice = async (req, res) => {
         });
 
         if (!existingInvoice) {
-            return res.status(204).json({ message: 'Invoice not found' });
+            return res.status(200).json({ message: 'Invoice not found' });
         }
 
         await existingInvoice.deleteOne();
@@ -166,7 +166,7 @@ exports.getAllInvoices = async (req, res) => {
         const allInvoices = await Invoice.find({ userId });
 
         if (!allInvoices || allInvoices.length === 0) {
-            return res.status(204).json({ message: 'No invoices found' });
+            return res.status(200).json({ message: 'No invoices found' });
         }
 
         res.status(200).json(allInvoices);
@@ -237,7 +237,7 @@ exports.searchInvoices = async (req, res) => {
         const foundInvoices = await Invoice.find(searchCriteria);
 
         if (!foundInvoices || foundInvoices.length === 0) {
-            return res.status(204).json({ message: 'No invoices found' });
+            return res.status(200).json({ message: 'No invoices found' });
         }
 
         res.status(200).json(foundInvoices);

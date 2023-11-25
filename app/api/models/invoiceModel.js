@@ -65,6 +65,8 @@ const invoiceSchema = new Schema({
         type: Boolean,
         default: true
     }
+}, {
+    timestamps: true
 });
 
 const Invoice = mongoose.model('Invoice', invoiceSchema);
