@@ -9,4 +9,5 @@ export const PRIVATE_PATHS = {
   DASHBOARD: "/dashboard",
   CLIENT: "/client",
   INVOICE: "/invoice",
+  VIEW_INVOICE: "/view-invoice",
 };

@@ -13,17 +13,22 @@ import {
   TableContainer,
   Flex,
   Text,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 // import Header from "../../layouts/Header";
 import { SearchIcon } from "@chakra-ui/icons";
 import { IoIosMore } from "react-icons/io";
+import { NavLink } from "react-router-dom";
 
 const Invoices = () => {
   //   const name = "Client List";
   return (
     <div>
       {/* <Header name={name} /> */}
-      <Box mt="20px" px={"1rem"}>
+      <Box mt="20px">
         <InputGroup maxW="380px">
           <InputLeftElement pointerEvents="none">
             <Icon color="gray.300" as={SearchIcon} />
@@ -64,14 +69,13 @@ const Invoices = () => {
                       JK
                     </Flex>
                     <Box fontSize={"0.875rem"}>
-                      <Text 
-                        color={"grey.900"} 
-                        fontWeight="600"
-                      >Jaydon Korsgaard</Text>
-                      <Text 
-                        color={"grey.500"}
-                        fontWeight={"400"}
-                      > jaydonkorsgaard@email.com</Text>
+                      <Text color={"grey.900"} fontWeight="600">
+                        Jaydon Korsgaard
+                      </Text>
+                      <Text color={"grey.500"} fontWeight={"400"}>
+                        {" "}
+                        jaydonkorsgaard@email.com
+                      </Text>
                     </Box>
                   </Flex>
                 </Td>
@@ -79,7 +83,19 @@ const Invoices = () => {
                 <Td>Nov 30, 2023</Td>
                 <Td>Paid</Td>
                 <Td>
-                  <Icon as={IoIosMore} />
+                  <Menu>
+                    <MenuButton>
+                      <Icon as={IoIosMore} />
+                    </MenuButton>
+                    <MenuList>
+                      <NavLink to="/view-invoice">
+                        <MenuItem>View</MenuItem>
+                      </NavLink>
+
+                      <MenuItem>Edit</MenuItem>
+                      <MenuItem color="red">Archive</MenuItem>
+                    </MenuList>
+                  </Menu>
                 </Td>
               </Tr>
             </Tbody>
