@@ -36,6 +36,7 @@ export default function Signup() {
       if (res?.data?.message === "Login successful") {
         successToast(res?.data?.message);
         localStorage.setItem("user", JSON.stringify(res?.data?.userData));
+        localStorage.setItem("stageId", res?.data?.userData?._id);
         navigate("/dashboard");
       } else {
         errorToast(res?.data?.message);

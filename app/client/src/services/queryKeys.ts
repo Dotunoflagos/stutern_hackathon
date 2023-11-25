@@ -8,3 +8,5 @@ export const GET_ALL_CLIENT_KEY = "get_all_client";
 export const CREATE_CLIENT_KEY = "create_client";
 export const DELETE_CLIENT_KEY = "delete_client";
 export const SEARCH_CLIENT_KEY = "search_client";
+
+export const GET_ALL_INVOICE_KEY = "get_invoice";

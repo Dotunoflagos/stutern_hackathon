@@ -8,3 +8,5 @@ export const GET_ALL_CLIENT = "/allClient";
 export const CREATE_CLIENT = "/ceateClient";
 export const DELETE_CLIENT = "/deleteClient";
 export const SEARCH_CLIENT = "/searchClient";
+
+export const GET_ALL_INVOICE = "/total";

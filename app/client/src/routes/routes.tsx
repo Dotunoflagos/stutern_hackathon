@@ -29,7 +29,7 @@ export const PUBLIC_ROUTES: AppRoute[] = [
   { path: SIGNUP, element: <Signup /> },
   { path: PERSONALINFO, element: <PersonalInfo /> },
 
-  { path: "*", element: <Navigate to="/" replace /> },
+  { path: "*", element: <Navigate to="/login" replace /> },
 
   // non existing url will redirect to home page
 ];

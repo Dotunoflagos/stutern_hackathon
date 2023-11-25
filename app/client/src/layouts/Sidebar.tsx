@@ -110,8 +110,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const logout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("accessToken");
-    localStorage.removeItem("agentID");
-    localStorage.removeItem("role");
     successToast("Logout Successful");
     setTimeout(() => {
       window.location.reload();
@@ -160,7 +158,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       >
         <Flex gap="10px">
           <Image src={QLogo} w={"24px"} />
-          <Text color={"grey.900"} fontSize="16px" fontWeight={"600"} lineHeight={"1.5rem"}>
+          <Text
+            color={"grey.900"}
+            fontSize="16px"
+            fontWeight={"600"}
+            lineHeight={"1.5rem"}
+          >
             Quik Invoice
           </Text>
         </Flex>
