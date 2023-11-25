@@ -32,7 +32,7 @@ exports.createInvoice = async (req, res) => {
         const invoiceOwner = await Client.findById(clientId)
 
         if (!invoiceOwner) {
-            return res.status(404).json({ message: 'No clients found, invoice not created' });
+            return res.status(204).json({ message: 'No clients found, invoice not created' });
         }
 
         // Increment the count and use it as the invoice number
@@ -90,7 +90,7 @@ exports.updateInvoice = async (req, res) => {
         });
 
         if (!existingInvoice) {
-            return res.status(404).json({ message: 'Invoice not found' });
+            return res.status(204).json({ message: 'Invoice not found' });
         }
 
         if (!existingInvoice.send) {
@@ -147,7 +147,7 @@ exports.deleteInvoice = async (req, res) => {
         });
 
         if (!existingInvoice) {
-            return res.status(404).json({ message: 'Invoice not found' });
+            return res.status(204).json({ message: 'Invoice not found' });
         }
 
         await existingInvoice.deleteOne();
@@ -166,7 +166,7 @@ exports.getAllInvoices = async (req, res) => {
         const allInvoices = await Invoice.find({ userId });
 
         if (!allInvoices || allInvoices.length === 0) {
-            return res.status(404).json({ message: 'No invoices found' });
+            return res.status(204).json({ message: 'No invoices found' });
         }
 
         res.status(200).json(allInvoices);
@@ -237,7 +237,7 @@ exports.searchInvoices = async (req, res) => {
         const foundInvoices = await Invoice.find(searchCriteria);
 
         if (!foundInvoices || foundInvoices.length === 0) {
-            return res.status(404).json({ message: 'No invoices found' });
+            return res.status(204).json({ message: 'No invoices found' });
         }
 
         res.status(200).json(foundInvoices);
@@ -274,6 +274,7 @@ exports.verifyInvoice = async (req, res) => {
         res.status(200).json(invoice);
     } catch (error) {
         console.log(error)
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 
@@ -308,7 +309,7 @@ exports.invoicesHook = async (req, res) => {
     }
 
     // Do something with event
-    console.log("webhook message received", event) 
+    console.log("webhook message received"/*, event*/) 
     res.status(200);
 }
 
@@ -319,7 +320,7 @@ exports.getTotalInvoiceCreated = async (req, res) => {
         const totalAmount = invoices.reduce((acc, invoice) => acc + invoice.amount, 0);
         const numberOfInvoices = invoices.length
 
-        res.json({ numberOfInvoices, totalAmount });
+        res.status(200).json({ numberOfInvoices, totalAmount });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -333,7 +334,7 @@ exports.totalCompletedPayments = async (req, res) => {
         const totalAmount = completedInvoices.reduce((acc, invoice) => acc + invoice.amountPaid, 0);
         const numberOfInvoices = completedInvoices.length
 
-        res.json({ numberOfInvoices, totalAmount });
+        res.status(200).json({ numberOfInvoices, totalAmount });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -347,7 +348,7 @@ exports.getTotalPendingPayments = async (req, res) => {
         const totalAmount = pendingPayments.reduce((acc, invoice) => acc + invoice.amount, 0);
         const numberOfInvoices = pendingPayments.length
 
-        res.json({ numberOfInvoices, totalAmount });
+        res.status(200).json({ numberOfInvoices, totalAmount });
     }
     catch (error) {
         console.error(error);

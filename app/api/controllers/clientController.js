@@ -83,7 +83,7 @@ exports.update = async (req, res) => {
     });
 
     if (!existingClient) {
-      return res.status(404).json({ message: 'Client not found' });
+      return res.status(204).json({ message: 'Client not found' });
     }
 
     // Update client details
@@ -128,7 +128,7 @@ exports.delete = async (req, res) => {
     });
 
     if (!existingClient) {
-      return res.status(404).json({ message: 'Client not found' });
+      return res.status(204).json({ message: 'Client not found' });
     }
 
     // Delete the client
@@ -150,7 +150,7 @@ exports.getAll = async (req, res) => {
     const allClients = await Client.find({ userId });
 
     if (!allClients || allClients.length === 0) {
-      return res.status(404).json({ message: 'No clients found' });
+      return res.status(204).json({ message: 'No clients found' });
     }
 
     // Map the clients to a simplified array of objects
@@ -222,7 +222,7 @@ exports.search = async (req, res) => {
     const foundClients = await Client.find(searchCriteria);
 
     if (!foundClients || foundClients.length === 0) {
-      return res.status(404).json({ message: 'No clients found' });
+      return res.status(204).json({ message: 'No clients found' });
     }
 
     const clientsArray = foundClients.map(client => ({
