@@ -8,7 +8,26 @@ function generateOTP() {
   return String(Math.floor(Math.random() * (max - min + 1) + min));
 }
 
-function sendOTP(email, otp) {
+function sendOTP({ email, time, firstname, lastname, otp, }) {
+  let msg = "Hi"
+  if (email) {
+    msg = `Hi ${email}`
+  } else if (firstname || lastname) {
+    msg = `${lastname} ${firstname}`
+  }
+
+  const invoiceData = {
+    email,
+    time: "5 minutes",
+    message: msg,
+    otp,
+  };
+
+  const htmlTemplate = fs.readFileSync(path.join(__dirname, 'otp.html'), 'utf-8');
+  const htmlContent = htmlTemplate.replace(/{{\s*(\w+)\s*}}/g, (match, p1) => {
+    return invoiceData[p1] || match;
+  });
+
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -20,8 +39,8 @@ function sendOTP(email, otp) {
   const mailOptions = {
     from: process.env.USER,
     to: email,
-    subject: 'OTP for Registration',
-    text: `Your OTP for registration is: ${otp}`,
+    subject: 'Quickinvoice (OTP for Registration)',
+    html: htmlContent
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -33,7 +52,26 @@ function sendOTP(email, otp) {
   });
 }
 
-function sendNewOTP(email, otp) {
+function sendNewOTP({ email, time, firstname, lastname, otp, }) {
+  let msg = "Hi"
+  if (email) {
+    msg = `Hi ${email}`
+  } else if (firstname || lastname) {
+    msg = `${lastname} ${firstname}`
+  }
+
+  const invoiceData = {
+    email,
+    time: "5 minutes",
+    message: msg,
+    otp,
+  };
+
+  const htmlTemplate = fs.readFileSync(path.join(__dirname, 'otp.html'), 'utf-8');
+  const htmlContent = htmlTemplate.replace(/{{\s*(\w+)\s*}}/g, (match, p1) => {
+    return invoiceData[p1] || match;
+  });
+  
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -46,7 +84,7 @@ function sendNewOTP(email, otp) {
     from: process.env.USER,
     to: email,
     subject: 'Quickinvoice (New OTP for Registration)',
-    text: `Your new OTP for registration is: ${otp}`,
+    html: htmlContent,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -130,7 +168,7 @@ function sendReceipt({ email, amountPaid, firstname, lastname, phone, invoiceNum
 
   let subject
   if (business) {
-    subject =  `Payment of ${invoiceData.amount} From ${invoiceData.lastname} ${invoiceData.firstname} [${invoiceData.invoiceNumber}]`
+    subject = `Payment of ${invoiceData.amount} From ${invoiceData.lastname} ${invoiceData.firstname} [${invoiceData.invoiceNumber}]`
   } else {
     subject = `Receipt From ${businessname}`
   }

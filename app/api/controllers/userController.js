@@ -59,7 +59,7 @@ exports.register = async (req, res) => {
     const savedUser = await newUser.save();
 
     // Send the OTP to the user's email
-    sendOTP(email, otp);
+    sendOTP({ email, otp });
 
     // Generate a token
     const token = jwt.sign({ page: 1, userId: savedUser._id }, process.env.JWT_SECRET, {
@@ -194,7 +194,7 @@ exports.resendOTP = async (req, res) => {
     await user.save();
 
     // Send the new OTP via email using the sendEmail module
-    sendEmail.sendNewOTP(user.email, newOTP);
+    sendEmail.sendNewOTP({ email: user.email, newOTP });
 
     res.status(200).json({ message: 'New OTP sent to your email' });
   } catch (error) {
