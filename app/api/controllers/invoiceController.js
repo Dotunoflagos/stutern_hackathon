@@ -13,7 +13,7 @@ exports.calculateTotal = (items) => {
     let total = 0;
 
     items.forEach(item => {
-        total += item.price;
+        total += (item.price * item.quantity);
     });
 
     return total;
@@ -30,7 +30,6 @@ exports.createInvoice = async (req, res) => {
             await invoiceCount.save();
         }
         const invoiceOwner = await Client.findById(clientId)
-
         if (!invoiceOwner) {
             return res.status(200).json({ message: 'No clients found, invoice not created' });
         }
@@ -60,11 +59,13 @@ exports.createInvoice = async (req, res) => {
             amount: invoiceTotal,
             dueDate,
             send,
-            paymentLink
+            paymentLink 
         });
 
         const savedInvoice = await newInvoice.save();
-
+        const user = await User.findById(userId)
+        savedInvoice.businessname = user.businessname
+        console.log(savedInvoice.businessname)
         // Send invoice and payment link to Client
         if (send) {
             sendinvoice(savedInvoice);

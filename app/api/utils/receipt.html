@@ -1,75 +1,396 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Receipt</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+    <title></title>
+    <!-- CSS Reset -->
+    <style>
+      /* What it does: Remove spaces around the email design added by some email clients. */
+      /* Beware: It can remove the padding / margin and add a background color to the compose a reply window. */
+      html,
+      body {
+        margin: 0 auto !important;
+        padding: 0 !important;
+        height: 100% !important;
+        width: 100% !important;
+      }
+
+      /* What it does: Stops email clients resizing small text. */
+      * {
+        -ms-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+      }
+
+      span {
+        font-size: 16px;
+        line-height: 24px;
+      }
+
+      /* What it does: Stops Outlook from adding extra spacing to tables. */
+      table,
+      td {
+        mso-table-lspace: 0pt !important;
+        mso-table-rspace: 0pt !important;
+      }
+
+      /* What it does: Fixes webkit padding issue. Fix for Yahoo mail table alignment bug. Applies table-layout to the first 2 tables then removes for anything nested deeper. */
+      table {
+        border-spacing: 0 !important;
+        border-collapse: collapse !important;
+        table-layout: fixed !important;
+        /* margin: 0 auto !important; */
+      }
+
+      table table table {
+        table-layout: auto;
+      }
+
+      /* What it does: Uses a better rendering method when resizing images in IE. */
+      img {
+        -ms-interpolation-mode: bicubic;
+      }
+
+      /* What it does: A work-around for iOS meddling in triggered links. */
+      .mobile-link--footer a,
+      a[x-apple-data-detectors] {
+        color: inherit !important;
+        text-decoration: underline !important;
+      }
+    </style>
+
+    <!-- Responsive Enhancements -->
+    <style>
+      .main {
+        padding-left: 32px;
+        padding-right: 32px;
+      }
+
+      .footer {
+        padding-left: 32px;
+        padding-right: 32px;
+      }
+
+      .info {
+        padding: 24px 24px 30px;
+      }
+
+      .socials {
+        display: flex;
+        justify-content: center;
+      }
+
+      @media (max-width: 700px) {
+        .main {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+
+        .footer {
+          padding-left: 32px;
+          padding-right: 32px;
+        }
+
+        .info {
+          padding: 32px 10px;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .footer-links {
+          display: block;
+        }
+
+        .socials {
+          display: flex;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+
+  <body
+    style="
       margin: 0;
-      padding: 20px;
-      background-color: #f4f4f4;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-    }
-    h1 {
-      text-align: center;
-    }
-    .receipt-details {
-      margin-bottom: 20px;
-    }
-    .receipt-details p {
-      margin: 5px 0;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Receipt</h1>
-    <div class="receipt-details">
-      <p>Email: {{email}}</p>
-      <p>Name: {{firstname}} {{lastname}}</p>
-      <p>Phone: {{phone}}</p>
-      <p>Invoice Number: {{invoiceNumber}}</p>
-      <p>Product: {{product}}</p>
-      <p>Total: NGN {{amount}}</p>
-      <p>Payment Date: {{paymentDate}}</p>
-      <p>Payment Method: {{paymentMethod}}</p>
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #f4f7fb;
+      color: #000000;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 27px;
+    "
+  >
+    <!-- Visually Hidden Preheader Text : BEGIN -->
+    <div
+      style="
+        display: none;
+        font-size: 1px;
+        line-height: 1px;
+        max-height: 0px;
+        max-width: 0px;
+        opacity: 0;
+        overflow: hidden;
+        mso-hide: all;
+        font-family: Inter, sans-serif;
+      "
+    >
+      Credit Alert
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Item</th>
-          <th>Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{product}}</td>
-          <td>${{amount}}</td>
-        </tr>
-        <!-- Add more rows if needed for multiple items -->
-      </tbody>
+    <!-- Visually Hidden Preheader Text : END -->
+    <table
+      role="presentation"
+      style="
+        width: 95%;
+        max-width: 660px;
+        border-collapse: collapse;
+        border: 0;
+        border-spacing: 0;
+        background-color: white;
+        margin: 55px auto;
+        height: fit-content;
+        font-family: 'DM Sans', sans-serif;
+      "
+    >
+      <!-- Email Header : BEGIN -->
+      <tr>
+        <td class="main" style="padding-top: 40px">
+          <table
+            cellspacing="0"
+            cellpadding="0"
+            border="0"
+            align="left"
+            width="100%"
+            class="email-container"
+          >
+            <tr>
+              <td>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="50"
+                  height="51"
+                  viewBox="0 0 40 41"
+                  fill="none"
+                >
+                  <path
+                    d="M18.9772 28C18.9772 28 21.4772 28 22.9999 26.7727C24.5226 25.5454 25.3692 23.6193 25.3692 23.6193L25.659 26.159L30.159 31.2727H38.9999L38.9317 39.7727H26.2044L22.1135 33.5227L20.6817 29.5L18.9772 28ZM35.9544 18.3181C35.9544 22.2045 35.1987 25.4829 33.6874 28.1534C32.176 30.8125 30.1362 32.8295 27.5681 34.2045C24.9999 35.5681 22.1362 36.25 18.9772 36.25C15.7953 36.25 12.9203 35.5625 10.3522 34.1875C7.79533 32.8011 5.76124 30.7784 4.24988 28.1193C2.74988 25.4488 1.99988 22.1818 1.99988 18.3181C1.99988 14.4318 2.74988 11.159 4.24988 8.49996C5.76124 5.8295 7.79533 3.81246 10.3522 2.44882C12.9203 1.07382 15.7953 0.386322 18.9772 0.386322C22.1362 0.386322 24.9999 1.07382 27.5681 2.44882C30.1362 3.81246 32.176 5.8295 33.6874 8.49996C35.1987 11.159 35.9544 14.4318 35.9544 18.3181ZM26.2044 18.3181C26.2044 16.2272 25.926 14.4659 25.3692 13.0341C24.8237 11.5909 24.0112 10.5 22.9317 9.76132C21.8635 9.01132 20.5453 8.63632 18.9772 8.63632C17.409 8.63632 16.0851 9.01132 15.0056 9.76132C13.9374 10.5 13.1249 11.5909 12.5681 13.0341C12.0226 14.4659 11.7499 16.2272 11.7499 18.3181C11.7499 20.409 12.0226 22.1761 12.5681 23.6193C13.1249 25.0511 13.9374 26.142 15.0056 26.892C16.0851 27.6306 17.409 28 18.9772 28C20.5453 28 21.8635 27.6306 22.9317 26.892C24.0112 26.142 24.8237 25.0511 25.3692 23.6193C25.926 22.1761 26.2044 20.409 26.2044 18.3181Z"
+                    fill="#4263EB"
+                  />
+                </svg>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- Email Header : END -->
+
+      <!-- Email Body : BEGIN -->
+      <tr>
+        <td class="main" style="padding-top: 5px; padding-bottom: 40px">
+          <table
+            style="border-collapse: collapse; border: 0; border-spacing: 0"
+          >
+            <tr>
+              <td>
+                <table
+                  style="
+                    border-collapse: collapse;
+                    border: 0;
+                    border-spacing: 0;
+                  "
+                >
+                  <tr >
+                    <div class="receipt-details" style="
+                          display: block;
+                          font-size: 17px;
+                          font-weight: 400;
+                          margin: 31px 0 0;
+                          color: #868e96;
+                        ">
+                      <p>Email: {{email}} <br>
+                      Name: {{firstname}} {{lastname}} <br>
+                      Phone: {{phone}} <br>
+                      Invoice Number: {{invoiceNumber}} <br>
+                      Total: NGN{{amount}} <br>
+                      Payment Date: {{paymentDate}} <br>
+                      Payment Method: {{paymentMethod}}</p>
+                    </div>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr style="color: #495057">
+              <td>
+                <table
+                  style="
+                    border-collapse: collapse;
+                    border: 0;
+                    border-spacing: 0;
+                    width: 100%;
+                  "
+                >
+                  <tr>
+                    <td>
+                      <span
+                        style="
+                          display: block;
+                          margin: 35px 0 0;
+                          color: #868e96;
+                          font-weight: 600;
+                        "
+                      >
+                        Receipt Summary
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+                <table
+                  style="
+                    border-collapse: collapse;
+                    border: 0;
+                    border-spacing: 0;
+                    width: 100%;
+                    margin-top: 32px;
+                  "
+                >
+                  <tr>
+                    <td
+                      class="linfo"
+                      style="border-radius: 12px; margin-top: 14px"
+                    >
+                      <table
+                        style="
+                          border-collapse: collapse;
+                          border: 0;
+                          border-spacing: 0;
+                          width: 100%;
+                        "
+                      >
+                        <tr style="background: #e9ecef">
+                          <td
+                            style="
+                              font-weight: 600;
+                              text-align: left;
+                              padding: 10px;
+                            "
+                          >
+                            Quantity
+                          </td>
+                          <td style="text-align: left; font-weight: 600">
+                            Product
+                          </td>
+                          <td style="text-align: center; font-weight: 600">
+                            Amount
+                          </td>
+                        </tr>
+                        {{ tr }}
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+
+                <table
+                  style="
+                    border-collapse: collapse;
+                    border: 0;
+                    border-spacing: 0;
+                    width: 100%;
+                  "
+                >
+                  <tr>
+                    <td
+                      style="
+                        padding-top: 40px;
+                        text-align: left;
+                        padding-left: 20px;
+                        color: black;
+                        font-weight: 600;
+                        font-size: 20px;
+                      "
+                    >
+                      Total
+                    </td>
+
+                    <td
+                      style="
+                        text-align: right;
+                        font-weight: 600;
+                        padding-top: 40px;
+                        padding-right: 20px;
+                        color: black;
+                        font-size: 20px;
+                      "
+                    >
+                      NGN{{ amount }}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <table
+                  style="
+                    border-collapse: collapse;
+                    border: 0;
+                    border-spacing: 0;
+                    margin-top: 20px;
+                  "
+                >
+                  <!-- <tr>
+                    <td style="margin: 0">
+                      <span
+                        style="
+                          display: block;
+                          margin: 5px 0 0;
+                          text-align: center;
+                        "
+                      >
+                        <a
+                          href="{{ paymentLink }}"
+                          style="
+                            display: block;
+                            text-decoration: none;
+                            text-align: center;
+                            padding: 15px;
+                            width: 154px;
+                            background: #5c7cfa;
+                            border: none;
+                            border-radius: 8px;
+                            margin-top: 24px;
+                            cursor: pointer;
+                          "
+                        >
+                          <span
+                            style="
+                              font-size: 16px;
+                              font-weight: 700;
+                              color: white;
+                            "
+                          >
+                            Make payment
+                          </span>
+                        </a>
+                      </span>
+                    </td>
+                  </tr> -->
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Email Body : END -->
     </table>
-  </div>
-</body>
+  </body>
 </html>

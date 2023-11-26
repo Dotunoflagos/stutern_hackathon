@@ -71,7 +71,7 @@ function sendNewOTP({ email, time, firstname, lastname, otp, }) {
   const htmlContent = htmlTemplate.replace(/{{\s*(\w+)\s*}}/g, (match, p1) => {
     return invoiceData[p1] || match;
   });
-  
+
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -97,15 +97,59 @@ function sendNewOTP({ email, time, firstname, lastname, otp, }) {
 }
 
 
-function sendinvoice({ email, clientId, firstname, lastname, phone, invoiceNumber, product, amount, isPaid, paymentLink }) {
+function sendinvoice({ email, dueDate, firstname, lastname, phone, invoiceNumber, product, amount, businessname, paymentLink }) {
+  const tr = `
+  <tr>
+  <td
+    style="
+      padding-top: 25px;
+      text-align: left;
+      padding-left: 10px;
+    "
+  >
+    {{ quantity }}
+  </td>
+  <td
+    style="
+      text-align: left;
+      font-weight: 400;
+      padding-top: 25px;
+    "
+  >
+    {{ name }}
+  </td>
+  <td
+    style="
+      text-align: center;
+      font-weight: 400;
+      padding-top: 25px;
+    "
+  >
+    NGN{{ price }}
+  </td>
+</tr>
+`
+  const htmlProduct = product.map((item) => {
+    let productData = {
+      "name": item.name,
+      "price": item.price,
+      "quantity": item.quantity,
+    }
+    return tr.replace(/{{\s*(\w+)\s*}}/g, (match, p1) => {
+      return productData[p1] || match;
+    });
+  })
+
   const invoiceData = {
     firstname,
     lastname,
     phone,
     invoiceNumber,
-    product,
+    tr: htmlProduct,
     amount: (Number(amount) / 100).toLocaleString('en-US'),
-    paymentLink
+    paymentLink,
+    dueDate: new Date(dueDate).toDateString(),
+    businessname
   };
 
   const htmlTemplate = fs.readFileSync(path.join(__dirname, 'invoice.html'), 'utf-8');
@@ -139,6 +183,48 @@ function sendinvoice({ email, clientId, firstname, lastname, phone, invoiceNumbe
 
 
 function sendReceipt({ email, amountPaid, firstname, lastname, phone, invoiceNumber, product, amount, paymentDate, paymentMethod, businessname }, business) {
+  const tr = `
+  <tr>
+  <td
+    style="
+      padding-top: 25px;
+      text-align: left;
+      padding-left: 10px;
+    "
+  >
+    {{ quantity }}
+  </td>
+  <td
+    style="
+      text-align: left;
+      font-weight: 400;
+      padding-top: 25px;
+    "
+  >
+    {{ name }}
+  </td>
+  <td
+    style="
+      text-align: center;
+      font-weight: 400;
+      padding-top: 25px;
+    "
+  >
+    NGN{{ price }}
+  </td>
+</tr>
+`
+  const htmlProduct = product.map((item) => {
+    let productData = {
+      "name": item.name,
+      "price": item.price,
+      "quantity": item.quantity,
+    }
+    return tr.replace(/{{\s*(\w+)\s*}}/g, (match, p1) => {
+      return productData[p1] || match;
+    });
+  })
+
   const invoiceData = {
     email,
     amountPaid,
@@ -147,10 +233,11 @@ function sendReceipt({ email, amountPaid, firstname, lastname, phone, invoiceNum
     phone,
     invoiceNumber,
     product,
-    paymentDate,
+    paymentDate: new Date(paymentDate).toDateString(),
     paymentMethod,
     businessname,
     amount: (Number(amount) / 100).toLocaleString('en-US'),
+    tr: htmlProduct
   };
 
   const htmlTemplate = fs.readFileSync(path.join(__dirname, 'receipt.html'), 'utf-8');
