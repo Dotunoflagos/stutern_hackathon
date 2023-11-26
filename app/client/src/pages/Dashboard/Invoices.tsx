@@ -23,15 +23,21 @@ import {
 import { SearchIcon } from "@chakra-ui/icons";
 import { IoIosMore } from "react-icons/io";
 import { NavLink } from "react-router-dom";
-import { useGetAllInvoice } from "../../services/query/invoice-manager";
+import {
+  useGetAllInvoice,
+  useSearchInvoice,
+} from "../../services/query/invoice-manager";
 import { Loader } from "../../components/WithSuspense";
 import { EmptyInvoice } from "../../assets";
+import { debounce } from "lodash";
+import useCustomToast from "../../utils/notification";
 
 const Invoices = () => {
-  const { data, isLoading, refetch } = useGetAllInvoice();
+  const { errorToast } = useCustomToast();
+  const { data, isLoading } = useGetAllInvoice();
   console.log(data);
   const [tableData, setTableData] = useState([]);
-  console.log(data);
+  const [searchText, setSearchText] = useState("");
 
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
@@ -45,9 +51,43 @@ const Invoices = () => {
   useEffect(() => {
     setTableData(data);
   }, [data]);
+
+  const { mutate: searchMutate, isLoading: searchLoading } = useSearchInvoice({
+    onSuccess: (res: any) => {
+      console.log(res);
+      if (searchText === "") {
+        setTableData(data);
+      } else if (res?.message === "No clients found") {
+        setTableData([]);
+      } else {
+        setTableData(res);
+      }
+    },
+    onError: (err: any) => {
+      console.log(err);
+      errorToast(err?.response?.data?.message);
+    },
+  });
+
+  const handleSearchChange = debounce(
+    (value) => {
+      searchMutate({
+        name: value,
+      });
+    },
+    2000,
+    { leading: false, trailing: true }
+  );
+
+  const searchHandler = (event: any) => {
+    const value = event.target.value;
+    setSearchText(value);
+
+    handleSearchChange(value);
+  };
   return (
     <>
-      {isLoading ? (
+      {isLoading || searchLoading ? (
         <Loader />
       ) : (
         <div>
@@ -56,7 +96,12 @@ const Invoices = () => {
               <InputLeftElement pointerEvents="none">
                 <Icon color="gray.300" as={SearchIcon} />
               </InputLeftElement>
-              <Input type="text" placeholder="Search Invoice" />
+              <Input
+                type="text"
+                placeholder="Search Invoice"
+                value={searchText}
+                onChange={searchHandler}
+              />
             </InputGroup>
             {tableData?.length > 0 ? (
               <TableContainer
@@ -110,7 +155,9 @@ const Invoices = () => {
                               <Icon as={IoIosMore} />
                             </MenuButton>
                             <MenuList>
-                              <NavLink to="/view-invoice">
+                              <NavLink
+                                to={`/view-invoice/${inv?.invoiceNumber}`}
+                              >
                                 <MenuItem>View</MenuItem>
                               </NavLink>
 

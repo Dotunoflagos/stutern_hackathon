@@ -9,5 +9,10 @@ export const CREATE_CLIENT_KEY = "create_client";
 export const DELETE_CLIENT_KEY = "delete_client";
 export const SEARCH_CLIENT_KEY = "search_client";
 
-export const GET_ALL_INVOICE_KEY = "get_invoice";
-export const CREATE_INVOICE_KEY = "Create_invoice";
+export const GET_ALL_INVOICE_KEY = "get_all_invoice";
+export const CREATE_INVOICE_KEY = "create_invoice";
+export const PENDING_INVOICE_KEY = "pending_invoice";
+export const COMPLETED_INVOICE_KEY = "completed_invoice";
+export const TOTAL_INVOICE_KEY = "total_invoice";
+export const SEARCH_INVOICE_KEY = "search_invoice";
+export const SEARCH_INVOICE_KEY_BY_ID = "search_invoice-by_id";

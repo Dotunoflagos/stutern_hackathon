@@ -4,25 +4,44 @@ import { TbGraph } from "react-icons/tb";
 import { BsCashStack } from "react-icons/bs";
 import { CiClock2 } from "react-icons/ci";
 import ReactApexChart from "react-apexcharts";
+import {
+  useGetCompletedInvoice,
+  useGetPendingInvoice,
+  useGetTotalInvoice,
+} from "../../services/query/invoice-manager";
 
 const Dashboard = () => {
+  const { data, isLoading } = useGetTotalInvoice();
+
+  const { data: pendingData, isLoading: pendingLoading } =
+    useGetPendingInvoice();
+
+  const { data: completedData, isLoading: completeLoading } =
+    useGetCompletedInvoice();
+
+  const formattedTotal = (data?.totalAmount / 100).toLocaleString();
+  const formattedPending = (pendingData?.pendingData / 100).toLocaleString();
+  const formattedCompleted = (
+    completedData?.completedData / 100
+  ).toLocaleString();
+
   const cards = [
     {
       name: "Total Invoices",
-      amount: "$93,256",
-      percent: "+5%",
+      amount: formattedTotal === "NaN" ? "0" : formattedTotal,
+      percent: data?.numberOfInvoices,
       icon: TbFileInvoice,
     },
     {
       name: "Completed payments",
-      amount: "$93,256",
-      percent: "+5%",
+      amount: formattedPending === "NaN" ? "0" : formattedPending,
+      percent: data?.numberOfInvoices,
       icon: BsCashStack,
     },
     {
       name: "Pending payments",
-      amount: "$93,256",
-      percent: "+5%",
+      amount: formattedCompleted === "NaN" ? "0" : formattedCompleted,
+      percent: data?.numberOfInvoices,
       icon: CiClock2,
     },
   ];
@@ -84,7 +103,7 @@ const Dashboard = () => {
                       {card.name}
                     </Text>
                     <Text fontSize={"18px"} fontWeight={"600"}>
-                      {card.amount}
+                      NGN {card.amount}
                     </Text>
                   </Flex>
                   <Flex
@@ -97,7 +116,7 @@ const Dashboard = () => {
                     alignItems={"center"}
                     gap="2px"
                   >
-                    <Icon as={TbGraph} /> {card.percent}Today
+                    <Icon as={TbGraph} /> +{card.percent} Today
                   </Flex>
                 </Flex>
               </Box>
