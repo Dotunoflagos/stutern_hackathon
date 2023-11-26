@@ -114,47 +114,47 @@ export const customTheme = extendTheme({
         },
       },
     },
-    Button: {
-      variants: {
-        primary: {
-          bgColor: "transparent",
-          size: "sm",
-          color: "lightMode.white",
-          fontWeight: "700",
-          _hover: {
-            bgColor: "transparent",
-          },
-          _focus: {
-            bgColor: "transparent",
-          },
-          _active: {
-            bgColor: "transparent",
-          },
-        },
-        blue: {
-          bgColor: "primary.700",
-          size: "md",
-          color: "lightMode.white",
-          fontWeight: "700",
-          _hover: {
-            bgColor: "primary.500",
-          },
-          _focus: {
-            bgColor: "primary.700",
-          },
-          _active: {
-            bgColor: "primary.700",
-          },
-        },
-        danger: {
-          bgColor: "red.500",
-          color: "#f3f3f3",
-        },
-      },
-      defaultProps: {
-        variant: "primary",
-      },
-    },
+    // Button: {
+    //   variants: {
+    //     primary: {
+    //       bgColor: "primary.700",
+    //       size: "sm",
+    //       color: "lightMode.white",
+    //       fontWeight: "700",
+    //       _hover: {
+    //         bgColor: "transparent",
+    //       },
+    //       _focus: {
+    //         bgColor: "transparent",
+    //       },
+    //       _active: {
+    //         bgColor: "transparent",
+    //       },
+    //     },
+    //     blue: {
+    //       bgColor: "primary.700",
+    //       size: "md",
+    //       color: "lightMode.white",
+    //       fontWeight: "700",
+    //       _hover: {
+    //         bgColor: "primary.500",
+    //       },
+    //       _focus: {
+    //         bgColor: "primary.700",
+    //       },
+    //       _active: {
+    //         bgColor: "primary.700",
+    //       },
+    //     },
+    //     danger: {
+    //       bgColor: "red.500",
+    //       color: "#f3f3f3",
+    //     },
+    //   },
+    //   defaultProps: {
+    //     variant: "primary",
+    //   },
+    // },
   },
   
 });

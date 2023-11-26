@@ -46,14 +46,17 @@ const PersonalInfo = () => {
     {
       title: "Personal Information",
       description: "Provide information about your self",
+      stepIndex: 1,
     },
     {
       title: "Business Information",
       description: "Provide information about your business",
+      stepIndex: 2,
     },
     {
       title: "Get Started",
       description: "Review information provided and confirm",
+      stepIndex: 3,
     },
   ];
 
@@ -154,10 +157,18 @@ const PersonalInfo = () => {
                   </StepIndicator>
 
                   <Box flexShrink="0">
-                    <Text fontSize="16px" color="#ADB5BD">
+                    <Text 
+                      fontSize="16px" 
+                      fontWeight={"500"}
+                      color={"grey.700"}
+                    >
                       {step.title}
                     </Text>
-                    <Text fontSize="12px" color="#ADB5BD">
+                    <Text 
+                      fontSize="12px" 
+                      fontWeight={"400"}
+                      color={"grey.500"}
+                    >
                       {step.description}
                     </Text>
                   </Box>
@@ -208,7 +219,7 @@ const PersonalInfo = () => {
                   justifyContent={"space-between"}
                 >
                   <Stack>
-                    <Text color="#868E96" fontSize={"14px"}>
+                    <Text color="grey.600" fontSize={"14px"}>
                       Profile Picture
                     </Text>
                     <Box
@@ -228,7 +239,7 @@ const PersonalInfo = () => {
                     bg={"#EDF2FF"}
                     color={"#5C7CFA"}
                     _hover={{
-                      bg: "blue.500",
+                      bg: "primary.500",
                       color: "white",
                     }}
                     w="fit-content"
@@ -242,10 +253,13 @@ const PersonalInfo = () => {
 
                 <Stack spacing={4} mt="20px">
                   <FormControl id="name">
-                    <FormLabel color="#868E96" fontSize="14px">
+                    <FormLabel fontWeight={"400"} color="grey.600" fontSize="14px">
                       First Name
                     </FormLabel>
                     <Input
+                      height={"3rem"}
+                      borderRadius={"0.5rem"}
+                      focusBorderColor="primary.500"
                       type="text"
                       size="sm"
                       placeholder="First First Name"
@@ -254,10 +268,13 @@ const PersonalInfo = () => {
                     />
                   </FormControl>
                   <FormControl id="email">
-                    <FormLabel color="#868E96" fontSize="14px">
+                    <FormLabel fontWeight={"400"} color="grey.600" fontSize="14px">
                       Last Name
                     </FormLabel>
                     <Input
+                      height={"3rem"}
+                      borderRadius={"0.5rem"}
+                      focusBorderColor="primary.500"
                       type="text"
                       size="sm"
                       placeholder="Enter Last Name"
@@ -266,10 +283,13 @@ const PersonalInfo = () => {
                     />
                   </FormControl>
                   <FormControl id="address">
-                    <FormLabel color="#868E96" fontSize="14px">
+                    <FormLabel fontWeight={"400"} color="grey.600" fontSize="14px">
                       Phone Number
                     </FormLabel>
                     <Input
+                      height={"3rem"}
+                      borderRadius={"0.5rem"}
+                      focusBorderColor="primary.500"
                       type="text"
                       size="sm"
                       placeholder="Enter phone number"
@@ -330,12 +350,15 @@ const PersonalInfo = () => {
                   </Button>
                 </Flex> */}
 
-                <Stack spacing={4} mt="20px">
+                <Stack spacing={"1.5rem"} mt="20px">
                   <FormControl id="name">
                     <FormLabel color="#868E96" fontSize="14px">
                       Business Name
                     </FormLabel>
                     <Input
+                      height={"3rem"}
+                      borderRadius={"0.5rem"}
+                      focusBorderColor="primary.500"
                       type="text"
                       size="sm"
                       placeholder="Enter business name"
@@ -348,6 +371,9 @@ const PersonalInfo = () => {
                       Business Address
                     </FormLabel>
                     <Input
+                      height={"3rem"}
+                      borderRadius={"0.5rem"}
+                      focusBorderColor="primary.500"
                       type="text"
                       size="sm"
                       placeholder="Enter business address"
@@ -364,151 +390,170 @@ const PersonalInfo = () => {
             {stage === 3 && (
               <Stack>
                 <Stack>
-                  <Text fontSize="20px" fontWeight={"600"}>
+                  <Text color={"grey.700"} fontSize="20px" fontWeight={"600"}>
                     You’re all set!
                   </Text>
-                  <Text color="#868E96" fontSize={"14px"}>
+                  <Text color="grey.600" fontSize={"14px"}>
                     Review the information you have provided and proceed
                   </Text>
                 </Stack>
 
-                <Stack mt="10px">
+                <Stack mt="2.5rem">
                   <Heading fontSize="20px" color="#868E96">
                     Personal Information
                   </Heading>
-                  <FormControl id="name">
-                    <FormLabel color="#868E96" fontSize="14px">
-                      First Name
-                    </FormLabel>
-                    <InputGroup size="sm">
-                      <Input
-                        size="sm"
-                        type="text"
-                        border={showFullName ? "1px solid #868E96" : "none"}
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                      />
-                      <InputRightElement mr="10px">
-                        <Text
-                          fontSize={"14px"}
-                          color="#868E96"
-                          textAlign="center"
-                          onClick={() => setShowFullName(!showFullName)}
-                        >
-                          {showFullName ? "Cancel" : "Edit"}
-                        </Text>
-                      </InputRightElement>
-                    </InputGroup>
-                  </FormControl>
-                  <FormControl id="name">
-                    <FormLabel color="#868E96" fontSize="14px">
-                      Last Name
-                    </FormLabel>
-                    <InputGroup size="sm">
-                      <Input
-                        size="sm"
-                        type="text"
-                        border={showEmail ? "1px solid #868E96" : "none"}
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                      />
-                      <InputRightElement mr="10px">
-                        <Text
-                          fontSize={"14px"}
-                          color="#868E96"
-                          textAlign="center"
-                          onClick={() => setShowEmail(!showEmail)}
-                        >
-                          {showEmail ? "Cancel" : "Edit"}
-                        </Text>
-                      </InputRightElement>
-                    </InputGroup>
-                  </FormControl>
-                  <FormControl id="name">
-                    <FormLabel color="#868E96" fontSize="14px">
-                      Phone Number
-                    </FormLabel>
-                    <InputGroup size="sm">
-                      <Input
-                        size="sm"
-                        type="text"
-                        border={showPhone ? "1px solid #868E96" : "none"}
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                      />
-                      <InputRightElement mr="10px">
-                        <Text
-                          fontSize={"14px"}
-                          color="#868E96"
-                          textAlign="center"
-                          onClick={() => setShowPhone(!showPhone)}
-                        >
-                          {showPhone ? "Cancel" : "Edit"}
-                        </Text>
-                      </InputRightElement>
-                    </InputGroup>
-                  </FormControl>
+                  <Flex mt={"0.5rem"} flexDirection={"column"} gap={"1.5rem"}>
+                    <FormControl id="name">
+                      <FormLabel color="#868E96" fontSize="14px">
+                        First Name
+                      </FormLabel>
+                      <InputGroup size="sm">
+                        <Input
+                          height={"3rem"}
+                          borderRadius={"0.5rem"}
+                          focusBorderColor="primary.500"
+                          size="sm"
+                          type="text"
+                          border={showFullName ? "1px solid #868E96" : "none"}
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                        />
+                        <InputRightElement mr="1rem" mt={"0.5rem"}>
+                          <Text
+                            fontSize={"14px"}
+                            color="#868E96"
+                            textAlign="center"
+                            onClick={() => setShowFullName(!showFullName)}
+                          >
+                            {showFullName ? "Cancel" : "Edit"}
+                          </Text>
+                        </InputRightElement>
+                      </InputGroup>
+                    </FormControl>
+                    <FormControl id="name">
+                      <FormLabel color="#868E96" fontSize="14px">
+                        Last Name
+                      </FormLabel>
+                      <InputGroup size="sm">
+                        <Input
+                          height={"3rem"}
+                          borderRadius={"0.5rem"}
+                          focusBorderColor="primary.500"
+                          size="sm"
+                          type="text"
+                          border={showEmail ? "1px solid #868E96" : "none"}
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                        />
+                        <InputRightElement mr="1rem" mt={"0.5rem"}>
+                          <Text
+                            fontSize={"14px"}
+                            color="#868E96"
+                            textAlign="center"
+                            onClick={() => setShowEmail(!showEmail)}
+                          >
+                            {showEmail ? "Cancel" : "Edit"}
+                          </Text>
+                        </InputRightElement>
+                      </InputGroup>
+                    </FormControl>
+                    <FormControl id="name">
+                      <FormLabel color="#868E96" fontSize="14px">
+                        Phone Number
+                      </FormLabel>
+                      <InputGroup size="sm">
+                        <Input
+                          height={"3rem"}
+                          borderRadius={"0.5rem"}
+                          focusBorderColor="primary.500"
+                          size="sm"
+                          type="text"
+                          border={showPhone ? "1px solid #868E96" : "none"}
+                          value={phoneNumber}
+                          onChange={(e) => setPhoneNumber(e.target.value)}
+                        />
+                        <InputRightElement mr="1rem" mt={"0.5rem"}>
+                          <Text
+                            fontSize={"14px"}
+                            color="#868E96"
+                            textAlign="center"
+                            onClick={() => setShowPhone(!showPhone)}
+                          >
+                            {showPhone ? "Cancel" : "Edit"}
+                          </Text>
+                        </InputRightElement>
+                      </InputGroup>
+                    </FormControl>
+                  </Flex>
                 </Stack>
-                <Stack mt="10px">
+                <Stack mt="1.5rem">
                   <Heading fontSize="20px" color="#868E96">
                     Business Information
                   </Heading>
-                  <FormControl id="name">
-                    <FormLabel color="#868E96" fontSize="14px">
-                      Business Name
-                    </FormLabel>
-                    <InputGroup size="sm">
-                      <Input
-                        size="sm"
-                        type="text"
-                        border={
-                          showBussinessName ? "1px solid #868E96" : "none"
-                        }
-                        value={businessName}
-                        onChange={(e) => setBusinessName(e.target.value)}
-                      />
-                      <InputRightElement mr="10px">
-                        <Text
-                          fontSize={"14px"}
-                          color="#868E96"
-                          textAlign="center"
-                          onClick={() =>
-                            setShowBussinessName(!showBussinessName)
+                  <Flex mt={"0.5rem"} flexDirection={"column"} gap={"1.5rem"}>
+                    <FormControl id="name">
+                      <FormLabel color="#868E96" fontSize="14px">
+                        Business Name
+                      </FormLabel>
+                      <InputGroup size="sm">
+                        <Input
+                          height={"3rem"}
+                          borderRadius={"0.5rem"}
+                          focusBorderColor="primary.500"
+                          size="sm"
+                          type="text"
+                          border={
+                            showBussinessName ? "1px solid #868E96" : "none"
                           }
-                        >
-                          {showBussinessName ? "Cancel" : "Edit"}
-                        </Text>
-                      </InputRightElement>
-                    </InputGroup>
-                  </FormControl>
-                  <FormControl id="name">
-                    <FormLabel color="#868E96" fontSize="14px">
-                      Business Address
-                    </FormLabel>
-                    <InputGroup size="sm">
-                      <Input
-                        size="sm"
-                        type="text"
-                        border={
-                          showBusinessAddress ? "1px solid #868E96" : "none"
-                        }
-                        value={businessAddress}
-                        onChange={(e) => setBusinessAddress(e.target.value)}
-                      />
-                      <InputRightElement mr="10px">
-                        <Text
-                          fontSize={"14px"}
-                          color="#868E96"
-                          textAlign="center"
-                          onClick={() =>
-                            setShowBusinessAddress(!showBusinessAddress)
+                          value={businessName}
+                          onChange={(e) => setBusinessName(e.target.value)}
+                        />
+                        <InputRightElement mr="1rem" mt={"0.5rem"}>
+                          <Text
+                            fontSize={"14px"}
+                            color="#868E96"
+                            textAlign="center"
+                            onClick={() =>
+                              setShowBussinessName(!showBussinessName)
+                            }
+                          >
+                            {showBussinessName ? "Cancel" : "Edit"}
+                          </Text>
+                        </InputRightElement>
+                      </InputGroup>
+                    </FormControl>
+                    <FormControl id="name">
+                      <FormLabel color="#868E96" fontSize="14px">
+                        Business Address
+                      </FormLabel>
+                      <InputGroup size="sm">
+                        <Input
+                          height={"3rem"}
+                          borderRadius={"0.5rem"}
+                          focusBorderColor="primary.500"
+                          size="sm"
+                          type="text"
+                          border={
+                            showBusinessAddress ? "1px solid #868E96" : "none"
                           }
-                        >
-                          {showBusinessAddress ? "Cancel" : "Edit"}
-                        </Text>
-                      </InputRightElement>
-                    </InputGroup>
-                  </FormControl>
+                          value={businessAddress}
+                          onChange={(e) => setBusinessAddress(e.target.value)}
+                        />
+                        <InputRightElement mr="1rem" mt={"0.5rem"}>
+                          <Text
+                            fontSize={"14px"}
+                            color="#868E96"
+                            textAlign="center"
+                            onClick={() =>
+                              setShowBusinessAddress(!showBusinessAddress)
+                            }
+                          >
+                            {showBusinessAddress ? "Cancel" : "Edit"}
+                          </Text>
+                        </InputRightElement>
+                      </InputGroup>
+                    </FormControl>
+                  </Flex>
                 </Stack>
               </Stack>
             )}
@@ -516,10 +561,12 @@ const PersonalInfo = () => {
             <Flex justifyContent={"space-between"} mt="2">
               {stage > 1 ? (
                 <Button
+                  mt={"2rem"}
                   size="sm"
                   bg={"white"}
-                  border="1px solid blue"
-                  color={"blue.400"}
+                  border="1px"
+                  borderColor={"primary.600"}
+                  color={"primary.600"}
                   _hover={{
                     bg: "white",
                   }}
@@ -540,11 +587,12 @@ const PersonalInfo = () => {
               )}
               {stage !== 3 ? (
                 <Button
+                mt={"2rem"}
                   size="sm"
-                  bg={"blue.400"}
+                  bg={"primary.400"}
                   color={"white"}
                   _hover={{
-                    bg: "blue.500",
+                    bg: "primary.500",
                   }}
                   type="submit"
                   w="fit-content"
@@ -555,13 +603,14 @@ const PersonalInfo = () => {
                 </Button>
               ) : (
                 <Button
+                  mt={"2rem"}
                   size="sm"
                   loadingText="Processing..."
                   isLoading={isLoading}
-                  bg={"blue.400"}
+                  bg={"primary.400"}
                   color={"white"}
                   _hover={{
-                    bg: "blue.500",
+                    bg: "primary.500",
                   }}
                   type="submit"
                   w="fit-content"

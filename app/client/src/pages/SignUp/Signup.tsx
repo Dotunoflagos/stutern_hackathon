@@ -161,7 +161,16 @@ export default function Signup() {
               Quick Invoice
             </Text>
             <NavLink to="/login">
-              <Button fontSize="14px" bgColor="none" border="2px solid #F8F9FA">
+              <Button 
+                fontSize="14px" 
+                border="2px solid #F8F9FA"
+                color={"#F8F9FA"} 
+                bgColor="transparent" 
+                _hover={{
+                  bg: "transparent",
+                  cursor: "pointer",
+                }}
+              >
                 <Text display={["none", "block", "block", "block"]}>
                   Login to existing account
                 </Text>
