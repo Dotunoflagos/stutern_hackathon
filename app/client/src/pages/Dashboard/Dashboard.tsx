@@ -23,7 +23,7 @@ const Dashboard = () => {
 
   const { data: allInvoiceList, isLoading: invoiceLoading } =
     useGetAllInvoice();
-  // console.log(allInvoiceList);
+  console.log(allInvoiceList);
 
   const formattedTotal = (data?.totalAmount / 100).toLocaleString();
   const formattedPending = (pendingData?.pendingData / 100).toLocaleString();
@@ -51,6 +51,50 @@ const Dashboard = () => {
       icon: CiClock2,
     },
   ];
+
+  // const getLast7Days = () => {
+  //   const today = new Date();
+  //   const last7Days = Array.from({ length: 7 }, (_, index) => {
+  //     const day = new Date(today);
+  //     day.setDate(today.getDate() - index);
+  //     return day.toLocaleDateString("en-US", {
+  //       month: "short",
+  //       day: "numeric",
+  //     });
+  //   });
+  //   return last7Days.reverse();
+  // };
+
+  const processData = () => {
+    // Create an object to store the sum of amounts for each day
+    const amountsByDay: { [day: string]: number } = {};
+
+    // Process each invoice in the data
+    if (allInvoiceList?.length > 0) {
+      allInvoiceList?.forEach((invoice: any) => {
+        // Extract the day from the createdAt field
+        const day = new Date(invoice.createdAt).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        });
+
+        // Initialize the sum for the day if it doesn't exist
+        amountsByDay[day] = amountsByDay[day] || 0;
+
+        // Add the amount of the current invoice to the sum for the day
+        amountsByDay[day] += invoice.amount / 100;
+      });
+    }
+
+    // Extract the days and amounts as arrays for ApexCharts
+    const categories = Object.keys(amountsByDay);
+    const seriesData = Object.values(amountsByDay);
+
+    return { categories, seriesData };
+  };
+
+  const { categories, seriesData } = processData();
+
   return (
     <>
       {invoiceLoading || completeLoading || pendingLoading || isLoading ? (
@@ -238,21 +282,14 @@ const Dashboard = () => {
                         enabled: false,
                       },
                       xaxis: {
-                        categories: [
-                          " Jan",
-                          " Feb",
-                          " Mar",
-                          " Apr",
-                          " May",
-                          " Jun",
-                          " Jul",
-                        ],
+                        categories,
                       },
                     }}
                     series={[
                       {
-                        name: "Series 1",
-                        data: [90, 40, 65, 70, 20, 40, 50],
+                        name: "Total Amount",
+                        data: seriesData,
+                        // data: [90, 40, 65, 70, 20, 40, 50],
                       },
                     ]}
                     type="area"

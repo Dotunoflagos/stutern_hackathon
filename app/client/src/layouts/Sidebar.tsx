@@ -22,7 +22,7 @@ import { QLogo } from "../assets";
 import { MdSpaceDashboard } from "react-icons/md";
 import { TbFileInvoice } from "react-icons/tb";
 import { HiOutlineUserGroup } from "react-icons/hi2";
-import { LuSettings2 } from "react-icons/lu";
+// import { LuSettings2 } from "react-icons/lu";
 import useCustomToast from "../utils/notification";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 
@@ -35,7 +35,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Dashboard", icon: MdSpaceDashboard, path: "/dashboard" },
   { name: "Invoice", icon: TbFileInvoice, path: "/invoice" },
   { name: "Clients", icon: HiOutlineUserGroup, path: "/client" },
-  { name: "Setting", icon: LuSettings2, path: "/bb" },
+  // { name: "Setting", icon: LuSettings2, path: "/bb" },
 ];
 
 const activeStyle: React.CSSProperties = {

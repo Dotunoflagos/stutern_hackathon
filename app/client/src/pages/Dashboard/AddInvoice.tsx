@@ -173,7 +173,7 @@ const AddInvoice = () => {
         lastname: clientLastName,
         phone: clientPhone,
         email: clientEmail,
-        dueDate: "2023-11-23T12:34:56.789Z",
+        dueDate: dueDate,
         send: true,
         product: rowDataWithoutAmount,
       });
@@ -241,6 +241,7 @@ const AddInvoice = () => {
                               setClientPhone(cli?.phone);
                               setSelected(true);
                             }}
+                            cursor="pointer"
                           >
                             {cli?.firstname} {cli?.lastname}
                           </Text>
@@ -380,7 +381,7 @@ const AddInvoice = () => {
         </Flex>
 
         <Flex mt="30px" justifyContent={"flex-end"} gap="20px">
-          <Button
+          {/* <Button
             size="sm"
             bg={"white"}
             border="1px solid blue"
@@ -398,7 +399,7 @@ const AddInvoice = () => {
             fontWeight={"500"}
           >
             Save as draft
-          </Button>
+          </Button> */}
           <Button
             size="sm"
             bg={"blue.400"}

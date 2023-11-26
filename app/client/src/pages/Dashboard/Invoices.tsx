@@ -160,8 +160,7 @@ const Invoices = () => {
                               >
                                 <MenuItem>View</MenuItem>
                               </NavLink>
-
-                              <MenuItem>Edit</MenuItem>
+                              {/* <MenuItem>Edit</MenuItem> */}
                               <MenuItem color="red">Archive</MenuItem>
                             </MenuList>
                           </Menu>

@@ -413,7 +413,7 @@ const ViewInvoice = () => {
                             fontSize="20px"
                             fontWeight="600"
                           >
-                            NGN {info?.amount}
+                            NGN {info?.amount / 100}
                           </Text>
                         </Flex>
                       </Box>
