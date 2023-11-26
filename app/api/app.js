@@ -10,6 +10,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],
     origin: '*'
 }));
+app.set('view engine', 'ejs');
 require('dotenv').config();
 require('./config/connection');
 

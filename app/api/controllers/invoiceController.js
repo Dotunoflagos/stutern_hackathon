@@ -65,7 +65,7 @@ exports.createInvoice = async (req, res) => {
         const savedInvoice = await newInvoice.save();
         const user = await User.findById(userId)
         savedInvoice.businessname = user.businessname
-        console.log(savedInvoice.businessname)
+        // console.log(savedInvoice.businessname)
         // Send invoice and payment link to Client
         if (send) {
             sendinvoice(savedInvoice);
@@ -272,7 +272,7 @@ exports.verifyInvoice = async (req, res) => {
             invoice.email = smallbusiness.email
             sendReceipt(invoice, "business")
         }
-        res.status(200).json(invoice);
+        res.status(200).render('index')/*.json(invoice)*/;
     } catch (error) {
         console.log(error)
         res.status(500).json({ error: 'Internal Server Error' });
