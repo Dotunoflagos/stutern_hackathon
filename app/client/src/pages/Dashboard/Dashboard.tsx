@@ -47,7 +47,7 @@ const Dashboard = () => {
   return (
     <>
       {/* <Header name={name} /> */}
-      <Box mt="10px">
+      <Box mt="2rem">
         <Box>
           <Flex
             justifyContent={"space-between"}

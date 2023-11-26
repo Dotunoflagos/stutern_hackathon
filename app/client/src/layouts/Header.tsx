@@ -36,7 +36,12 @@ const Header = ({ onOpen, ...rest }: Props) => {
         {...rest}
       >
         <Box mt={["20px", "0", "0", "0"]}>
-          <Text fontSize={["16px", "20px", "24px", "24px"]} fontWeight="600">
+          <Text 
+            fontSize={["16px", "20px", "24px", "24px"]} 
+            fontWeight="600"
+            color={"grey.700"}
+            mb={"0.2rem"}
+          >
             {pathname === "/dashboard" && `${name}`}
             {pathname === "/client" && "Client List"}
             {pathname === "/invoice" && "Invoices"}
@@ -44,7 +49,7 @@ const Header = ({ onOpen, ...rest }: Props) => {
           <Text
             fontSize={["12px", "14px", "16px", "16px"]}
             fontWeight="400"
-            color="#868E96"
+            color="grey.600"
           >
             {pathname === "/view-invoice" && "/add-invoice"
               ? "< Back to invoice"
@@ -66,7 +71,11 @@ const Header = ({ onOpen, ...rest }: Props) => {
           <Button
             leftIcon={<AddIcon />}
             size="xs"
-            colorScheme="blue"
+            color={"white"}
+            bgColor={"primary.700"}
+            _hover={{
+              bg: "primary.500",
+            }}
             variant="solid"
             fontSize="12px"
             onClick={onOpen}

@@ -11,90 +11,12 @@ export const customTheme = extendTheme({
     heading: "Inter",
     body: "Inter",
   },
-
-  config,
-  components: {
-    Form: {
-      variants: {
-        floating: {
-          container: {
-            _focusWithin: {
-              label: {
-                transform: "scale(0.85) translateY(-24px)",
-                color: "#000000",
-                borderRadius: "5px",
-              },
-            },
-            "input:not(:placeholder-shown) + label, .chakra-select__wrapper + label":
-              {
-                transform: "scale(0.85) translateY(-24px)",
-                color: "#000000",
-                borderRadius: "5px",
-              },
-            label: {
-              color: "#C4C4C4",
-              top: 0,
-              left: 0,
-              zIndex: 2,
-              position: "absolute",
-              backgroundColor: "white",
-              pointerEvents: "none",
-              mx: 3,
-              px: 1,
-              my: 2,
-              transformOrigin: "left top",
-            },
-          },
-        },
-      },
-    },
-    Button: {
-      variants: {
-        primary: {
-          bgColor: "lightMode.btnBgColor",
-          size: "sm",
-          color: "lightMode.white",
-          fontWeight: "700",
-          _hover: {
-            bgColor: "lightMode.btnBgColor",
-          },
-          _focus: {
-            bgColor: "lightMode.btnBgColor",
-          },
-          _active: {
-            bgColor: "lightMode.btnBgColor",
-          },
-        },
-        blue: {
-          bgColor: "lightMode.gray",
-          size: "md",
-          color: "lightMode.white",
-          fontWeight: "700",
-          _hover: {
-            bgColor: "lightMode.blue",
-          },
-          _focus: {
-            bgColor: "lightMode.blue",
-          },
-          _active: {
-            bgColor: "lightMode.blue",
-          },
-        },
-        danger: {
-          bgColor: "red.500",
-          color: "#f3f3f3",
-        },
-      },
-      defaultProps: {
-        variant: "primary",
-      },
-    },
-  },
   colors: {
     // ADDED THEME COLORS
     primary: {
       400: "#748FFC",
       500: "#5C7CFA",
+      600: "#4C6EF5",
       700: "#4263E8",
     },
     secondary: {
@@ -156,4 +78,83 @@ export const customTheme = extendTheme({
       labelBgColor: "#7BB4E3",
     },
   },
+  config,
+  components: {
+    Form: {
+      variants: {
+        floating: {
+          container: {
+            _focusWithin: {
+              label: {
+                transform: "scale(0.85) translateY(-24px)",
+                color: "#000000",
+                borderRadius: "5px",
+              },
+            },
+            "input:not(:placeholder-shown) + label, .chakra-select__wrapper + label":
+              {
+                transform: "scale(0.85) translateY(-24px)",
+                color: "#000000",
+                borderRadius: "5px",
+              },
+            label: {
+              color: "#C4C4C4",
+              top: 0,
+              left: 0,
+              zIndex: 2,
+              position: "absolute",
+              backgroundColor: "white",
+              pointerEvents: "none",
+              mx: 3,
+              px: 1,
+              my: 2,
+              transformOrigin: "left top",
+            },
+          },
+        },
+      },
+    },
+    Button: {
+      variants: {
+        primary: {
+          bgColor: "transparent",
+          size: "sm",
+          color: "lightMode.white",
+          fontWeight: "700",
+          _hover: {
+            bgColor: "transparent",
+          },
+          _focus: {
+            bgColor: "transparent",
+          },
+          _active: {
+            bgColor: "transparent",
+          },
+        },
+        blue: {
+          bgColor: "primary.700",
+          size: "md",
+          color: "lightMode.white",
+          fontWeight: "700",
+          _hover: {
+            bgColor: "primary.500",
+          },
+          _focus: {
+            bgColor: "primary.700",
+          },
+          _active: {
+            bgColor: "primary.700",
+          },
+        },
+        danger: {
+          bgColor: "red.500",
+          color: "#f3f3f3",
+        },
+      },
+      defaultProps: {
+        variant: "primary",
+      },
+    },
+  },
+  
 });

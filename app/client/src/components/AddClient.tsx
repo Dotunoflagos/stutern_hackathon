@@ -96,7 +96,7 @@ export default function AddClient() {
                 justifyContent={"space-between"}
               >
                 <Stack>
-                  <Text color="#868E96" fontSize={"14px"}>
+                  <Text color="grey.700" fontWeight={"500"} fontSize={"14px"}>
                     Profile Picture
                   </Text>
                   <Box
@@ -107,30 +107,41 @@ export default function AddClient() {
                     border="1px solid #DEE2E6"
                   ></Box>
                 </Stack>
-                <Button
-                  loadingText="Submitting"
-                  size="sm"
-                  bg={"#EDF2FF"}
-                  color={"#5C7CFA"}
-                  _hover={{
-                    bg: "blue.500",
-                    color: "white",
-                  }}
-                  w="fit-content"
-                  fontWeight={"400"}
-                  fontSize={"12px"}
-                  onClick={() => infoToast("Currently Unavailable", 3000)}
-                >
-                  Click to upload
-                </Button>
+                <Flex flexDirection={"column"} justifyContent={"flex-start"} alignItems={"flex-end"} gap={"0.5rem"}>
+                  <Button
+                    loadingText="Submitting"
+                    size="sm"
+                    bg={"white"}
+                    border={"2px"}
+                    borderColor={"primary.600"}
+                    borderRadius={"0.375rem"}
+                    color={"primary.600"}
+                    _hover={{
+                      bg: "primary.600",
+                      color: "white",
+                    }}
+                    w="fit-content"
+                    fontWeight={"400"}
+                    fontSize={"12px"}
+                    onClick={() => infoToast("Currently Unavailable", 3000)}
+                  >
+                    Click to upload
+                  </Button>
+                  <Text color="grey.500" fontWeight={"400"} fontSize={"0.75rem"} textAlign={"right"}>
+                    Maximum file size: 5MB
+                  </Text>
+                </Flex>
               </Flex>
 
               <Stack spacing={4} mt="20px">
                 <FormControl id="name">
-                  <FormLabel color="#868E96" fontSize="14px">
+                  <FormLabel color="grey.700" fontWeight={"500"} fontSize="14px">
                     First Name
                   </FormLabel>
                   <Input
+                    h="2.6rem"
+                    borderRadius="0.5rem"
+                    // border="1px solid grey.300"
                     type="text"
                     size="sm"
                     placeholder="First First Name"
@@ -139,10 +150,13 @@ export default function AddClient() {
                   />
                 </FormControl>
                 <FormControl id="name">
-                  <FormLabel color="#868E96" fontSize="14px">
+                  <FormLabel color="grey.700" fontWeight={"500"} fontSize="14px">
                     Last Name
                   </FormLabel>
                   <Input
+                    h="2.6rem"
+                    borderRadius="0.5rem"
+                    // border="1px solid grey.300"
                     type="text"
                     size="sm"
                     placeholder="Enter Last Name"
@@ -151,10 +165,13 @@ export default function AddClient() {
                   />
                 </FormControl>
                 <FormControl id="address">
-                  <FormLabel color="#868E96" fontSize="14px">
+                  <FormLabel color="grey.700" fontWeight={"500"} fontSize="14px">
                     Phone Number
                   </FormLabel>
                   <Input
+                    h="2.6rem"
+                    borderRadius="0.5rem"
+                    // border="1px solid grey.300"
                     type="text"
                     size="sm"
                     placeholder="Enter phone number"
@@ -163,10 +180,13 @@ export default function AddClient() {
                   />
                 </FormControl>
                 <FormControl id="address">
-                  <FormLabel color="#868E96" fontSize="14px">
+                  <FormLabel color="grey.700" fontWeight={"500"} fontSize="14px">
                     Email address
                   </FormLabel>
                   <Input
+                    h="2.6rem"
+                    borderRadius="0.5rem"
+                    // border="1px solid grey.300"
                     type="text"
                     size="sm"
                     placeholder="Enter email address"
@@ -175,10 +195,13 @@ export default function AddClient() {
                   />
                 </FormControl>
                 <FormControl id="address">
-                  <FormLabel color="#868E96" fontSize="14px">
+                  <FormLabel color="grey.700" fontWeight={"500"} fontSize="14px">
                     Address
                   </FormLabel>
                   <Input
+                    h="2.6rem"
+                    borderRadius="0.5rem"
+                    // border="1px solid grey.300"
                     type="text"
                     size="sm"
                     placeholder="Enter email address"
@@ -195,14 +218,14 @@ export default function AddClient() {
               size="sm"
               loadingText="Creating..."
               isLoading={isLoading}
-              bg={"blue.400"}
+              bg={"primary.400"}
               color={"white"}
               _hover={{
-                bg: "blue.500",
+                bg: "primary.500",
               }}
               type="submit"
               w="fit-content"
-              fontWeight={"400"}
+              fontWeight={"600"}
               onClick={handleSubmit}
             >
               Create client

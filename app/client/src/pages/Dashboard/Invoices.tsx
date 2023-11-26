@@ -42,7 +42,7 @@ const Invoices = () => {
           borderRadius="10px"
         >
           <Table variant="unstyled">
-            <Thead bgColor="#F8F9FA">
+            <Thead bgColor="#F8F9FA" color={"grey.700"}>
               <Tr>
                 <Th fontSize="10px">Invoice ID</Th>
                 <Th fontSize="10px">Client name</Th>
