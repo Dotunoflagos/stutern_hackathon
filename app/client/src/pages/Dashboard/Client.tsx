@@ -83,7 +83,7 @@ const Client = () => {
         name: value,
       });
     },
-    1000,
+    2000,
     { leading: false, trailing: true }
   );
 

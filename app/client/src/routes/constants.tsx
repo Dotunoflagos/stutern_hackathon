@@ -10,4 +10,5 @@ export const PRIVATE_PATHS = {
   CLIENT: "/client",
   INVOICE: "/invoice",
   VIEW_INVOICE: "/view-invoice",
+  ADD_INVOICE: "/add-invoice",
 };

@@ -6,7 +6,7 @@ import { AppRoute } from "../types";
 
 const { LOGIN, HOME, SIGNUP, PERSONALINFO } = PUBLIC_PATHS;
 
-const { DASHBOARD, CLIENT, INVOICE, VIEW_INVOICE } = PRIVATE_PATHS;
+const { DASHBOARD, CLIENT, INVOICE, VIEW_INVOICE, ADD_INVOICE } = PRIVATE_PATHS;
 
 const Home = WithSuspense(lazy(() => import("../pages/Home/Home")));
 const Dashboard = WithSuspense(
@@ -21,6 +21,9 @@ const Client = WithSuspense(lazy(() => import("../pages/Dashboard/Client")));
 const Invoice = WithSuspense(lazy(() => import("../pages/Dashboard/Invoices")));
 const ViewInvoice = WithSuspense(
   lazy(() => import("../pages/Dashboard/ViewInvoice"))
+);
+const AddInvoice = WithSuspense(
+  lazy(() => import("../pages/Dashboard/AddInvoice"))
 );
 
 export const PUBLIC_ROUTES: AppRoute[] = [
@@ -39,6 +42,7 @@ export const PRIVATE_ROUTES: AppRoute[] = [
   { path: CLIENT, element: <Client /> },
   { path: INVOICE, element: <Invoice /> },
   { path: VIEW_INVOICE, element: <ViewInvoice /> },
+  { path: ADD_INVOICE, element: <AddInvoice /> },
 
   { path: "*", element: <Navigate to="/dashboard" replace /> },
 ];

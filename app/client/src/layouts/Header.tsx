@@ -2,7 +2,7 @@ import { Box, Button, Flex, FlexProps, Icon, Text } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { useState, useEffect } from "react";
 import { CiBellOn } from "react-icons/ci";
-import { useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 interface Props extends FlexProps {
   onOpen?: () => void;
@@ -46,8 +46,8 @@ const Header = ({ onOpen, ...rest }: Props) => {
             fontWeight="400"
             color="#868E96"
           >
-            {pathname === "/view-invoice" && "/add-invoice"
-              ? "< Back to invoice"
+            {pathname === "/view-invoice" || pathname === "/add-invoice"
+              ? ""
               : "Review the information you have provided and proceed"}
           </Text>
         </Box>
@@ -63,16 +63,31 @@ const Header = ({ onOpen, ...rest }: Props) => {
           >
             <Icon as={CiBellOn} />
           </Flex>
-          <Button
-            leftIcon={<AddIcon />}
-            size="xs"
-            colorScheme="blue"
-            variant="solid"
-            fontSize="12px"
-            onClick={onOpen}
-          >
-            New invoice
-          </Button>
+          {pathname === "/client" && (
+            <Button
+              leftIcon={<AddIcon />}
+              size="xs"
+              colorScheme="blue"
+              variant="solid"
+              fontSize="12px"
+              onClick={onOpen}
+            >
+              New Client
+            </Button>
+          )}
+          {pathname !== "/client" && (
+            <NavLink to="/add-invoice">
+              <Button
+                leftIcon={<AddIcon />}
+                size="xs"
+                colorScheme="blue"
+                variant="solid"
+                fontSize="12px"
+              >
+                New Invoice
+              </Button>
+            </NavLink>
+          )}
         </Flex>
       </Flex>
     </div>

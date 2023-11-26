@@ -9,4 +9,5 @@ export const CREATE_CLIENT = "/ceateClient";
 export const DELETE_CLIENT = "/deleteClient";
 export const SEARCH_CLIENT = "/searchClient";
 
-export const GET_ALL_INVOICE = "/total";
+export const GET_ALL_INVOICE = "/getAllInvoices";
+export const CREATE_INVOICE = "/createInvoice";
