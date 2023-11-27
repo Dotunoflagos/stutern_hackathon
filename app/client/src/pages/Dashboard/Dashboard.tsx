@@ -58,13 +58,13 @@ const Dashboard = () => {
     },
     {
       name: "Completed payments",
-      amount: formattedPending === "NaN" ? "0" : formattedPending,
+      amount: formattedCompleted === "NaN" ? "0" : formattedCompleted,
       percent: pendingData?.numberOfInvoices,
       icon: BsCashStack,
     },
     {
       name: "Pending payments",
-      amount: formattedCompleted === "NaN" ? "0" : formattedCompleted,
+      amount: formattedPending === "NaN" ? "0" : formattedPending,
       percent: completedData?.numberOfInvoices,
       icon: CiClock2,
     },
