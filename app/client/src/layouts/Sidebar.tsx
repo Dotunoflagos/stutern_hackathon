@@ -74,7 +74,12 @@ export default function Sidebar({ children }: { children: ReactNode }) {
       </Drawer>
       {/* mobilenav */}
       <Navbar onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4" position="relative">
+      <Box
+        ml={{ base: 0, md: 60 }}
+        py={["4", "4", "4", "4"]}
+        px={["4", "4", "4", "30px"]}
+        position="relative"
+      >
         <Box>{children}</Box>
       </Box>
       {/* <Footer /> */}
@@ -136,7 +141,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         window.removeEventListener(item, resetTimer);
       });
 
-      // logout();
+      logout();
     }, 300000);
   };
   const resetTimer = () => {
