@@ -44,9 +44,9 @@ const Dashboard = () => {
   }, [data]);
 
   const formattedTotal = (data?.totalAmount / 100).toLocaleString();
-  const formattedPending = (pendingData?.pendingData / 100).toLocaleString();
+  const formattedPending = (pendingData?.totalAmount / 100).toLocaleString();
   const formattedCompleted = (
-    completedData?.completedData / 100
+    completedData?.totalAmount / 100
   ).toLocaleString();
 
   const cards = [
@@ -59,13 +59,13 @@ const Dashboard = () => {
     {
       name: "Completed payments",
       amount: formattedPending === "NaN" ? "0" : formattedPending,
-      percent: data?.numberOfInvoices,
+      percent: pendingData?.numberOfInvoices,
       icon: BsCashStack,
     },
     {
       name: "Pending payments",
       amount: formattedCompleted === "NaN" ? "0" : formattedCompleted,
-      percent: data?.numberOfInvoices,
+      percent: completedData?.numberOfInvoices,
       icon: CiClock2,
     },
   ];
