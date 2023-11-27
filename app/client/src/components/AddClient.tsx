@@ -89,16 +89,17 @@ export default function AddClient() {
           <DrawerHeader>Add a new Client</DrawerHeader>
 
           <DrawerBody mt="-10px">
-            <Stack mt="-20px">
+            <Stack>
+              <Text color="grey.700" fontWeight={"500"} fontSize={"14px"}>
+                Profile Picture
+              </Text>
               <Flex
-                mt="20px"
+                // mt="20px"
                 alignItems={"center"}
                 justifyContent={"space-between"}
+                // border="3px solid red"
               >
                 <Stack>
-                  <Text color="grey.700" fontWeight={"500"} fontSize={"14px"}>
-                    Profile Picture
-                  </Text>
                   <Box
                     w="96px"
                     h="96px"
@@ -107,7 +108,12 @@ export default function AddClient() {
                     border="1px solid #DEE2E6"
                   ></Box>
                 </Stack>
-                <Flex flexDirection={"column"} justifyContent={"flex-start"} alignItems={"flex-end"} gap={"0.5rem"}>
+                <Flex
+                  flexDirection={"column"}
+                  justifyContent={"flex-start"}
+                  alignItems={"flex-end"}
+                  gap={"0.5rem"}
+                >
                   <Button
                     loadingText="Submitting"
                     size="sm"
@@ -127,7 +133,12 @@ export default function AddClient() {
                   >
                     Click to upload
                   </Button>
-                  <Text color="grey.500" fontWeight={"400"} fontSize={"0.75rem"} textAlign={"right"}>
+                  <Text
+                    color="grey.500"
+                    fontWeight={"400"}
+                    fontSize={"0.75rem"}
+                    textAlign={"right"}
+                  >
                     Maximum file size: 5MB
                   </Text>
                 </Flex>
@@ -135,7 +146,11 @@ export default function AddClient() {
 
               <Stack spacing={4} mt="20px">
                 <FormControl id="name">
-                  <FormLabel color="grey.700" fontWeight={"500"} fontSize="14px">
+                  <FormLabel
+                    color="grey.700"
+                    fontWeight={"500"}
+                    fontSize="14px"
+                  >
                     First Name
                   </FormLabel>
                   <Input
@@ -150,7 +165,11 @@ export default function AddClient() {
                   />
                 </FormControl>
                 <FormControl id="name">
-                  <FormLabel color="grey.700" fontWeight={"500"} fontSize="14px">
+                  <FormLabel
+                    color="grey.700"
+                    fontWeight={"500"}
+                    fontSize="14px"
+                  >
                     Last Name
                   </FormLabel>
                   <Input
@@ -165,7 +184,11 @@ export default function AddClient() {
                   />
                 </FormControl>
                 <FormControl id="address">
-                  <FormLabel color="grey.700" fontWeight={"500"} fontSize="14px">
+                  <FormLabel
+                    color="grey.700"
+                    fontWeight={"500"}
+                    fontSize="14px"
+                  >
                     Phone Number
                   </FormLabel>
                   <Input
@@ -180,7 +203,11 @@ export default function AddClient() {
                   />
                 </FormControl>
                 <FormControl id="address">
-                  <FormLabel color="grey.700" fontWeight={"500"} fontSize="14px">
+                  <FormLabel
+                    color="grey.700"
+                    fontWeight={"500"}
+                    fontSize="14px"
+                  >
                     Email address
                   </FormLabel>
                   <Input
@@ -195,7 +222,11 @@ export default function AddClient() {
                   />
                 </FormControl>
                 <FormControl id="address">
-                  <FormLabel color="grey.700" fontWeight={"500"} fontSize="14px">
+                  <FormLabel
+                    color="grey.700"
+                    fontWeight={"500"}
+                    fontSize="14px"
+                  >
                     Address
                   </FormLabel>
                   <Input
@@ -204,7 +235,7 @@ export default function AddClient() {
                     // border="1px solid grey.300"
                     type="text"
                     size="sm"
-                    placeholder="Enter email address"
+                    placeholder="Enter address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                   />

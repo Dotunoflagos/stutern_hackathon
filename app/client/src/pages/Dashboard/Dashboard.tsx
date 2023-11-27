@@ -34,7 +34,7 @@ const Dashboard = () => {
     isLoading: invoiceLoading,
     refetch: allRefetch,
   } = useGetAllInvoice();
-  console.log(allInvoiceList);
+  // console.log(allInvoiceList);
 
   useEffect(() => {
     refetch();
@@ -183,7 +183,7 @@ const Dashboard = () => {
             </Flex>
           </Box>
 
-          <Box mt="30px">
+          <Box mt="40px">
             <Flex
               justifyContent={"space-between"}
               // align={"center"}
@@ -194,7 +194,7 @@ const Dashboard = () => {
                 borderRadius={"12px"}
                 border="1px solid #DEE2E6"
                 p="16px"
-                minH="140px"
+                minH="300px"
                 width={["100%", "100%", "100%", "48%"]}
               >
                 <Flex justifyContent={"space-between"} alignItems={"center"}>
@@ -271,7 +271,7 @@ const Dashboard = () => {
                 borderRadius={"12px"}
                 border="1px solid #DEE2E6"
                 p="12px"
-                minH="140px"
+                minH="300px"
                 width={["100%", "100%", "100%", "48%"]}
               >
                 <Flex justifyContent={"space-between"} alignItems={"center"}>
@@ -287,6 +287,9 @@ const Dashboard = () => {
                     options={{
                       chart: {
                         type: "area",
+                        toolbar: {
+                          show: false,
+                        },
                       },
                       stroke: {
                         curve: "smooth",

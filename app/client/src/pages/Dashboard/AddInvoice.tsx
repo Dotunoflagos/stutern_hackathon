@@ -195,9 +195,9 @@ const AddInvoice = () => {
       >
         <Flex justifyContent={"space-between"} alignItems="center">
           <Image w="24px" src={QLogo} />
-          <Text color="#868E96" fontSize="14px" fontWeight="400">
+          {/* <Text color="#868E96" fontSize="14px" fontWeight="400">
             Invoice ID
-          </Text>
+          </Text> */}
         </Flex>
         <Text mt="20px" fontWeight="500" fontSize="16px">
           Add invoice and client information

@@ -58,8 +58,8 @@ const Header = ({ onOpen, ...rest }: Props) => {
         </Box>
         <Flex alignContent={"center"} gap="10px">
           <Flex
-            w="25px"
-            h="25px"
+            w={["25px", "25px", "40px", "40px"]}
+            h={["25px", "25px", "40px", "40px"]}
             borderRadius="50%"
             bg="#F1F3F5"
             justifyContent="center"
@@ -71,7 +71,7 @@ const Header = ({ onOpen, ...rest }: Props) => {
           {pathname === "/client" && (
             <Button
               leftIcon={<AddIcon />}
-              size="xs"
+              size={["xs", "xs", "md", "md"]}
               colorScheme="blue"
               variant="solid"
               fontSize="12px"
@@ -84,7 +84,7 @@ const Header = ({ onOpen, ...rest }: Props) => {
             <NavLink to="/add-invoice">
               <Button
                 leftIcon={<AddIcon />}
-                size="xs"
+                size={["xs", "xs", "md", "md"]}
                 colorScheme="blue"
                 variant="solid"
                 fontSize="12px"

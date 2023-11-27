@@ -8,6 +8,7 @@ import {
   PENDING_INVOICE,
   SEARCH_INVOICE,
   TOTAL_INVOICE,
+  VERFIY_INVOICE,
 } from "../apiUrl";
 
 export const getAllInvoice = async ({ queryKey }: any) => {
@@ -68,6 +69,16 @@ export const searchInvoiceByID = async (body: any) => {
 export const deleteInvoice = async (body: any) => {
   const res = await axios.delete(
     `${apiURL}${DELETE_INVOICE}/${body.id}/?userid=${localStorage.getItem(
+      "stageId"
+    )}`
+  );
+  return res.data;
+};
+
+export const getVerifyInvoice = async ({ queryKey }: any) => {
+  const [,] = queryKey;
+  const res = await axios.get(
+    `${apiURL}${VERFIY_INVOICE}?trxref=INV-100&reference=INV-100&userid=${localStorage.getItem(
       "stageId"
     )}`
   );

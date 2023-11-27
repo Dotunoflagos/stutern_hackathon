@@ -6,6 +6,7 @@ import {
   getCompletedInvoice,
   getPendingInvoice,
   getTotalInvoice,
+  getVerifyInvoice,
   searchInvoice,
   searchInvoiceByID,
 } from "../api/invoice-manager";
@@ -18,6 +19,7 @@ import {
   SEARCH_INVOICE_KEY,
   SEARCH_INVOICE_KEY_BY_ID,
   TOTAL_INVOICE_KEY,
+  VERIFY_INVOICE_KEY,
 } from "../queryKeys";
 
 export const useGetAllInvoice = (options = {}) => {
@@ -91,4 +93,15 @@ export const useDeleteInvoice = (options = {}) => {
     ...options,
   });
   return { mutate, isLoading };
+};
+
+export const useVerifyInvoice = (options = {}) => {
+  const { data, isLoading, refetch } = useQuery(
+    [VERIFY_INVOICE_KEY],
+    getVerifyInvoice,
+    {
+      ...options,
+    }
+  );
+  return { data, isLoading, refetch };
 };
