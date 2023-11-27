@@ -1,0 +1,5 @@
+DB_URI=mongodb+srv://team203:0UH9jPb2YLMxuIRn@cluster0.3wvuzov.mongodb.net/payment_management?retryWrites=true&w=majority
+PORT= 5000
+JWT_SECRET=daab3dfa48493077c02d5c5da7e938b446b3a49302336ea009e0a492c1beb78e
+USER=adedotun1balogun@gmail.com
+PASS=ufvymeaznztfcapw
