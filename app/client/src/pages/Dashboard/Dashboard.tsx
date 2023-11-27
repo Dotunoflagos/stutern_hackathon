@@ -318,7 +318,7 @@ const Dashboard = () => {
                       },
                     ]}
                     type="area"
-                    height={300}
+                    height={400}
                   />
                 </Box>
               </Box>
