@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Box, Flex, Icon, Text } from "@chakra-ui/react";
 import { TbFileInvoice } from "react-icons/tb";
 import { TbGraph } from "react-icons/tb";
@@ -15,6 +15,8 @@ import { Loader } from "../../components/WithSuspense";
 import { NavLink } from "react-router-dom";
 
 const Dashboard = () => {
+  const timeoutId = useRef<number | null>(null);
+
   const { data, isLoading, refetch } = useGetTotalInvoice();
 
   const {
@@ -37,10 +39,27 @@ const Dashboard = () => {
   // console.log(allInvoiceList);
 
   useEffect(() => {
-    refetch();
-    pendingRefetch();
-    completeRefetch();
-    allRefetch();
+    const fetchDataWithTimeout = async () => {
+      // Trigger the refetch for each type of data
+      refetch();
+      pendingRefetch();
+      completeRefetch();
+      allRefetch();
+      // console.log("Timessss");
+
+      // Set a timeout for the next refetch (adjust the time as needed)
+      timeoutId.current = setTimeout(fetchDataWithTimeout, 60000); // 60000 milliseconds = 1 minute
+    };
+
+    // Start the initial refetch
+    fetchDataWithTimeout();
+
+    // Cleanup function to clear the timeout when the component unmounts
+    return () => {
+      if (timeoutId.current !== null) {
+        clearTimeout(timeoutId.current);
+      }
+    };
   }, [data]);
 
   const formattedTotal = (data?.totalAmount / 100).toLocaleString();
@@ -59,13 +78,13 @@ const Dashboard = () => {
     {
       name: "Completed payments",
       amount: formattedCompleted === "NaN" ? "0" : formattedCompleted,
-      percent: pendingData?.numberOfInvoices,
+      percent: completedData?.numberOfInvoices,
       icon: BsCashStack,
     },
     {
       name: "Pending payments",
       amount: formattedPending === "NaN" ? "0" : formattedPending,
-      percent: completedData?.numberOfInvoices,
+      percent: pendingData?.numberOfInvoices,
       icon: CiClock2,
     },
   ];

@@ -203,9 +203,16 @@ const AddInvoice = () => {
           Add invoice and client information
         </Text>
         <Flex justifyContent={"space-between"} mt="20px">
-          <Text color="#868E96" fontSize="14px">
-            Client Name
-          </Text>
+          <Box>
+            <Text color="#868E96" fontSize="14px">
+              Client Name
+            </Text>
+            {selected && (
+              <Text fontSize="14px" color="#5C7CFA" fontWeight="600" mt="10px">
+                {clientFirstname} {clientLastName}
+              </Text>
+            )}
+          </Box>
           <Box>
             <Input
               type="text"
@@ -255,17 +262,19 @@ const AddInvoice = () => {
                 )}
               </>
             )}
-            {selected && (
-              <Text fontSize="12px" color="#5C7CFA" fontWeight="600" mt="10px">
-                {clientFirstname} {clientLastName} selected
-              </Text>
-            )}
           </Box>
         </Flex>
         <Flex justifyContent={"space-between"} mt="40px">
-          <Text color="#868E96" fontSize="14px">
-            Due Date
-          </Text>
+          <Box>
+            <Text color="#868E96" fontSize="14px">
+              Due Date
+            </Text>
+            {dueDate !== "" && (
+              <Text fontSize="14px" color="#5C7CFA" fontWeight="600" mt="10px">
+                {dueDate}
+              </Text>
+            )}
+          </Box>
 
           <Input
             placeholder="Select Date and Time"
