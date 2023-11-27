@@ -278,9 +278,9 @@ const Dashboard = () => {
                   <Text fontSize="18px" fontWeight="600">
                     Payment Analytics
                   </Text>
-                  <Text color="#5C7CFA " fontSize="14px" fontWeight="600">
+                  {/* <Text color="#5C7CFA " fontSize="14px" fontWeight="600">
                     See all
-                  </Text>
+                  </Text> */}
                 </Flex>
                 <Box mt="20px">
                   <ReactApexChart

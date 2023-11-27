@@ -213,6 +213,7 @@ const AddInvoice = () => {
               size="xs"
               maxW="200px"
               value={searchText}
+              height="30px"
               onChange={searchHandler}
             />
             {searchLoading ? (
@@ -272,6 +273,7 @@ const AddInvoice = () => {
             type="date"
             maxW="190px"
             value={dueDate}
+            height="36px"
             onChange={(e) => setDueDate(e.target.value)}
           />
         </Flex>
@@ -301,6 +303,7 @@ const AddInvoice = () => {
                       size="xs"
                       width="50px"
                       type="number"
+                      height="36px"
                       value={row.quantity}
                       onChange={(e) =>
                         handleQuantityChange(e.target.value, index)
@@ -313,6 +316,7 @@ const AddInvoice = () => {
                       minWidth="150px"
                       type="text"
                       value={row.name}
+                      height="36px"
                       onChange={(e) =>
                         handleQuantityName(e.target.value, index)
                       }
@@ -324,6 +328,7 @@ const AddInvoice = () => {
                       width="100px"
                       type="text"
                       value={row.price}
+                      height="36px"
                       onChange={(e) =>
                         handleUnitPriceChange(e.target.value, index)
                       }
