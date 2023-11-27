@@ -1,4 +1,4 @@
-import * as React from "react";
+// import * as React from "react";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { customTheme } from "./styles/theme";
 import * as ReactDOM from "react-dom/client";
@@ -6,8 +6,12 @@ import { App } from "./App";
 // import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Provider } from "react-redux";
-import store from "./store";
+// import { Provider } from "react-redux";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
+import "@fontsource/inter/800.css";
 
 const container = document.getElementById("root");
 if (!container) throw new Error("Failed to find the root element");
@@ -24,18 +28,18 @@ const queryClient = new QueryClient({
   },
 });
 root.render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <ChakraProvider theme={customTheme}>
-          <ColorModeScript />
-          <Provider store={store}>
-            <App />
-          </Provider>
-        </ChakraProvider>
-      </BrowserRouter>
-    </QueryClientProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <ChakraProvider theme={customTheme}>
+        <ColorModeScript />
+        {/* <Provider> */}
+        <App />
+        {/* </Provider> */}
+      </ChakraProvider>
+    </BrowserRouter>
+  </QueryClientProvider>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

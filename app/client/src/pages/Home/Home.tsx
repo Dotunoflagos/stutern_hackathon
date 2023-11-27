@@ -34,19 +34,19 @@ export default function Home() {
             alignSelf={"center"}
             position={"relative"}
           >
-            <Button
-              colorScheme={"green"}
-              bg={"green.400"}
-              rounded={"full"}
-              px={6}
-              _hover={{
-                bg: "green.500",
-              }}
-            >
-              <NavLink to="/signup" className="li">
+            <NavLink to="/login" className="li">
+              <Button
+                colorScheme={"green"}
+                bg={"green.400"}
+                rounded={"full"}
+                px={6}
+                _hover={{
+                  bg: "green.500",
+                }}
+              >
                 Get Started
-              </NavLink>
-            </Button>
+              </Button>
+            </NavLink>
           </Stack>
         </Stack>
       </Container>
