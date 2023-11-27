@@ -15,3 +15,4 @@ export const PENDING_INVOICE = "/pending";
 export const TOTAL_INVOICE = "/total";
 export const COMPLETED_INVOICE = "/completed";
 export const SEARCH_INVOICE = "/searchInvoices";
+export const DELETE_INVOICE = "/deleteInvoice";

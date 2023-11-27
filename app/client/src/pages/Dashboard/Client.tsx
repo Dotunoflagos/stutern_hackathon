@@ -172,9 +172,16 @@ const Client = () => {
                             <MenuList>
                               <MenuItem
                                 onClick={() => {
-                                  mutate({
-                                    id: cli._id,
-                                  });
+                                  const isConfirmed = window.confirm(
+                                    "Are you sure you want to delete?"
+                                  );
+                                  if (isConfirmed) {
+                                    mutate({
+                                      id: cli._id,
+                                    });
+                                  } else {
+                                    console.log("Delete canceled.");
+                                  }
                                 }}
                               >
                                 Delete

@@ -24,6 +24,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { IoIosMore } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import {
+  useDeleteInvoice,
   useGetAllInvoice,
   useSearchInvoice,
 } from "../../services/query/invoice-manager";
@@ -33,8 +34,8 @@ import { debounce } from "lodash";
 import useCustomToast from "../../utils/notification";
 
 const Invoices = () => {
-  const { errorToast } = useCustomToast();
-  const { data, isLoading } = useGetAllInvoice();
+  const { errorToast, successToast } = useCustomToast();
+  const { data, isLoading, refetch } = useGetAllInvoice();
   console.log(data);
   const [tableData, setTableData] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -50,6 +51,7 @@ const Invoices = () => {
 
   useEffect(() => {
     setTableData(data);
+    refetch();
   }, [data]);
 
   const { mutate: searchMutate, isLoading: searchLoading } = useSearchInvoice({
@@ -85,9 +87,27 @@ const Invoices = () => {
 
     handleSearchChange(value);
   };
+
+  const { mutate, isLoading: deleteLoading } = useDeleteInvoice({
+    onSuccess: (res: any) => {
+      console.log(res);
+
+      if (res?.message === "Invoice deleted successfully") {
+        successToast(res?.message);
+        refetch();
+      } else {
+        errorToast(res?.message);
+      }
+    },
+    onError: (err: any) => {
+      console.log(err);
+      errorToast(err?.response?.data?.message);
+    },
+  });
+
   return (
     <>
-      {isLoading || searchLoading ? (
+      {isLoading || searchLoading || deleteLoading ? (
         <Loader />
       ) : (
         <div>
@@ -161,7 +181,23 @@ const Invoices = () => {
                                 <MenuItem>View</MenuItem>
                               </NavLink>
                               {/* <MenuItem>Edit</MenuItem> */}
-                              <MenuItem color="red">Archive</MenuItem>
+                              <MenuItem
+                                color="red"
+                                onClick={() => {
+                                  const isConfirmed = window.confirm(
+                                    "Are you sure you want to delete?"
+                                  );
+                                  if (isConfirmed) {
+                                    mutate({
+                                      id: inv._id,
+                                    });
+                                  } else {
+                                    console.log("Delete canceled.");
+                                  }
+                                }}
+                              >
+                                Delete
+                              </MenuItem>
                             </MenuList>
                           </Menu>
                         </Td>

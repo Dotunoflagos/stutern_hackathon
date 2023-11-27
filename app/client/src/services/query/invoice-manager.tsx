@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from "react-query";
 import {
   createInvoice,
+  deleteInvoice,
   getAllInvoice,
   getCompletedInvoice,
   getPendingInvoice,
@@ -11,6 +12,7 @@ import {
 import {
   COMPLETED_INVOICE_KEY,
   CREATE_INVOICE_KEY,
+  DELETE_INVOICE_KEY,
   GET_ALL_INVOICE_KEY,
   PENDING_INVOICE_KEY,
   SEARCH_INVOICE_KEY,
@@ -78,6 +80,14 @@ export const useSearchInvoice = (options = {}) => {
 export const useSearchInvoiceById = (options = {}) => {
   const { mutate, isLoading } = useMutation(searchInvoiceByID, {
     mutationKey: SEARCH_INVOICE_KEY_BY_ID,
+    ...options,
+  });
+  return { mutate, isLoading };
+};
+
+export const useDeleteInvoice = (options = {}) => {
+  const { mutate, isLoading } = useMutation(deleteInvoice, {
+    mutationKey: DELETE_INVOICE_KEY,
     ...options,
   });
   return { mutate, isLoading };

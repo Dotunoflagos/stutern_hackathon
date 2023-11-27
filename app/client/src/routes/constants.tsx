@@ -1,5 +1,5 @@
 export const PUBLIC_PATHS = {
-  HOME: "/",
+  // HOME: "/",
   LOGIN: "/login",
   SIGNUP: "/signup",
   PERSONALINFO: "/personal-info",

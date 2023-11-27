@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Box, Flex, Icon, Text } from "@chakra-ui/react";
 import { TbFileInvoice } from "react-icons/tb";
 import { TbGraph } from "react-icons/tb";
@@ -11,19 +12,36 @@ import {
   useGetTotalInvoice,
 } from "../../services/query/invoice-manager";
 import { Loader } from "../../components/WithSuspense";
+import { NavLink } from "react-router-dom";
 
 const Dashboard = () => {
-  const { data, isLoading } = useGetTotalInvoice();
+  const { data, isLoading, refetch } = useGetTotalInvoice();
 
-  const { data: pendingData, isLoading: pendingLoading } =
-    useGetPendingInvoice();
+  const {
+    data: pendingData,
+    isLoading: pendingLoading,
+    refetch: pendingRefetch,
+  } = useGetPendingInvoice();
 
-  const { data: completedData, isLoading: completeLoading } =
-    useGetCompletedInvoice();
+  const {
+    data: completedData,
+    isLoading: completeLoading,
+    refetch: completeRefetch,
+  } = useGetCompletedInvoice();
 
-  const { data: allInvoiceList, isLoading: invoiceLoading } =
-    useGetAllInvoice();
+  const {
+    data: allInvoiceList,
+    isLoading: invoiceLoading,
+    refetch: allRefetch,
+  } = useGetAllInvoice();
   console.log(allInvoiceList);
+
+  useEffect(() => {
+    refetch();
+    pendingRefetch();
+    completeRefetch();
+    allRefetch();
+  }, [data]);
 
   const formattedTotal = (data?.totalAmount / 100).toLocaleString();
   const formattedPending = (pendingData?.pendingData / 100).toLocaleString();
@@ -183,50 +201,54 @@ const Dashboard = () => {
                   <Text fontSize="18px" fontWeight="600">
                     Invoice Payment History
                   </Text>
-                  <Text color="#5C7CFA " fontSize="14px" fontWeight="600">
-                    See all
-                  </Text>
+                  <NavLink to="/invoice">
+                    <Text color="#5C7CFA " fontSize="14px" fontWeight="600">
+                      See all
+                    </Text>
+                  </NavLink>
                 </Flex>
                 {allInvoiceList?.length > 0 ? (
                   <Box mt="20px">
-                    {allInvoiceList?.map((inv: any, index: any) => (
-                      <Flex
-                        justifyContent={"space-between"}
-                        alignItems={"center"}
-                        key={index}
-                        mb="6"
-                      >
-                        <Flex gap="10px">
-                          <Flex
-                            w="40px"
-                            h="40px"
-                            borderRadius="50%"
-                            bg="#94D82D"
-                            color="white"
-                            justifyContent={"center"}
-                            alignItems={"center"}
-                          >
-                            {inv?.firstname[0]}
-                            {inv?.lastname[0]}
-                          </Flex>
-                          <Box>
-                            <Text fontSize={"14px"} fontWeight={"500"}>
-                              {inv.firstname} {inv.lastname}
-                            </Text>
-                            <Text
-                              fontSize={"12px"}
-                              color={"#667185"}
-                              fontWeight={"400"}
+                    {allInvoiceList
+                      ?.slice(0, 6)
+                      ?.map((inv: any, index: any) => (
+                        <Flex
+                          justifyContent={"space-between"}
+                          alignItems={"center"}
+                          key={index}
+                          mb="6"
+                        >
+                          <Flex gap="10px">
+                            <Flex
+                              w="40px"
+                              h="40px"
+                              borderRadius="50%"
+                              bg="#94D82D"
+                              color="white"
+                              justifyContent={"center"}
+                              alignItems={"center"}
                             >
-                              Invoice ID: {inv?.invoiceNumber}
-                            </Text>
-                          </Box>
+                              {inv?.firstname[0]}
+                              {inv?.lastname[0]}
+                            </Flex>
+                            <Box>
+                              <Text fontSize={"14px"} fontWeight={"500"}>
+                                {inv.firstname} {inv.lastname}
+                              </Text>
+                              <Text
+                                fontSize={"12px"}
+                                color={"#667185"}
+                                fontWeight={"400"}
+                              >
+                                Invoice ID: {inv?.invoiceNumber}
+                              </Text>
+                            </Box>
+                          </Flex>
+                          <Text fontSize={"14px"} fontWeight={"600"}>
+                            NGN {inv?.amount / 100}
+                          </Text>
                         </Flex>
-                        <Text fontSize={"14px"} fontWeight={"600"}>
-                          NGN {inv?.amount / 100}
-                        </Text>
-                      </Flex>
-                    ))}
+                      ))}
                   </Box>
                 ) : (
                   <Flex

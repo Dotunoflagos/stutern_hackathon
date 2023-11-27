@@ -141,8 +141,8 @@ const AddInvoice = () => {
       console.log(res);
 
       if (res?.data?.message === "Invoice created successfully.") {
-        successToast(res?.data?.message);
         queryClient.invalidateQueries(GET_ALL_INVOICE_KEY);
+        successToast(res?.data?.message);
         navigate("/invoice");
         // setEmail("");
         // setFirstName("");

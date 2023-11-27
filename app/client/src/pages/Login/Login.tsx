@@ -77,13 +77,13 @@ export default function Signup() {
             flexWrap={"wrap"}
           >
             <Text fontSize="24px" fontWeight="700">
-              Quick Invoice
+              Quik Invoice
             </Text>
             <NavLink to="/signup">
-              <Button 
-                color={"#F8F9FA"} 
-                fontSize="14px" 
-                bgColor="transparent" 
+              <Button
+                color={"#F8F9FA"}
+                fontSize="14px"
+                bgColor="transparent"
                 border="2px solid #F8F9FA"
                 _hover={{
                   bg: "transparent",

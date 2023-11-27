@@ -16,3 +16,4 @@ export const COMPLETED_INVOICE_KEY = "completed_invoice";
 export const TOTAL_INVOICE_KEY = "total_invoice";
 export const SEARCH_INVOICE_KEY = "search_invoice";
 export const SEARCH_INVOICE_KEY_BY_ID = "search_invoice-by_id";
+export const DELETE_INVOICE_KEY = "delete_invoice";

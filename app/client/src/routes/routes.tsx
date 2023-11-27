@@ -4,11 +4,11 @@ import { PRIVATE_PATHS, PUBLIC_PATHS } from "./constants";
 import { Navigate } from "react-router-dom";
 import { AppRoute } from "../types";
 
-const { LOGIN, HOME, SIGNUP, PERSONALINFO } = PUBLIC_PATHS;
+const { LOGIN, SIGNUP, PERSONALINFO } = PUBLIC_PATHS;
 
 const { DASHBOARD, CLIENT, INVOICE, VIEW_INVOICE, ADD_INVOICE } = PRIVATE_PATHS;
 
-const Home = WithSuspense(lazy(() => import("../pages/Home/Home")));
+// const Home = WithSuspense(lazy(() => import("../pages/Home/Home")));
 const Dashboard = WithSuspense(
   lazy(() => import("../pages/Dashboard/Dashboard"))
 );
@@ -27,7 +27,7 @@ const AddInvoice = WithSuspense(
 );
 
 export const PUBLIC_ROUTES: AppRoute[] = [
-  { path: HOME, element: <Home /> },
+  // { path: HOME, element: <Home /> },
   { path: LOGIN, element: <Login /> },
   { path: SIGNUP, element: <Signup /> },
   { path: PERSONALINFO, element: <PersonalInfo /> },

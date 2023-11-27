@@ -74,7 +74,7 @@ const ViewInvoice = () => {
         );
 
         // Download the PDF
-        pdf.save("Quick Invoice.pdf");
+        pdf.save("Quik Invoice.pdf");
       });
     }
   };

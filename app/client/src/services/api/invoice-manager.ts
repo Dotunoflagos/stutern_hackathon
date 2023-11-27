@@ -3,6 +3,7 @@ import { apiURL } from "../../enivironment";
 import {
   COMPLETED_INVOICE,
   CREATE_INVOICE,
+  DELETE_INVOICE,
   GET_ALL_INVOICE,
   PENDING_INVOICE,
   SEARCH_INVOICE,
@@ -60,6 +61,15 @@ export const searchInvoiceByID = async (body: any) => {
     `${apiURL}${SEARCH_INVOICE}/?invoiceNumber=${
       body.invId
     }&userid=${localStorage.getItem("stageId")}`
+  );
+  return res.data;
+};
+
+export const deleteInvoice = async (body: any) => {
+  const res = await axios.delete(
+    `${apiURL}${DELETE_INVOICE}/${body.id}/?userid=${localStorage.getItem(
+      "stageId"
+    )}`
   );
   return res.data;
 };

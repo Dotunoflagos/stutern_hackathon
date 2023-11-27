@@ -51,7 +51,7 @@ const Navbar = ({ onOpen, ...rest }: MobileProps) => {
         <Flex gap="10px">
           <Image src={QLogo} w={"24px"} />
           <Text fontSize="16px" fontWeight={"600"}>
-            Quick Invoice
+            Quik Invoice
           </Text>
         </Flex>
         <Flex

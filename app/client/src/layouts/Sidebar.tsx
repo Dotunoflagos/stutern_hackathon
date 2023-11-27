@@ -15,7 +15,7 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { IconType } from "react-icons";
 import Navbar from "./Navbar";
 import { QLogo } from "../assets";
@@ -53,6 +53,7 @@ const activeStyle: React.CSSProperties = {
 
 export default function Sidebar({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box minH="100vh">
       <SidebarContent
@@ -87,6 +88,7 @@ interface SidebarProps extends BoxProps {
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const { successToast } = useCustomToast();
+  const navigate = useNavigate();
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
 
@@ -112,7 +114,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     localStorage.removeItem("accessToken");
     successToast("Logout Successful");
     setTimeout(() => {
-      window.location.reload();
+      navigate("/login");
     }, 500);
   };
   const events = [
