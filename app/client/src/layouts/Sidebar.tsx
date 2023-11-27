@@ -23,7 +23,7 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { TbFileInvoice } from "react-icons/tb";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 // import { LuSettings2 } from "react-icons/lu";
-import useCustomToast from "../utils/notification";
+// import useCustomToast from "../utils/notification";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 
 interface LinkItemProps {
@@ -92,7 +92,7 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
-  const { successToast } = useCustomToast();
+  // const { successToast } = useCustomToast();
   const navigate = useNavigate();
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -117,7 +117,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const logout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("accessToken");
-    successToast("Logout Successful");
+    // successToast("Logout Successful");
     setTimeout(() => {
       navigate("/login");
     }, 500);
