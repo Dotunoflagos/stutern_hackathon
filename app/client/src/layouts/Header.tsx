@@ -72,7 +72,12 @@ const Header = ({ onOpen, ...rest }: Props) => {
             <Button
               leftIcon={<AddIcon />}
               size={["xs", "xs", "md", "md"]}
-              colorScheme="blue"
+              // colorScheme="blue"
+              color={"white"}
+              bg={"primary.600"}
+                _hover={{
+                  bg: "primary.700",
+                }}
               variant="solid"
               fontSize="12px"
               onClick={onOpen}
@@ -85,7 +90,12 @@ const Header = ({ onOpen, ...rest }: Props) => {
               <Button
                 leftIcon={<AddIcon />}
                 size={["xs", "xs", "md", "md"]}
-                colorScheme="blue"
+                // colorScheme="blue"
+                bg={"primary.600"}
+                _hover={{
+                  bg: "primary.700",
+                }}
+                color={"white"}
                 variant="solid"
                 fontSize="12px"
               >

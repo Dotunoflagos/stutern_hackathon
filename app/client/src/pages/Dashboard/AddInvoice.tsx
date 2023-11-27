@@ -416,10 +416,10 @@ const AddInvoice = () => {
           </Button> */}
           <Button
             size="sm"
-            bg={"blue.400"}
+            bg={"primary.400"}
             color={"white"}
             _hover={{
-              bg: "blue.500",
+              bg: "primary.500",
             }}
             type="submit"
             w="fit-content"
