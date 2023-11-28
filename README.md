@@ -14,7 +14,7 @@ Simplifying Small Business Payments
     I can generate unique invoice links for each transaction.
     I want to prevent duplicate payments for the same invoice.
     I should receive real-time alerts when invoices are unpaid.
-    Upon invoice payment by the customer, We both receive receipts via WhatsApp and email.
+    Upon invoice payment by the customer, We both receive receipts via email.
 
 For this solution, We can utilize the MERN stack (MongoDB, Express.js, React.js, Node.js) for building the application.
 Here are some free and open-source technologies that we can used:
@@ -45,12 +45,5 @@ Apayment gatway that let customers pay with.
 
 ## Messaging Service
 
-Twilio:\
-For sending WhatsApp messages and handling SMS communication.
-
 Nodemailer:\
 For sending emails. It can be integrated into Node.js to send receipts via email.
-
-## Real-time Notifications
-Socket.io:\
-To implement real-time alerts when invoices are paid or when goods need to be sent out.
