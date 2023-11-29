@@ -59,7 +59,7 @@ exports.createInvoice = async (req, res) => {
             amount: invoiceTotal,
             dueDate,
             send,
-            paymentLink 
+            paymentLink
         });
 
         const savedInvoice = await newInvoice.save();
@@ -282,11 +282,12 @@ exports.verifyInvoice = async (req, res) => {
 exports.invoicesHook = async (req, res) => {
     // Retrieve the request's body
     const event = req.body;
-    // console.log("vody:", event)
+
     if (event == 'charge.success') {
         const data = event.data;
-
         const invoice = await Invoice.findOne({ invoiceNumber: data.reference });
+        const userId = invoice.userId
+        const userSocket = userSockets.get(userId);
 
         if (!invoice.isPaid) {
             invoice.isPaid = data.data.status == "success" ? true : false // || invoice.isPaid
@@ -305,12 +306,20 @@ exports.invoicesHook = async (req, res) => {
                 invoice.businessname = invoice.email
                 invoice.email = smallbusiness.email
                 sendReceipt(invoice, "business")
+
+                if (userSocket && userSocket.readyState === WebSocket.OPEN) {
+                    userSocket.send(JSON.stringify({ type: 'webhook', message }));
+                    console.log("socket message sent")
+                    res.status(200).send('Webhook received and sent to the user');
+                } else {
+                    res.status(404).send('User not connected via WebSocket');
+                }
             }
         }
     }
 
     // Do something with event
-    console.log("webhook message received"/*, event*/) 
+    console.log("webhook message received"/*, event*/)
     res.status(200);
 }
 
